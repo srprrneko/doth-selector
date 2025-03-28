@@ -1,12 +1,7 @@
 package com.doth.stupidrefframe_v1.newtest;
 
-import com.alibaba.druid.mock.MockResultSet;
 import com.doth.stupidrefframe_v1.selector.Selector;
-import com.doth.stupidrefframe_v1.selector.executer.RawQueryExecutor;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.JoinBeanConvertor;
-import com.doth.stupidrefframe_v1.testbean.Department;
 import com.doth.stupidrefframe_v1.testbean.Employee;
-import com.doth.stupidrefframe_v1.testbean.Student;
 import org.junit.Test;
 
 import java.util.List;

@@ -1,11 +1,13 @@
-package com.doth.stupidrefframe_v1.selector.supports.convertor;
+package com.doth.stupidrefframe_v1.selector.supports.convertor.impl;
 
 
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe_v1.selector.supports.SqlGenerator;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.suppots.FieldMapping;
+import lombok.Setter;
 
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -18,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 职责：将ResultSet中的行数据转换为指定 Bean 对象，轻量版
  */
+@Setter
 public class BeanConvertor_lv implements BeanConvertor {
     // Class级别缓存字段映射
     private static final Map<Class<?>, Map<Integer, FieldMapping>> CLASS_MAPPING_CACHE = new ConcurrentHashMap<>();
@@ -25,6 +28,7 @@ public class BeanConvertor_lv implements BeanConvertor {
     // 缓存MethodHandle提升反射性能
     protected static final Map<Field, MethodHandle> SETTER_CACHE = new ConcurrentHashMap<>();
 
+    // 优化点3：配置方法
     // 可配置的类型校验策略
     private boolean strictTypeCheck = true;
 
@@ -125,10 +129,5 @@ public class BeanConvertor_lv implements BeanConvertor {
         return (T) map;
     }
 
-
-    // 优化点3：配置方法
-    public void setStrictTypeCheck(boolean strictTypeCheck) {
-        this.strictTypeCheck = strictTypeCheck;
-    }
 
 }

@@ -13,7 +13,13 @@ import java.util.Set;
 @SupportedSourceVersion(SourceVersion.RELEASE_11) // 根据你的JDK版本调整
 public class EntityAnnoProcessor extends AbstractProcessor {
 
-    @Override
+    /**
+     *   process()方法相当于注解处理器的"主函数"
+     *   - 作用于 :
+     *       用于实现扫描源码、解析注解、生成新文件（java代码或配置文件）
+     *       Lombok通过该方法在编译期生成getter/setter方法
+     */
+     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (TypeElement annotation : annotations) {
             // 遍历所有被 @Entity 注解的类

@@ -1,10 +1,11 @@
-package com.doth.stupidrefframe_v1.selector.supports.convertor;
+package com.doth.stupidrefframe_v1.selector.supports.convertor.impl;
 
 
 import com.doth.stupidrefframe_v1.anno.JoinColumn;
 import com.doth.stupidrefframe_v1.anno.Mapping;
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe_v1.selector.supports.SqlGenerator;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,11 +14,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
 
-/**
- * 严格模式Bean转换器 - 实现 BeanConvertor 接口
- * 职责：将ResultSet中的行数据转换为指定 Bean 对象，并进行严格类型校验
- */
-public class StrictBeanMapConvertor implements BeanConvertor {
+// todo: 多表连接, 待完善
+@Deprecated
+public class StrictBeanMapConvertor_v1 implements BeanConvertor {
     // 增加：缓存注解元数据（类 -> 字段 -> 注解）
     private static final Map<Class<?>, Map<Field, JoinColumn>> joinColumnCache = new HashMap<>();
 
@@ -95,7 +94,7 @@ public class StrictBeanMapConvertor implements BeanConvertor {
             if (jc != null) {
                 field.setAccessible(true);
                 fieldAnnotations.put(field, jc);
-                // 递归处理嵌套类的注解
+                // 显式递归处理关联类
                 preprocessJoinColumns(field.getType());
             }
         }
@@ -152,42 +151,57 @@ public class StrictBeanMapConvertor implements BeanConvertor {
     // 修改后的字段缓存（支持嵌套路径）
     private void cacheFieldsRecursively(Class<?> clazz, String parentPath, Map<String, Field> cache) {
         for (Field field : clazz.getDeclaredFields()) {
-            // 处理@JoinColumn标注的字段
-            if (field.isAnnotationPresent(JoinColumn.class)) {
-                JoinColumn jc = field.getAnnotation(JoinColumn.class);
-                // 将外键列名（如d_id）映射到当前字段
-                cache.put(jc.fk().toLowerCase(), field);
-            }
+            String currentPath = parentPath.isEmpty()
+                    ? field.getName()
+                    : parentPath + "." + field.getName(); // 修正路径拼接逻辑
 
-            // 正常缓存字段名（带路径）
-            String fieldPath = parentPath.isEmpty() ? field.getName() : parentPath + "." + field.getName();
-            cache.put(fieldPath.toLowerCase(), field);
+            // 处理普通字段（带路径）
+            cache.put(currentPath.toLowerCase(), field);
 
-            // 递归处理嵌套对象字段
+            // 递归处理嵌套对象（包括@JoinColumn标注的字段）
             if (!field.getType().getName().startsWith("java.")) {
-                cacheFieldsRecursively(field.getType(), fieldPath, cache);
+                cacheFieldsRecursively(field.getType(), currentPath, cache);
             }
         }
     }
 
     private Field findMatchingField(String columnName, Class<?> beanClass,
                                     Map<String, Field> fieldCache) throws NoColumnExistException {
-        // 优先检查是否外键列（如d_id）
+        // 1. 优先匹配外键列（如d_id）
         Field field = fieldCache.get(columnName.toLowerCase());
         if (field != null) return field;
 
-        // 原始逻辑处理带分隔符的列名（如department_name）
-        String[] parts = columnName.split("[._]");
-        String normalized = String.join(".", Arrays.stream(parts)
-                .map(SqlGenerator::snake2CamelCase)
-                .toArray(String[]::new)).toLowerCase();
+        // 2. 尝试解析为嵌套路径（如department_id -> department.id）
+        String nestedPath = columnName.replace("_", ".").toLowerCase();
+        field = fieldCache.get(nestedPath);
+        if (field != null) return field;
 
-        field = fieldCache.get(normalized);
-        if (field == null) {
-            throw new NoColumnExistException("未知列: " + columnName + " 出现在 " + beanClass.getSimpleName());
-        }
-        return field;
+        // 3. 驼峰转换（如departmentId -> department.id）
+        String camelCase = convertToCamelCase(columnName);
+        field = fieldCache.get(camelCase);
+        if (field != null) return field;
+
+        throw new NoColumnExistException("列映射失败: " + columnName + " 在 " + beanClass.getSimpleName());
     }
+    private String convertToCamelCase(String columnName) {
+        StringBuilder result = new StringBuilder();
+        String[] parts = columnName.split("_");
+
+        for (int i = 0; i < parts.length; i++) {
+            if (i == 0) {
+                result.append(parts[i].toLowerCase());
+            } else {
+                result.append(Character.toUpperCase(parts[i].charAt(0)))
+                        .append(parts[i].substring(1).toLowerCase());
+            }
+        }
+        return result.toString();
+    }
+
+
+
+
+
 
     private <T> T buildBeanWithNesting(Class<T> beanClass, ResultSet rs,
                                        Map<Integer, FieldInfo> columnMap) throws Exception {
@@ -296,8 +310,8 @@ public class StrictBeanMapConvertor implements BeanConvertor {
      * 2. 遍历结果集列，匹配字段
      */
     private <T> Map<Integer, Field> columnMap2Field (Class<T> beanClass,
-                                                    ResultSetMetaData metaData,
-                                                    int columnCount) throws Exception, NoColumnExistException {
+                                                     ResultSetMetaData metaData,
+                                                     int columnCount) throws Exception, NoColumnExistException {
 
         // 字段缓存：Key为小写字段名，Value为Field对象
         Map<String, Field> fieldCache = new HashMap<>();
@@ -436,8 +450,8 @@ public class StrictBeanMapConvertor implements BeanConvertor {
      * 处理Map类型转换（特殊分支）
      */
     @SuppressWarnings("unchecked")
-    private <T> T handleMapType(ResultSet rs, ResultSetMetaData metaData, int columnCount) 
-        throws SQLException {
+    private <T> T handleMapType(ResultSet rs, ResultSetMetaData metaData, int columnCount)
+            throws SQLException {
         Map<String, Object> map = new LinkedHashMap<>();
         for (int i = 1; i <= columnCount; i++) {
             // 使用列标签作为键，保留原始列名

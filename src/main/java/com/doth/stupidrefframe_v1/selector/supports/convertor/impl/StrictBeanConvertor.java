@@ -1,8 +1,9 @@
-package com.doth.stupidrefframe_v1.selector.supports.convertor;
+package com.doth.stupidrefframe_v1.selector.supports.convertor.impl;
 
 
 import com.doth.stupidrefframe_v1.selector.supports.SqlGenerator;
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -99,8 +100,7 @@ public class StrictBeanConvertor implements BeanConvertor {
     /**
      * 构建Bean实例并填充字段值
      */
-    private <T> T buildBean(Class<T> beanClass, ResultSet rs, 
-                           Map<Integer, Field> columnMap) throws Exception {
+    private <T> T buildBean(Class<T> beanClass, ResultSet rs, Map<Integer, Field> columnMap) throws Exception {
         // 创建示例
         T bean = beanClass.getDeclaredConstructor().newInstance();
         // 遍历字段填充值

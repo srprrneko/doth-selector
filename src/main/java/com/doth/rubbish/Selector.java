@@ -24,6 +24,7 @@ import java.util.Map;
  *   <li>强制转型在门面类内部可控，外部调用无需感知</li>
  * </ul>
  */
+@Deprecated
 public final class Selector {
     /**
      * 构建器模式执行器缓存（Key: 实体类型）

@@ -1,7 +1,8 @@
-package com.doth.stupidrefframe_v1.selector.supports.convertor;
+package com.doth.stupidrefframe_v1.selector.supports.convertor.impl;
 
 import com.doth.stupidrefframe_v1.anno.JoinColumn;
 import com.doth.stupidrefframe_v1.selector.supports.SqlGenerator;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -13,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+// todo: 等待完善
+@Deprecated
 public class JoinBeanConvertor implements BeanConvertor {
     // 复用原始缓存结构
     private static final Map<Class<?>, JoinMapping> JOIN_CACHE = new ConcurrentHashMap<>();

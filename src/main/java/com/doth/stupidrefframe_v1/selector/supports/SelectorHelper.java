@@ -6,7 +6,7 @@ import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertorFactory;
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe_v1.exception.NonUniqueResultException;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.ConvertorType;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.suppots.ConvertorType;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;

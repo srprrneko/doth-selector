@@ -1,6 +1,5 @@
 package com.doth.stupidrefframe_v1.selector;
 
-import com.doth.stupidrefframe_v1.testbean.Classes;
 import com.doth.stupidrefframe_v1.testbean.Student;
 
 import java.util.List;
@@ -15,13 +14,33 @@ import java.util.List;
  */
 public class StudentDAO extends Selector_v1<Student>{
     public static void main(String[] args) {
+        // 模拟在service层聚合
         StudentDAO dao = new StudentDAO();
         List<Student> list = dao.queryDep();
-        System.out.println(list);
+        System.out.println("自定义查询全部" +list);
+        System.out.println();
+
+        List<Student> students = dao.queryStudent();
+        System.out.println("固定方式查询全部" + students);
+        System.out.println();
+
+        List<Student> students1 = dao.queryStudentById(1);
+        System.out.println("构建者方式查询指定id的学生" + students1);
+        System.out.println();
     }
 
     public List<Student> queryDep() {
         String sql = "select * from student";
         return raw().query2Lst(sql);
+    }
+
+    public List<Student> queryStudent() {
+        return direct().query2Lst();
+    }
+
+    public List<Student> queryStudentById(Integer id) {
+        return build().query2Lst(builder ->
+                builder.eq("id", id)
+        );
     }
 }

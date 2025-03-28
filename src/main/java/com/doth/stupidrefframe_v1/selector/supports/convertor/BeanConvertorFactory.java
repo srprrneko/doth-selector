@@ -1,5 +1,10 @@
 package com.doth.stupidrefframe_v1.selector.supports.convertor;
 
+import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.BeanConvertor_lv;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.StrictBeanConvertor;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.StrictBeanMapConvertor;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.suppots.ConvertorType;
+
 import java.util.EnumMap;
 import java.util.Map;
 
