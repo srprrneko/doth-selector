@@ -8,6 +8,7 @@ public class RawQueryExecutor<T> extends AbstractQueryExecutor<T> {
         super(beanClass);
     }
 
+
     public List<T> query2Lst(String sql,  Object... params) {
         return helper.mapSqlCond(beanClass, sql, params);
     }

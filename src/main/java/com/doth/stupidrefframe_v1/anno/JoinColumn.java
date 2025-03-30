@@ -10,5 +10,4 @@ import java.lang.annotation.Target;
 public @interface JoinColumn {
     String fk() default "";          // 外键列名（如d_id）
     String referencedColumn() default "id"; // 目标表的主键列名（默认id）
-    boolean nullable() default true; // 是否允许空值
 }

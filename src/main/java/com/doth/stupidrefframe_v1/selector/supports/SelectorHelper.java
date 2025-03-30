@@ -6,7 +6,7 @@ import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertorFactory;
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe_v1.exception.NonUniqueResultException;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.suppots.ConvertorType;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.ConvertorType;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -19,7 +19,7 @@ public class SelectorHelper {
         System.out.println(sql);
         try (ResultSet rs = BaseDruidUtil.executeQuery(sql, params)) {
             // 使用默认bean转换器
-            BeanConvertor convertor = BeanConvertorFactory.getConvertor(ConvertorType.LIGHT);
+            BeanConvertor convertor = BeanConvertorFactory.getConvertor(ConvertorType.STRICT);
             List<T> result = new ArrayList<>();
             while (rs.next()) {
                 result.add(convertor.convert(rs, beanClass));
@@ -36,15 +36,18 @@ public class SelectorHelper {
         }
     }
 
-    // ------------------ 提取非空字段 ------------------
-    public LinkedHashMap<String, Object> extractNonNullFields(Object bean) {
-        LinkedHashMap<String, Object> condMap = new LinkedHashMap<>();
-        if (bean == null) return condMap;
 
-        for (Field field : bean.getClass().getDeclaredFields()) {
+
+
+    // ------------------ 提取非空字段 ------------------
+    public <T> LinkedHashMap<String, Object> extractNonNullFields(T entity) {
+        LinkedHashMap<String, Object> condMap = new LinkedHashMap<>();
+        if (entity == null) return condMap;
+
+        for (Field field : entity.getClass().getDeclaredFields()) {
             try {
                 field.setAccessible(true);
-                Object value = field.get(bean);
+                Object value = field.get(entity);
                 if (value != null) {
                     condMap.put(field.getName(), value);
                 }
@@ -54,6 +57,7 @@ public class SelectorHelper {
         }
         return condMap;
     }
+
 
     // ------------------ 内部通用结果提取方法 ------------------
     public <T> T getSingleResult(List<T> list) {
@@ -82,7 +86,7 @@ public class SelectorHelper {
         Object[] params =  buildParams(cond);
         return mapResultSet(beanClass, sql, params);
     }
-    public <T> List<T>  mapSqlCond(Class<T> beanClass, String sql, Object... params) {
+    public <T> List<T> mapSqlCond(Class<T> beanClass, String sql, Object... params) {
         String normalSql = SqlGenerator.normalizeSql4Raw(beanClass, sql); // 仅仅只是转换sql规范
         System.out.println("normalSql = " + normalSql);
         return mapResultSet(beanClass, normalSql, params);

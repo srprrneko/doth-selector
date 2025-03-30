@@ -1,7 +1,8 @@
 package com.doth.stupidrefframe_v1.newtest;
 
 import com.doth.stupidrefframe_v1.selector.Selector;
-import com.doth.stupidrefframe_v1.testbean.Employee;
+import com.doth.stupidrefframe_v1.testbean.join.Department;
+import com.doth.stupidrefframe_v1.testbean.join.Employee;
 import org.junit.Test;
 
 import java.util.List;
@@ -22,8 +23,26 @@ public class JoinTest {
 
     @Test
     public void test1() {
-        String sql = "select e.*, d.name from employee e join department d on e.d_id = d.id where d.id = ?";
-        List<Employee> employees = Selector.raw(Employee.class).query2Lst(sql, 1);
+        // 员工 部门id -> 部门
+
+        String sql = "SELECT e.id, e.name, "
+                + "e.d_id," +
+                "d.id as department_id, d.name AS department_name, d.com_id, " +
+                "c.name AS company_name "
+                + "FROM employee e " +
+                "JOIN department d ON e.d_id = d.id " +
+                "JOIN company c on d.com_id = c.id " +
+                "where d.id = ?";
+
+        // String sql = "SELECT d.id, d.name, d.com_id, " +
+        //         "c.name AS company_name "
+        //         + "FROM department d " +
+        //         "JOIN company c on d.com_id = c.id " +
+        //         "where d.id = ?";
+        // d: id
+
+        // e: {id, name, department{id, }}
+        List<Employee> employees = Selector.raw(Employee.class).query2Lst(sql,1);
         for (Employee employee : employees) {
             System.out.println(employee);
         }

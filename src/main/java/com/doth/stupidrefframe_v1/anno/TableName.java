@@ -17,6 +17,4 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE) // 限制使用范围在类中, 方法字段不能使用
 public @interface TableName {
     String value(); // 存储表名
-    String alias() default ""; // 表别名（如 e/d）
-
 }

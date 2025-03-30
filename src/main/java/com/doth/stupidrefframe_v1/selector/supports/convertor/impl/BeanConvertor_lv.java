@@ -4,10 +4,10 @@ package com.doth.stupidrefframe_v1.selector.supports.convertor.impl;
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe_v1.selector.supports.SqlGenerator;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.suppots.FieldMapping;
 import lombok.Setter;
 
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -130,4 +130,18 @@ public class BeanConvertor_lv implements BeanConvertor {
     }
 
 
+
+    private class FieldMapping {
+        public final Field field;
+        public final MethodHandle setter;
+
+        public FieldMapping(Field field) throws IllegalAccessException {
+            this.field = field;
+            this.setter = MethodHandles.lookup().unreflectSetter(field);
+        }
+
+        public void setValue(Object target, Object value) throws Throwable {
+            setter.invoke(target, value);
+        }
+    }
 }

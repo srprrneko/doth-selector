@@ -1,7 +1,7 @@
 package com.doth.stupidrefframe_v1.test;
 
 import com.doth.stupidrefframe_v1.testbean.Student;
-import com.doth.stupidrefframe_v1.testbean.StudentCourseDTO;
+import com.doth.stupidrefframe_v1.testbean.join.StudentCourseDTO;
 import com.doth.rubbish.Selector;
 
 import java.util.List;

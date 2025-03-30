@@ -72,7 +72,8 @@ public class BaseDruidUtil {
         return (ResultSet) Proxy.newProxyInstance(
                 BaseDruidUtil.class.getClassLoader(),
                 new Class<?>[]{ResultSet.class},
-                new ResultSetInvocationHandler(rs, stmt, conn));
+                new ResultSetInvocationHandler(rs, stmt, conn)
+        );
     }
 
     private static class ResultSetInvocationHandler implements InvocationHandler {

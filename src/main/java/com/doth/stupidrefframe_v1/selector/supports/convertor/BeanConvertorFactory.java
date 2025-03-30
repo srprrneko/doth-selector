@@ -1,9 +1,8 @@
 package com.doth.stupidrefframe_v1.selector.supports.convertor;
 
 import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.BeanConvertor_lv;
+import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.JoinBeanConvertor_v1;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.StrictBeanConvertor;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.StrictBeanMapConvertor;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.impl.suppots.ConvertorType;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -19,10 +18,10 @@ public class BeanConvertorFactory {
     static {
         // 绑定枚举与转换器
         // instances.put(ConvertorType.MULTI_JOIN, new JoinBeanConvertorPro()); // 多表连接
-        instances.put(ConvertorType.LIGHT, new BeanConvertor_lv()); // 轻量级
-        instances.put(ConvertorType.MAP, new StrictBeanMapConvertor()); // 多表转换器
+        instances.put(ConvertorType.LIGHT, new BeanConvertor_lv()); // 轻量级 light_version
+        instances.put(ConvertorType.JOIN_MAP, new JoinBeanConvertor_v1()); // 多表转换器
         instances.put(ConvertorType.STRICT, new StrictBeanConvertor());
-        instances.put(ConvertorType.LENIENT, null); // 可扩展
+        instances.put(ConvertorType.LENIENT, null); // 或许可扩展
 
     }
 
@@ -40,7 +39,7 @@ public class BeanConvertorFactory {
     }
 
     // 默认获取严格转换器
-    public static BeanConvertor getDefaultConvertor() {
-        return getConvertor(ConvertorType.STRICT);
-    }
+    // public static BeanConvertor getDefaultConvertor() {
+    //     return getConvertor(ConvertorType.STRICT);
+    // }
 }

@@ -1,4 +1,6 @@
-package com.doth.stupidrefframe_v1.testbean;
+package com.doth.stupidrefframe_v1.testbean.join;
+
+import com.doth.stupidrefframe_v1.anno.JoinColumn;
 
 /**
  * @project: test02
@@ -12,12 +14,17 @@ public class Department {
     private Integer id;
     private String name;
 
+    @JoinColumn(fk = "com_id")
+    private Company company;
+
+
     public Department() {
     }
 
-    public Department(Integer id, String name) {
+    public Department(Integer id, String name, Company company) {
         this.id = id;
         this.name = name;
+        this.company = company;
     }
 
     /**
@@ -52,7 +59,23 @@ public class Department {
         this.name = name;
     }
 
+    /**
+     * 获取
+     * @return company
+     */
+    public Company getCompany() {
+        return company;
+    }
+
+    /**
+     * 设置
+     * @param company
+     */
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
     public String toString() {
-        return "Department{id = " + id + ", name = " + name + "}";
+        return "Department{id = " + id + ", name = " + name + ", company = " + company + "}";
     }
 }

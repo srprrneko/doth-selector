@@ -16,10 +16,15 @@ public class DirectQueryExecutor<T> extends AbstractQueryExecutor<T> {
         return helper.mapSqlCond(beanClass,(LinkedHashMap<String, Object>) null);
     }
 
-    public List<T> query2Lst(Object conditionBean) {
-        LinkedHashMap<String, Object> condMap = helper.extractNonNullFields(conditionBean);
+    public List<T> query2Lst(T t) {
+        LinkedHashMap<String, Object> condMap = helper.extractNonNullFields(t);
         return helper.mapSqlCond(beanClass, condMap);
     }
+
+    // public List<T> query2Lst(Object ...cond) {
+    //     LinkedHashMap<String, Object> condMap = helper.extractNonNullFields(cond);
+    //     return helper.mapSqlCond(beanClass, condMap);
+    // }
 
     public List<T> query2Lst(LinkedHashMap<String, Object> cond) {
         return helper.mapSqlCond(beanClass, cond);
@@ -33,10 +38,6 @@ public class DirectQueryExecutor<T> extends AbstractQueryExecutor<T> {
 
     public T query2T(LinkedHashMap<String, Object> cond) {
         return helper.getSingleResult(helper.mapSqlCond(beanClass, cond));
-    }
-
-    public T query2T(Object conditionBean) {
-        return helper.getSingleResult(query2Lst(conditionBean));
     }
 
     public T query2T(LinkedHashMap<String, Object> cond, String condClause) {

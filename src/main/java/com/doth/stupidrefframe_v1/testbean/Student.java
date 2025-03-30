@@ -16,7 +16,7 @@ public class Student {
     private String name;
     private Integer age;
     private Integer classId;  // 对应表中的 class_id 字段
-
+    // Student{id, name, 班级{id, name}}
 
     public Student() {
     }

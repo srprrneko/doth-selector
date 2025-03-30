@@ -1,6 +1,6 @@
 package com.doth.stupidrefframe_v1.test;
 
-import com.doth.stupidrefframe_v1.testbean.StudentCourseDTO;
+import com.doth.stupidrefframe_v1.testbean.join.StudentCourseDTO;
 
 import java.util.List;
 

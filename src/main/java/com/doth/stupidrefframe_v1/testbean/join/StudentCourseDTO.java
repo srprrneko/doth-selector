@@ -1,4 +1,4 @@
-package com.doth.stupidrefframe_v1.testbean;
+package com.doth.stupidrefframe_v1.testbean.join;
 
 import com.doth.stupidrefframe_v1.anno.Entity;
 

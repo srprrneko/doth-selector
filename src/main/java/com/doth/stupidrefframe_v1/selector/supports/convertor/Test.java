@@ -1,12 +1,8 @@
 package com.doth.stupidrefframe_v1.selector.supports.convertor;
 
 import com.doth.stupidrefframe_v1.selector.supports.BaseDruidUtil;
-import com.doth.stupidrefframe_v1.selector.supports.SelectorHelper;
-import com.doth.stupidrefframe_v1.selector.supports.SqlGenerator;
-import com.doth.stupidrefframe_v1.testbean.Employee;
 
 import java.sql.ResultSet;
-import java.util.List;
 
 /**
  * @project: test02
