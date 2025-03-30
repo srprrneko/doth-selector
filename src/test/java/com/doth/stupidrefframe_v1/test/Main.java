@@ -1,11 +1,11 @@
 package com.doth.stupidrefframe_v1.test;
 
 
-import com.doth.stupidrefframe_v1.testbean.Student;
+import com.doth.loose.testbean.Student;
 
 import java.util.List;
 
-import static com.doth.rubbish.EntitySelector.query2Lst;
+import static com.doth.loose.rubbish.EntitySelector.query2Lst;
 
 /**
  * @project: test01

@@ -6,4 +6,4 @@ public enum ConvertorType {
         STRICT,     // 严格模式
         @Deprecated
         LENIENT     // todo: 宽松模式
-    }
+}

@@ -1,8 +1,8 @@
 package com.doth.stupidrefframe_v1.selector;
 
-import com.doth.stupidrefframe_v1.selector.executer.BuilderQueryExecutor;
-import com.doth.stupidrefframe_v1.selector.executer.DirectQueryExecutor;
-import com.doth.stupidrefframe_v1.selector.executer.RawQueryExecutor;
+import com.doth.stupidrefframe_v1.selector.core.executor.BuilderQueryExecutor;
+import com.doth.stupidrefframe_v1.selector.core.executor.DirectQueryExecutor;
+import com.doth.stupidrefframe_v1.selector.core.executor.RawQueryExecutor;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

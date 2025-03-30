@@ -1,8 +1,8 @@
 package com.doth.stupidrefframe_v1.test;
 
-import com.doth.stupidrefframe_v1.testbean.Student;
-import com.doth.stupidrefframe_v1.testbean.join.StudentCourseDTO;
-import com.doth.rubbish.Selector;
+import com.doth.loose.testbean.Student;
+import com.doth.loose.testbean.join.StudentCourseDTO;
+import com.doth.loose.rubbish.Selector;
 
 import java.util.List;
 

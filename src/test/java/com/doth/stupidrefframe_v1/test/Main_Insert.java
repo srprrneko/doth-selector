@@ -1,8 +1,8 @@
 package com.doth.stupidrefframe_v1.test;
 
 
-import com.doth.stupidrefframe_v1.testbean.User;
-import com.doth.rubbish.EntityInserter;
+import com.doth.loose.testbean.User;
+import com.doth.loose.rubbish.EntityInserter;
 
 // 使用示例
 public class Main_Insert {

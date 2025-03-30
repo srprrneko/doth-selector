@@ -2,9 +2,9 @@ package com.doth.stupidrefframe_v1.test;
 
 import com.doth.stupidrefframe_v1.selector.Selector;
 import com.doth.stupidrefframe_v1.selector.Selector_v1;
-import com.doth.stupidrefframe_v1.testbean.Classes;
-import com.doth.stupidrefframe_v1.testbean.Student;
-import com.doth.rubbish.StatDTO;
+import com.doth.loose.testbean.Classes;
+import com.doth.loose.testbean.Student;
+import com.doth.loose.rubbish.StatDTO;
 
 import java.util.List;
 import java.util.Map;

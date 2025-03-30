@@ -1,4 +1,4 @@
-package com.doth.stupidrefframe_v1.selector;
+package com.doth.loose.rubbish;
 
 import com.doth.stupidrefframe_v1.selector.core.executor.BuilderQueryExecutor;
 import com.doth.stupidrefframe_v1.selector.core.executor.DirectQueryExecutor;
@@ -24,8 +24,8 @@ import java.util.Map;
  *   <li>强制转型在门面类内部可控，外部调用无需感知</li>
  * </ul>
  */
-public class Selector<T> {
-
+@Deprecated
+public final class Selector {
     /**
      * 构建器模式执行器缓存（Key: 实体类型）
      * <p>说明：

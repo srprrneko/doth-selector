@@ -1,8 +1,7 @@
 package com.doth.stupidrefframe_v1.newtest;
 
 import com.doth.stupidrefframe_v1.selector.Selector;
-import com.doth.stupidrefframe_v1.testbean.join.Department;
-import com.doth.stupidrefframe_v1.testbean.join.Employee;
+import com.doth.loose.testbean.join.Employee;
 import org.junit.Test;
 
 import java.util.List;
