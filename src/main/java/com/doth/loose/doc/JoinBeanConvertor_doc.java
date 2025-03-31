@@ -1,5 +1,5 @@
 
-package com.doth.stupidrefframe_v1.selector.supports.convertor.join;
+package com.doth.loose.doc;
 import com.doth.stupidrefframe_v1.anno.JoinColumn;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 

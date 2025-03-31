@@ -1,7 +1,6 @@
 package com.doth.stupidrefframe_v1.selector.supports.convertor.strict;
 
 
-import com.doth.stupidrefframe_v1.selector.supports.sql.SqlGenerator;
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 
@@ -12,6 +11,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.doth.stupidrefframe_v1.selector.util.NamingConverter.camel2SnakeCase;
+import static com.doth.stupidrefframe_v1.selector.util.NamingConverter.snake2CamelCase;
 
 /**
  * 严格模式Bean转换器 - 实现 BeanConvertor 接口
@@ -55,7 +57,7 @@ public class StrictBeanConvertor implements BeanConvertor {
             fieldCache.put(field.getName().toLowerCase(), field);
 
             // 缓存原始字段名（小写）
-            String snakeName = SqlGenerator.camel2SnakeCase(field.getName());
+            String snakeName = camel2SnakeCase(field.getName());
             fieldCache.put(snakeName.toLowerCase(), field);
         }
 
@@ -72,7 +74,7 @@ public class StrictBeanConvertor implements BeanConvertor {
             //
             // 2. 若未找到, 尝试蛇形转驼峰匹配（如class_id → classId）
             if (field == null) {
-                String camelName = SqlGenerator.snake2CamelCase(columnName);
+                String camelName = snake2CamelCase(columnName);
                 field = fieldCache.get(camelName.toLowerCase());
             }
             // 验证字段是否存在

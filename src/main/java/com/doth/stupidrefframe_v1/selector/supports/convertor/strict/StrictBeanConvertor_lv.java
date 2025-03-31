@@ -2,7 +2,6 @@ package com.doth.stupidrefframe_v1.selector.supports.convertor.strict;
 
 
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
-import com.doth.stupidrefframe_v1.selector.supports.sql.SqlGenerator;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 import lombok.Setter;
 
@@ -16,6 +15,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.doth.stupidrefframe_v1.selector.util.NamingConverter.snake2CamelCase;
 
 /**
  * 职责：将ResultSet中的行数据转换为指定 Bean 对象，轻量版
@@ -63,7 +64,7 @@ public class StrictBeanConvertor_lv implements BeanConvertor {
         Map<Integer, FieldMapping> columnMap = new HashMap<>();
         for (int i = 1; i <= columnCount; i++) {
             String columnName = metaData.getColumnLabel(i);
-            String camelName = SqlGenerator.snake2CamelCase(columnName);
+            String camelName = snake2CamelCase(columnName);
             Field field = fieldCache.get(camelName.toLowerCase());
 
             if (field == null) {

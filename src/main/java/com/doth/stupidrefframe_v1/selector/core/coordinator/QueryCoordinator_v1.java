@@ -5,7 +5,7 @@ import com.doth.stupidrefframe_v1.selector.util.DruidUtil;
 import com.doth.stupidrefframe_v1.selector.supports.sql.SqlGenerator;
 import com.doth.stupidrefframe_v1.selector.supports.builder.ConditionBuilder;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.ConvertorType;
-import com.doth.stupidrefframe_v1.selector.util.ConditionProcessor;
+import com.doth.stupidrefframe_v1.selector.util.ConditionParamBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,12 +14,12 @@ import java.util.*;
 public class QueryCoordinator_v1 {
     // 组合组件
     private final ResultSetMapper rsMapper;
-    private final ConditionProcessor condProcessor;
+    private final ConditionParamBuilder condProcessor;
 
 
     public QueryCoordinator_v1() {
-        this.rsMapper = new ResultSetMapper(ConvertorType.STRICT);
-        this.condProcessor = new ConditionProcessor();
+        this.rsMapper = new ResultSetMapper(ConvertorType.JOIN_MAP);
+        this.condProcessor = new ConditionParamBuilder();
     }
 
     // 执行并映射, 同事使用
@@ -58,7 +58,7 @@ public class QueryCoordinator_v1 {
     }
     // ------------------ sql 执行中介, 带自定义sql ------------------
     public <T> List<T> mapSqlCond(Class<T> beanClass, String sql, Object... params) {
-        String normalSql = SqlGenerator.normalizeSql4Raw(beanClass, sql); // 仅仅只是转换sql规范
+        String normalSql = SqlGenerator.generateSelect4Raw(beanClass, sql); // 仅仅只是转换sql规范
         System.out.println("normalSql = " + normalSql);
         return executeQuery(beanClass, normalSql, params);
     }

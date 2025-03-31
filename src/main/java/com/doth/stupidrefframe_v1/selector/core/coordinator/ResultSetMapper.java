@@ -34,7 +34,7 @@ class ResultSetMapper {
         } catch (Exception e) {
             throw new RuntimeException("查询失败: " + e.getMessage(), e);
         } catch (Throwable e) {
-            throw new RuntimeException("不太清楚的异常");
+            throw new RuntimeException("未知异常: " + e.getMessage(), e);
         }
     }
 

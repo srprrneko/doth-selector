@@ -90,7 +90,7 @@ public class SelectorHelper {
         return mapResultSet(beanClass, sql, params);
     }
     public <T> List<T> mapSqlCond(Class<T> beanClass, String sql, Object... params) {
-        String normalSql = SqlGenerator.normalizeSql4Raw(beanClass, sql); // 仅仅只是转换sql规范
+        String normalSql = SqlGenerator.generateSelect4Raw(beanClass, sql); // 仅仅只是转换sql规范
         System.out.println("normalSql = " + normalSql);
         return mapResultSet(beanClass, normalSql, params);
     }

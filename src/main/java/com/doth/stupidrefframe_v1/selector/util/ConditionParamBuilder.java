@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 // 新类：专注字段提取和参数处理
-public class ConditionProcessor {
+public class ConditionParamBuilder {
     public <T> LinkedHashMap<String, Object> extractNonNullFields(T entity) {
         LinkedHashMap<String, Object> condMap = new LinkedHashMap<>();
         if (entity == null) return condMap;

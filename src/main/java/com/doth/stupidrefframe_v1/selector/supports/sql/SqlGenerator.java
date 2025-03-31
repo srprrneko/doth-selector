@@ -2,8 +2,12 @@ package com.doth.stupidrefframe_v1.selector.supports.sql;
 
 import com.doth.stupidrefframe_v1.selector.supports.builder.ConditionBuilder;
 
-import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
+
+import static com.doth.stupidrefframe_v1.selector.util.ConditionSqlParser.replaceWildcard;
+import static com.doth.stupidrefframe_v1.selector.util.NamingConverter.camel2SnakeCase;
+import static com.doth.stupidrefframe_v1.selector.supports.sql.SqlBuilder.buildConditions;
+import static com.doth.stupidrefframe_v1.selector.supports.sql.SqlBuilder.buildFieldList;
 
 /**
  * @project: classFollowing
@@ -13,69 +17,56 @@ import java.util.LinkedHashMap;
  * @desc: TODO
  * @v: 1.0
  */
-public class SqlGenerator extends GeneratorHelper{
-    // todo : 后续再考虑组合模式
-    // private GeneratorHelper helper;
+public class SqlGenerator {
 
 
     // ----------------- 生成不带条件的查询 -----------------
     public static String generateSelect(Class<?> clz) {
-        return getBaseSql(clz);
+        return SqlBuilder.buildBaseSelect(clz);
     }
 
     // ----------------- 生成带条件的查询 -----------------
     public static String generateSelect(Class<?> clz, LinkedHashMap<String, Object> conditions) {
-        String baseSql = getBaseSql(clz);
-        return globalSelect(baseSql, conditions);
+        String baseSql = SqlBuilder.buildBaseSelect(clz);
+        return addWhereClause(baseSql, conditions, "");
+    }
+
+
+    public static <T> String generateSelect(Class<T> beanClass, LinkedHashMap<String, Object> condBean, String strClause) {
+        String baseSql = SqlBuilder.buildBaseSelect(beanClass);;
+        return addWhereClause(baseSql, condBean, strClause);
     }
 
     // ----------------- 生成以builder为条件的查询 -----------------
     public static <T> String generateSelect(Class<T> beanClass, ConditionBuilder builder) {
-        String baseSql = getBaseSql(beanClass);
+        String baseSql = SqlBuilder.buildBaseSelect(beanClass);;
         return baseSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullSql());
     }
 
-    public static <T> String generateSelect(Class<T> beanClass, LinkedHashMap<String, Object> condBean, String strClause) {
-        String baseSql = getBaseSql(beanClass);
-        return globalSelect(baseSql, condBean, strClause);
+    public static String generateSelect4Raw(Class<?> beanClass, String sql) {
+        // 1. 驼峰转下划线
+        String snakeSql = camel2SnakeCase(sql, true);
+        // 2. 获取白名单字段字符串（复用已有方法）
+        String whiteList = buildFieldList(beanClass);
+        // 3. 替换*为白名单字段
+        return replaceWildcard(snakeSql, whiteList);
     }
 
 
+    // ----------------- 带自定义子句的全局sql -----------------
+    protected static String addWhereClause(String baseSql, LinkedHashMap<String, Object> condBean, String strClause) {
+        StringBuilder sb = new StringBuilder(baseSql);
 
-    @Deprecated
-    // ----------------- 插入语句生成 -----------------
-    public static String generateInsert(Class<?> clz) {
-        // UserInfoMessageBro = user_info_message_bro
-        String tableName = entityNameCvn2Snake(clz);
-
-        sb = new StringBuilder("insert into ").append(tableName).append(" (");
-
-        // 获取所有字段
-        Field[] fields = clz.getDeclaredFields();
-        int fieldsSize = fields.length;
-
-        // 拼接字段名
-        for (int i = 0; i < fieldsSize; i++) {
-            Field field = fields[i];
-            sb.append(field.getName());
-            if (i < fieldsSize - 1) {
-                sb.append(", ");
-            }
+        if (condBean != null && !condBean.isEmpty()) {
+            sb.append(" where ");
+            buildConditions(sb, condBean); // 调用共用方法
         }
-        sb.append(") values (");
 
-        // 拼接占位符
-        for (int i = 0; i < fieldsSize; i++) {
-            sb.append("?");
-            if (i < fieldsSize - 1) {
-                sb.append(", ");
-            }
+        if (!strClause.isEmpty()) {
+            sb.append(" ").append(strClause.trim());
         }
-        sb.append(")");
 
         return sb.toString();
     }
-
-
 
 }

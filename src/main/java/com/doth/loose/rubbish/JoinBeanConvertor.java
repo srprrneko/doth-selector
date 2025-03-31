@@ -1,7 +1,6 @@
 package com.doth.loose.rubbish;
 
 import com.doth.stupidrefframe_v1.anno.JoinColumn;
-import com.doth.stupidrefframe_v1.selector.supports.sql.SqlGenerator;
 import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
@@ -12,6 +11,8 @@ import java.sql.ResultSetMetaData;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.doth.stupidrefframe_v1.selector.util.NamingConverter.snake2CamelCase;
 
 @Deprecated
 public class JoinBeanConvertor implements BeanConvertor {
@@ -62,7 +63,7 @@ public class JoinBeanConvertor implements BeanConvertor {
         mapping.primaryMapping = new HashMap<>();
         for (int i = 1; i <= meta.getColumnCount(); i++) {
             String columnLabel = meta.getColumnLabel(i);
-            String camelName = SqlGenerator.snake2CamelCase(columnLabel);
+            String camelName = snake2CamelCase(columnLabel);
             Field field = primaryFieldCache.get(camelName.toLowerCase());
             if (field != null) {
                 mapping.primaryMapping.put(columnLabel, field);
@@ -135,7 +136,7 @@ public class JoinBeanConvertor implements BeanConvertor {
             String columnLabel = meta.getColumnLabel(i);
             if (columnLabel.startsWith(prefix)) {
                 String joinColumnName = columnLabel.substring(prefix.length());
-                String camelName = SqlGenerator.snake2CamelCase(joinColumnName);
+                String camelName = snake2CamelCase(joinColumnName);
                 Field field = joinFieldCache.get(camelName.toLowerCase());
                 if (field != null) {
                     columnMapping.put(columnLabel, field);
