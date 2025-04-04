@@ -1,12 +1,12 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.selector.util.DruidUtil;
+import com.doth.stupidrefframe_v1.selector.v1.util.DruidUtil;
 
 import java.sql.ResultSet;
 
 /**
  * @project: test02
- * @package: com.doth.stupidrefframe_v1.selector.supports.convertor
+ * @package: com.doth.stupidrefframe_v1.selector.v1.supports.convertor
  * @author: doth
  * @creTime: 2025-03-27  22:08
  * @desc: TODO

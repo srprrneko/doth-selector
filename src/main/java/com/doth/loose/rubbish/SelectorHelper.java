@@ -3,12 +3,12 @@ package com.doth.loose.rubbish;
 
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe_v1.exception.NonUniqueResultException;
-import com.doth.stupidrefframe_v1.selector.util.DruidUtil;
-import com.doth.stupidrefframe_v1.selector.supports.sql.SqlGenerator;
-import com.doth.stupidrefframe_v1.selector.supports.builder.ConditionBuilder;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertorFactory;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.ConvertorType;
+import com.doth.stupidrefframe_v1.selector.v1.supports.sql.SelectGenerateFacade;
+import com.doth.stupidrefframe_v1.selector.v1.util.DruidUtil;
+import com.doth.stupidrefframe_v1.selector.v1.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.BeanConvertor;
+import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.BeanConvertorFactory;
+import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.ConvertorType;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -73,24 +73,24 @@ public class SelectorHelper {
 
     // ------------------ sql 执行以及映射, 以map 为条件 ------------------
     public <T> List<T> mapSqlCond(Class<T> beanClass, LinkedHashMap<String, Object> cond) {
-        String sql = SqlGenerator.generateSelect(beanClass, cond);
+        String sql = SelectGenerateFacade.generate4map(beanClass, cond);
         Object[] params = buildParams(cond);
         return mapResultSet(beanClass, sql, params);
     }
     // ------------------ sql 执行以及映射, 以builder 为条件 ------------------
     public <T> List<T> mapSqlCond(Class<T> beanClass, ConditionBuilder builder) {
-        String sql = SqlGenerator.generateSelect(beanClass, builder);
+        String sql = SelectGenerateFacade.generate4builder(beanClass, builder);
         Object[] params = builder.getParams();
         return mapResultSet(beanClass, sql, params);
     }
     // ------------------ sql 执行以及映射, 以map 键值为条件, 并且拼接字符串条件 ------------------
     public <T> List<T> mapSqlCond(Class<T> beanClass, LinkedHashMap<String, Object> cond, String strClause) {
-        String sql = SqlGenerator.generateSelect(beanClass, cond, strClause);
+        String sql = SelectGenerateFacade.generate4mapVzClause(beanClass, cond, strClause);
         Object[] params =  buildParams(cond);
         return mapResultSet(beanClass, sql, params);
     }
     public <T> List<T> mapSqlCond(Class<T> beanClass, String sql, Object... params) {
-        String normalSql = SqlGenerator.generateSelect4Raw(beanClass, sql); // 仅仅只是转换sql规范
+        String normalSql = SelectGenerateFacade.cvn4raw(beanClass, sql); // 仅仅只是转换sql规范
         System.out.println("normalSql = " + normalSql);
         return mapResultSet(beanClass, normalSql, params);
     }
@@ -124,7 +124,7 @@ public class SelectorHelper {
     //         // 原始字段名（兼容显式别名）
     //         fieldMap.put(field.getName().toLowerCase(), field);
     //         // 蛇形转换字段名（兼容原有规范）
-    //         String snakeName = SqlGenerator.camel2SnakeCase(field.getName());
+    //         String snakeName = SelectGenerateFacade.camel2SnakeCase(field.getName());
     //         fieldMap.put(snakeName.toLowerCase(), field);
     //     }
     //
@@ -134,7 +134,7 @@ public class SelectorHelper {
     //         // 双模式匹配（优先直接匹配，其次规范转换）
     //         Field field = fieldMap.get(columnName.toLowerCase()); // 直接匹配
     //         if (field == null) {
-    //             String camelName = SqlGenerator.snake2CamelCase(columnName);
+    //             String camelName = SelectGenerateFacade.snake2CamelCase(columnName);
     //             field = fieldMap.get(camelName.toLowerCase()); // 规范转换匹配
     //         }
     //

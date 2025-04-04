@@ -1,7 +1,7 @@
 package com.doth.loose.rubbish;
 
 import com.doth.stupidrefframe_v1.anno.JoinColumn;
-import com.doth.stupidrefframe_v1.selector.supports.convertor.BeanConvertor;
+import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.doth.stupidrefframe_v1.selector.util.NamingConverter.snake2CamelCase;
+import static com.doth.stupidrefframe_v1.selector.v1.util.CamelSnakeConvertUtil.snake2CamelCase;
 
 @Deprecated
 public class JoinBeanConvertor implements BeanConvertor {
@@ -34,7 +34,7 @@ public class JoinBeanConvertor implements BeanConvertor {
     // 无使用
     // private Field findReferencedField(Class<?> targetClass, String referencedColumn) throws NoSuchFieldException {
     //     // 处理驼峰转换
-    //     String camelName = SqlGenerator.snake2CamelCase(referencedColumn);
+    //     String camelName = SelectGenerateFacade.snake2CamelCase(referencedColumn);
     //
     //     // 递归查找字段（支持父类）
     //     Class<?> clazz = targetClass;
@@ -99,7 +99,7 @@ public class JoinBeanConvertor implements BeanConvertor {
     //
     //         // 处理普通字段
     //         if (!field.isAnnotationPresent(JoinColumn.class)) {
-    //             String fullColumn = parentPrefix + SqlGenerator.camel2SnakeCase(field.getName());
+    //             String fullColumn = parentPrefix + SelectGenerateFacade.camel2SnakeCase(field.getName());
     //             if (containsColumn(meta, fullColumn)) {
     //                 mapping.primaryMapping.put(fullColumn, field);
     //             }

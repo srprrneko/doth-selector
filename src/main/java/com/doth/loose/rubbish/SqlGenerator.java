@@ -1,6 +1,6 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.selector.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe_v1.selector.v1.supports.builder.ConditionBuilder;
 
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;

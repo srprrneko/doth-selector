@@ -1,6 +1,6 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.selector.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe_v1.selector.v1.supports.builder.ConditionBuilder;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -11,7 +11,7 @@ public interface BuilderQueryable extends EntityQueryable {
     default <T> List<T> query2Lst(Class<T> beanClass, Consumer<ConditionBuilder> setup) {
         ConditionBuilder builder = new ConditionBuilder();
         setup.accept(builder);
-        return getHelper().mapSqlCond(beanClass, builder);
+        return getHelper().queryByBuilder(beanClass, builder);
     }
 
     default <T> T query2T(Class<T> beanClass, Consumer<ConditionBuilder> setup) {

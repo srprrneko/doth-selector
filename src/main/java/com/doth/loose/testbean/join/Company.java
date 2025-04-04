@@ -1,6 +1,7 @@
 package com.doth.loose.testbean.join;
 
 import com.doth.stupidrefframe_v1.anno.Entity;
+import com.doth.stupidrefframe_v1.anno.Id;
 
 /**
  * @project: test02
@@ -12,6 +13,7 @@ import com.doth.stupidrefframe_v1.anno.Entity;
  */
 @Entity
 public class Company {
+    @Id
     private Integer id;
     private String name;
 

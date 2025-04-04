@@ -1,7 +1,7 @@
 package com.doth.stupidrefframe_v1.test;
 
-import com.doth.stupidrefframe_v1.selector.Selector;
-import com.doth.stupidrefframe_v1.selector.Selector_v1;
+import com.doth.loose.rubbish_since331.Selector;
+import com.doth.stupidrefframe_v1.selector.v1.Selector_v1;
 import com.doth.loose.testbean.Classes;
 import com.doth.loose.testbean.Student;
 import com.doth.loose.rubbish.StatDTO;

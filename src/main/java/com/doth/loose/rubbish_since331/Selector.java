@@ -1,4 +1,4 @@
-package com.doth.loose.rubbish;
+package com.doth.loose.rubbish_since331;
 
 import com.doth.stupidrefframe_v1.selector.v1.core.executor.BuilderQueryExecutor;
 import com.doth.stupidrefframe_v1.selector.v1.core.executor.DirectQueryExecutor;
@@ -25,7 +25,8 @@ import java.util.Map;
  * </ul>
  */
 @Deprecated
-public final class Selector {
+public class Selector<T> {
+
     /**
      * 构建器模式执行器缓存（Key: 实体类型）
      * <p>说明：

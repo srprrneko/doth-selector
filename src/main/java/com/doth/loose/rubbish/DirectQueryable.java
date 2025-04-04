@@ -1,6 +1,6 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.selector.core.coordinator.QueryCoordinator_v1;
+import com.doth.stupidrefframe_v1.selector.v1.core.coordinator.ExecuteCoordinator;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,11 +10,11 @@ import java.util.List;
 public interface DirectQueryable extends EntityQueryable {
 
     default <T> List<T> query2Lst(Class<T> beanClass) {
-        return getHelper().mapSqlCond(beanClass,(LinkedHashMap<String, Object>) null);
+        return getHelper().queryByMap(beanClass,(LinkedHashMap<String, Object>) null);
     }
 
     default <T> T query2T(Class<T> beanClass, LinkedHashMap<String, Object> cond) {
-        QueryCoordinator_v1 helper = getHelper();
-        return helper.getSingleResult(helper.mapSqlCond(beanClass, cond));
+        ExecuteCoordinator helper = getHelper();
+        return helper.getSingleResult(helper.queryByMap(beanClass, cond));
     }
 }

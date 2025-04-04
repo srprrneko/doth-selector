@@ -1,7 +1,7 @@
 package com.doth.loose.rubbish;
 
 
-import com.doth.stupidrefframe_v1.selector.util.DruidUtil;
+import com.doth.stupidrefframe_v1.selector.v1.util.DruidUtil;
 import com.doth.stupidrefframe_v1.anno.ColumnName;
 import com.doth.stupidrefframe_v1.anno.TableName;
 import com.doth.stupidrefframe_v1.exception.DataAccessException;

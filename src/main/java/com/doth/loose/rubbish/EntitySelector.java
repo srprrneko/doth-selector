@@ -1,8 +1,10 @@
 package com.doth.loose.rubbish;
 
 
-import com.doth.stupidrefframe_v1.selector.core.coordinator.QueryCoordinator_v1;
-import com.doth.stupidrefframe_v1.selector.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe_v1.selector.v1.core.coordinator.ExecuteCoordinator;
+import com.doth.stupidrefframe_v1.selector.v1.supports.adapeter.EntityAdapter;
+import com.doth.stupidrefframe_v1.selector.v1.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.ConvertorType;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.function.Consumer;
  */
 @Deprecated
 public class EntitySelector {
-    private static final QueryCoordinator_v1 helper = new QueryCoordinator_v1();
+    private static final ExecuteCoordinator helper = new ExecuteCoordinator();
 
     // region ----------------- 单实体查询方法组 -----------------
     /**
@@ -98,7 +100,7 @@ public class EntitySelector {
      * @return 包含所有记录的实体列表
      */
     public static <T> List<T> query2Lst(Class<T> beanClass) {
-        return helper.mapSqlCond(beanClass, (LinkedHashMap<String, Object>) null);
+        return helper.queryByMap(beanClass, (LinkedHashMap<String, Object>) null);
     }
 
     /**
@@ -110,8 +112,8 @@ public class EntitySelector {
      * @return 匹配条件的实体列表
      */
     public static <T> List<T> query2Lst(Class<T> beanClass, Object conditionBean) {
-        LinkedHashMap<String, Object> condMap = helper.extractFields(conditionBean);
-        return helper.mapSqlCond(beanClass, condMap);
+        LinkedHashMap<String, Object> condMap = EntityAdapter.extractNonNullFields(conditionBean);
+        return helper.queryByMap(beanClass, condMap);
     }
 
     /**
@@ -125,7 +127,7 @@ public class EntitySelector {
     public static <T> List<T> query2Lst(Class<T> beanClass, Consumer<ConditionBuilder> conditionSetup) {
         ConditionBuilder builder = new ConditionBuilder();
         conditionSetup.accept(builder);
-        return helper.mapSqlCond(beanClass, builder);
+        return helper.queryByBuilder(beanClass, builder);
     }
 
     /**
@@ -137,7 +139,7 @@ public class EntitySelector {
      * @return 匹配条件的实体列表
      */
     public static <T> List<T> query2Lst(Class<T> beanClass, LinkedHashMap<String, Object> cond) {
-        return helper.mapSqlCond(beanClass, cond);
+        return helper.queryByMap(beanClass, cond);
     }
 
     /**
@@ -150,7 +152,7 @@ public class EntitySelector {
      * @return 匹配条件的实体列表
      */
     public static <T> List<T> query2Lst(Class<T> beanClass, LinkedHashMap<String, Object> cond, String condClause) {
-        return helper.mapSqlCond(beanClass, cond, condClause);
+        return helper.queryByMapVzClause(beanClass, cond, condClause);
     }
 
     /**
@@ -162,13 +164,13 @@ public class EntitySelector {
      * @return 映射后的对象列表
      */
     public static <T> List<T> query2Lst(String sql, Class<T> beanClass, Object ...params) {
-        return helper.mapSqlCond(beanClass, sql, params);
+        return helper.queryByRaw(beanClass, sql, params);
     }
 
     public static <T> List<T> query2Lst(String sql, Class<T> beanClass, Consumer<ConditionBuilder> conditionSetup) {
         ConditionBuilder builder = new ConditionBuilder();
         conditionSetup.accept(builder);
-        return helper.mapSqlCond(beanClass, sql, builder);
+        return helper.queryByBuilderVzRaw(beanClass, sql, builder);
         // return helper.mapResultSet(beanClass, sql, builder.getParams());
     }
     // endregion

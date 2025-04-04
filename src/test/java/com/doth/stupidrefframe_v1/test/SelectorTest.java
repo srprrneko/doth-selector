@@ -30,7 +30,7 @@ public class SelectorTest {
         System.out.println(users);
 
     }
-    @Test // exeQuery 方法（带 ConditionBuilder 参数）
+    @Test // exeQuery 方法（带 EntityAdapter 参数）
     public void test1() {
         // 示例1：年龄大于18的查询（完全复制您的示例）
         List<Student> students1 = query2Lst(Student.class, builder -> {

@@ -1,6 +1,6 @@
 package com.doth.stupidrefframe_v1.newtest;
 
-import com.doth.stupidrefframe_v1.selector.Selector_v1;
+import com.doth.stupidrefframe_v1.selector.v1.Selector_v1;
 import com.doth.loose.testbean.join.Employee;
 
 import java.util.List;
@@ -13,22 +13,42 @@ import java.util.List;
  * @desc: TODO
  * @v: 1.0
  */
+// data assert object
 public class EmployeeDAO extends Selector_v1<Employee> {
     public static void main(String[] args) {
+        // service
         EmployeeDAO dao = new EmployeeDAO();
-        List<Employee> employees = dao.queryEmployees();
-        System.out.println(employees);
+        // List<Employee> employees = dao.queryEmployees();
+        // System.out.println(employees);
+        List<Employee> employees = dao.queryAll();
+        System.out.println("employees = " + employees);
+
     }
 
     public List<Employee> queryEmployees() {
+        // String sql = "SELECT e.id, e.name, "
+        //         + "e.d_id, " +
+        //         "d.name, d.com_id," +
+        //         "c.name "
+        //         + "FROM employee e " +
+        //         "JOIN department d ON e.d_id = d.id " +
+        //         "JOIN company c on d.com_id = c.id " +
+        //         "where d.id = ?";
         String sql = "SELECT e.id, e.name, "
-                + "e.d_id," +
-                "d.id as department_id, d.name AS department_name, d.com_id, " +
-                "c.name AS company_name "
+                + "e.d_id, " +
+                "d.name, d.com_id," +
+                "c.name " // c.name: company_name
                 + "FROM employee e " +
                 "JOIN department d ON e.d_id = d.id " +
                 "JOIN company c on d.com_id = c.id " +
                 "where d.id = ?";
-        return raw().query2Lst(sql,1);
+        // 2: two -> to; 4: four -> for
+        // queryToListForJoin
+        return raw().query2Lst4Join(sql,true,1);
+        // return raw().query2Lst4Join(sql,true, 1);
+    }
+
+    public List<Employee> queryAll() {
+        return direct_().query2Lst();
     }
 }

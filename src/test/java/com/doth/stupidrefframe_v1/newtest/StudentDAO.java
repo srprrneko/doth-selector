@@ -1,6 +1,6 @@
 package com.doth.stupidrefframe_v1.newtest;
 
-import com.doth.stupidrefframe_v1.selector.Selector_v1;
+import com.doth.stupidrefframe_v1.selector.v1.Selector_v1;
 import com.doth.loose.testbean.Student;
 
 import java.util.List;

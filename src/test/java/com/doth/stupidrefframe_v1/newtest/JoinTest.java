@@ -1,6 +1,6 @@
 package com.doth.stupidrefframe_v1.newtest;
 
-import com.doth.stupidrefframe_v1.selector.Selector;
+import com.doth.loose.rubbish_since331.Selector;
 import com.doth.loose.testbean.join.Employee;
 import org.junit.Test;
 

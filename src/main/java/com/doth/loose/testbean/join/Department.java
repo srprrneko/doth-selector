@@ -1,5 +1,6 @@
 package com.doth.loose.testbean.join;
 
+import com.doth.stupidrefframe_v1.anno.Id;
 import com.doth.stupidrefframe_v1.anno.JoinColumn;
 
 /**
@@ -11,6 +12,7 @@ import com.doth.stupidrefframe_v1.anno.JoinColumn;
  * @v: 1.0
  */
 public class Department {
+    @Id
     private Integer id;
     private String name;
 
