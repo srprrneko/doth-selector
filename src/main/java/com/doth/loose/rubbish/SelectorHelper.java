@@ -1,14 +1,14 @@
 package com.doth.loose.rubbish;
 
 
-import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
-import com.doth.stupidrefframe_v1.exception.NonUniqueResultException;
-import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.sqlgenerator.facede.SelectGenerateFacade;
-import com.doth.stupidrefframe_v1.selector.v1.util.DruidUtil;
-import com.doth.stupidrefframe_v1.selector.v1.executor.supports.builder.ConditionBuilder;
-import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.BeanConvertor;
-import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.BeanConvertorFactory;
-import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.ConvertorType;
+import com.doth.stupidrefframe.exception.NoColumnExistException;
+import com.doth.stupidrefframe.exception.NonUniqueResultException;
+import com.doth.stupidrefframe.selector.v1.coordinator.supports.sqlgenerator.facede.SelectGenerateFacade;
+import com.doth.stupidrefframe.selector.v1.util.DruidUtil;
+import com.doth.stupidrefframe.selector.v1.executor.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.BeanConvertor;
+import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.BeanConvertorFactory;
+import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.ConvertorType;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;

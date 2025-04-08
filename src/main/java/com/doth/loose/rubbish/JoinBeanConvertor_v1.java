@@ -1,7 +1,7 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.anno.Join;
-import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.BeanConvertor;
+import com.doth.stupidrefframe.anno.Join;
+import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

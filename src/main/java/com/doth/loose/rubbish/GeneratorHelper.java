@@ -1,8 +1,8 @@
 package com.doth.loose.rubbish;
 
 
-import com.doth.stupidrefframe_v1.anno.ColumnName;
-import com.doth.stupidrefframe_v1.anno.TableName;
+import com.doth.stupidrefframe.anno.ColumnName;
+import com.doth.stupidrefframe.anno.TableName;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

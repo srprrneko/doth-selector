@@ -1,7 +1,7 @@
 package com.doth.loose.testbean;
 
 
-import com.doth.stupidrefframe_v1.anno.Entity;
+import com.doth.stupidrefframe.anno.Entity;
 
 /**
  * @project: classFollowing

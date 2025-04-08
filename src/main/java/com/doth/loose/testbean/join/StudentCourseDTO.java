@@ -1,6 +1,6 @@
 package com.doth.loose.testbean.join;
 
-import com.doth.stupidrefframe_v1.anno.Entity;
+import com.doth.stupidrefframe.anno.Entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -1,12 +1,12 @@
 package com.doth.loose.rubbish_since331;
 
 
-import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.mapper.ResultSetMapper;
-import com.doth.stupidrefframe_v1.selector.v1.executor.supports.builder.ConditionBuilder;
-import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.sqlgenerator.facede.SelectGenerateFacade;
-import com.doth.stupidrefframe_v1.selector.v1.util.DruidUtil;
-import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.ConvertorType;
-import com.doth.stupidrefframe_v1.selector.v1.util.adapeter.EntityAdapter;
+import com.doth.stupidrefframe.selector.v1.coordinator.supports.mapper.ResultSetMapper;
+import com.doth.stupidrefframe.selector.v1.executor.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe.selector.v1.coordinator.supports.sqlgenerator.facede.SelectGenerateFacade;
+import com.doth.stupidrefframe.selector.v1.util.DruidUtil;
+import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.ConvertorType;
+import com.doth.stupidrefframe.selector.v1.util.adapeter.EntityAdapter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

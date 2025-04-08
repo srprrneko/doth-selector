@@ -1,10 +1,10 @@
 package com.doth.loose.rubbish;
 
 
-import com.doth.stupidrefframe_v1.selector.v1.util.DruidUtil;
-import com.doth.stupidrefframe_v1.anno.ColumnName;
-import com.doth.stupidrefframe_v1.anno.TableName;
-import com.doth.stupidrefframe_v1.exception.DataAccessException;
+import com.doth.stupidrefframe.selector.v1.util.DruidUtil;
+import com.doth.stupidrefframe.anno.ColumnName;
+import com.doth.stupidrefframe.anno.TableName;
+import com.doth.stupidrefframe.exception.DataAccessException;
 
 import java.beans.Transient;
 import java.lang.reflect.Field;

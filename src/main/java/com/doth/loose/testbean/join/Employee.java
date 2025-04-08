@@ -1,11 +1,11 @@
 package com.doth.loose.testbean.join;
 
-import com.doth.stupidrefframe_v1.anno.Id;
-import com.doth.stupidrefframe_v1.anno.Join;
+import com.doth.stupidrefframe.anno.Id;
+import com.doth.stupidrefframe.anno.Join;
 
 /**
  * @project: test02
- * @package: com.doth.stupidrefframe_v1.testbean
+ * @package: com.doth.stupidrefframe.testbean
  * @author: doth
  * @creTime: 2025-03-27  11:35
  * @desc: TODO

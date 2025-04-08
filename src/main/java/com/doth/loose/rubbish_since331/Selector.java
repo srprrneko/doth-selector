@@ -1,8 +1,8 @@
 package com.doth.loose.rubbish_since331;
 
-import com.doth.stupidrefframe_v1.selector.v1.executor.basic.query.BuilderQueryExecutor;
-import com.doth.stupidrefframe_v1.selector.v1.executor.basic.query.DirectQueryExecutor;
-import com.doth.stupidrefframe_v1.selector.v1.executor.basic.query.RawQueryExecutor;
+import com.doth.stupidrefframe.selector.v1.executor.basic.query.BuilderQueryExecutor;
+import com.doth.stupidrefframe.selector.v1.executor.basic.query.DirectQueryExecutor;
+import com.doth.stupidrefframe.selector.v1.executor.basic.query.RawQueryExecutor;
 
 import java.util.HashMap;
 import java.util.Map;

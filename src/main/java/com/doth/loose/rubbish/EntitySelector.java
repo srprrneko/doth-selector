@@ -2,8 +2,8 @@ package com.doth.loose.rubbish;
 
 
 import com.doth.loose.rubbish_since331.ExecuteCoordinator;
-import com.doth.stupidrefframe_v1.selector.v1.util.adapeter.EntityAdapter;
-import com.doth.stupidrefframe_v1.selector.v1.executor.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe.selector.v1.util.adapeter.EntityAdapter;
+import com.doth.stupidrefframe.selector.v1.executor.supports.builder.ConditionBuilder;
 
 import java.util.LinkedHashMap;
 import java.util.List;

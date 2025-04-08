@@ -1,6 +1,6 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.selector.v1.executor.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe.selector.v1.executor.supports.builder.ConditionBuilder;
 
 import java.util.List;
 import java.util.function.Consumer;
