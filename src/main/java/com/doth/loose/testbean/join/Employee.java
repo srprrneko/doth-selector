@@ -1,7 +1,7 @@
 package com.doth.loose.testbean.join;
 
 import com.doth.stupidrefframe_v1.anno.Id;
-import com.doth.stupidrefframe_v1.anno.JoinColumn;
+import com.doth.stupidrefframe_v1.anno.Join;
 
 /**
  * @project: test02
@@ -13,10 +13,10 @@ import com.doth.stupidrefframe_v1.anno.JoinColumn;
  */
 public class Employee {
     @Id
-    private Integer id;
-    private String name;
+    private Integer id; // e_id
+    private String name; // as employee_name
 
-    @JoinColumn(fk = "d_id", referencedColumn = "id")
+    @Join(fk = "d_id", referencedColumn = "id")
     private Department department;
 
     public Employee() {

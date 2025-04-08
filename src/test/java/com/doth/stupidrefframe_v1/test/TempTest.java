@@ -2,7 +2,7 @@ package com.doth.stupidrefframe_v1.test;
 
 import com.doth.loose.testbean.Student;
 import com.doth.loose.testbean.join.StudentCourseDTO;
-import com.doth.loose.rubbish.Selector;
+import com.doth.stupidrefframe_v1.selector.v1.core.SelectorV2;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class TempTest {
                 "INNER JOIN student_courses sc ON s.student_id = sc.student_id " +
                 "INNER JOIN courses c ON sc.course_id = c.course_id";
         // 执行查询
-        List<StudentCourseDTO> list = Selector.builder(StudentCourseDTO.class).
+        List<StudentCourseDTO> list = SelectorV2.bud(StudentCourseDTO.class).
                 query2Lst(baseSql,
                         builder -> {
                             builder.between("sc.selected_at", "2023-09-01", "2023-12-31")
@@ -46,16 +46,16 @@ public class TempTest {
 
 
         // 构建器查询
-        List<Student> users = Selector.builder(Student.class)
+        List<Student> users = SelectorV2.bud(Student.class)
                 .query2Lst(b -> b.between("age", 18, 30));
 
         System.out.println("users = " + users);
         // 原生SQL查询
-        List<Student> student = Selector.raw(Student.class)
+        List<Student> student = SelectorV2.raw(Student.class)
                 .query2Lst("SELECT * FROM student WHERE age > ?", 18);
 
         System.out.println("student = " + student);
 
-        System.out.println("Selector.direct(Student.class).query2Lst() = " + Selector.direct(Student.class).query2Lst());
+        System.out.println("SelectorV2.direct(Student.class).query2Lst() = " + SelectorV2.direct(Student.class).query2Lst());
     }
 }

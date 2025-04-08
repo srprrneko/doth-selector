@@ -1,7 +1,9 @@
 package com.doth.stupidrefframe_v1.newtest;
 
-import com.doth.stupidrefframe_v1.selector.v1.Selector_v1;
+import com.doth.loose.testbean.join.Company;
+import com.doth.loose.testbean.join.Department;
 import com.doth.loose.testbean.join.Employee;
+import com.doth.stupidrefframe_v1.selector.v1.core.SelectorV2;
 
 import java.util.List;
 
@@ -14,19 +16,23 @@ import java.util.List;
  * @v: 1.0
  */
 // data assert object
-public class EmployeeDAO extends Selector_v1<Employee> {
+public class EmployeeDAO extends SelectorV2<Employee> {
     public static void main(String[] args) {
         // service
         EmployeeDAO dao = new EmployeeDAO();
         // List<Employee> employees = dao.queryEmployees();
         // System.out.println(employees);
+
         List<Employee> employees = dao.queryAll();
         System.out.println("employees = " + employees);
+        //
+        // List<Employee> employees = dao.queryByName();
+        // System.out.println("employees = " + employees);
 
     }
 
     public List<Employee> queryEmployees() {
-        // String sql = "SELECT e.id, e.name, "
+        // String sqlgenerator = "SELECT e.id, e.name, "
         //         + "e.d_id, " +
         //         "d.name, d.com_id," +
         //         "c.name "
@@ -44,11 +50,24 @@ public class EmployeeDAO extends Selector_v1<Employee> {
                 "where d.id = ?";
         // 2: two -> to; 4: four -> for
         // queryToListForJoin
-        return raw().query2Lst4Join(sql,true,1);
-        // return raw().query2Lst4Join(sql,true, 1);
+        return raw().query2Lst(sql,1);
+        // return raw().query2Lst4Join(sqlgenerator,true, 1);
     }
 
     public List<Employee> queryAll() {
-        return direct_().query2Lst();
+        return direct_join().query2Lst();
+    }
+
+    public List<Employee> queryByName() {
+        Employee employee = new Employee();
+        Department department = new Department();
+        department.setId(2);
+        Company company = new Company();
+        company.setId(2);
+
+
+        department.setCompany(company);
+        employee.setDepartment(department);
+        return direct_join().query2Lst(employee);
     }
 }

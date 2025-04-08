@@ -71,7 +71,7 @@ public class SqlAliasGenerator {
     }
 
     // 示例用法
-    // public static void main(String[] args) {
+    // public static void core(String[] args) {
     //     String originalSql = "SELECT e.id, e.name, e.d_id, d.name, d.com_id, c.name " +
     //                          "FROM employee e " +
     //                          "JOIN department d ON e.d_id = d.id " +

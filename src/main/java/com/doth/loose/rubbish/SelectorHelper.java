@@ -3,12 +3,12 @@ package com.doth.loose.rubbish;
 
 import com.doth.stupidrefframe_v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe_v1.exception.NonUniqueResultException;
-import com.doth.stupidrefframe_v1.selector.v1.supports.sql.SelectGenerateFacade;
+import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.sqlgenerator.facede.SelectGenerateFacade;
 import com.doth.stupidrefframe_v1.selector.v1.util.DruidUtil;
-import com.doth.stupidrefframe_v1.selector.v1.supports.builder.ConditionBuilder;
-import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.BeanConvertor;
-import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.BeanConvertorFactory;
-import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.ConvertorType;
+import com.doth.stupidrefframe_v1.selector.v1.executor.supports.builder.ConditionBuilder;
+import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.BeanConvertor;
+import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.BeanConvertorFactory;
+import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.ConvertorType;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -71,19 +71,19 @@ public class SelectorHelper {
     }
 
 
-    // ------------------ sql 执行以及映射, 以map 为条件 ------------------
+    // ------------------ sqlgenerator 执行以及映射, 以map 为条件 ------------------
     public <T> List<T> mapSqlCond(Class<T> beanClass, LinkedHashMap<String, Object> cond) {
         String sql = SelectGenerateFacade.generate4map(beanClass, cond);
         Object[] params = buildParams(cond);
         return mapResultSet(beanClass, sql, params);
     }
-    // ------------------ sql 执行以及映射, 以builder 为条件 ------------------
+    // ------------------ sqlgenerator 执行以及映射, 以builder 为条件 ------------------
     public <T> List<T> mapSqlCond(Class<T> beanClass, ConditionBuilder builder) {
         String sql = SelectGenerateFacade.generate4builder(beanClass, builder);
         Object[] params = builder.getParams();
         return mapResultSet(beanClass, sql, params);
     }
-    // ------------------ sql 执行以及映射, 以map 键值为条件, 并且拼接字符串条件 ------------------
+    // ------------------ sqlgenerator 执行以及映射, 以map 键值为条件, 并且拼接字符串条件 ------------------
     public <T> List<T> mapSqlCond(Class<T> beanClass, LinkedHashMap<String, Object> cond, String strClause) {
         String sql = SelectGenerateFacade.generate4mapVzClause(beanClass, cond, strClause);
         Object[] params =  buildParams(cond);
@@ -96,7 +96,7 @@ public class SelectorHelper {
     }
     public <T> List<T> mapSqlCond(Class<T> beanClass, String sql, ConditionBuilder builder) {
         sql = sql + builder.getFullSql();
-        System.out.println("sql = " + sql);
+        System.out.println("sqlgenerator = " + sql);
         return mapResultSet(beanClass, sql, builder.getParams());
     }
 

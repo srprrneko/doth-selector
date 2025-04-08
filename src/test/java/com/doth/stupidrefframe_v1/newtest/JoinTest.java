@@ -1,7 +1,7 @@
 package com.doth.stupidrefframe_v1.newtest;
 
-import com.doth.loose.rubbish_since331.Selector;
 import com.doth.loose.testbean.join.Employee;
+import com.doth.stupidrefframe_v1.selector.v1.core.SelectorV2;
 import org.junit.Test;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class JoinTest {
                 "JOIN company c on d.com_id = c.id " +
                 "where d.id = ?";
 
-        // String sql = "SELECT d.id, d.name, d.com_id, " +
+        // String sqlgenerator = "SELECT d.id, d.name, d.com_id, " +
         //         "c.name AS company_name "
         //         + "FROM department d " +
         //         "JOIN company c on d.com_id = c.id " +
@@ -41,7 +41,7 @@ public class JoinTest {
         // d: id
 
         // e: {id, name, department{id, }}
-        List<Employee> employees = Selector.raw(Employee.class).query2Lst(sql,1);
+        List<Employee> employees = SelectorV2.raw(Employee.class).query2Lst(sql,1);
         for (Employee employee : employees) {
             System.out.println(employee);
         }

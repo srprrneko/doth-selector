@@ -1,7 +1,7 @@
 package com.doth.stupidrefframe_v1.newtest;
 
-import com.doth.stupidrefframe_v1.selector.v1.Selector_v1;
 import com.doth.loose.testbean.Student;
+import com.doth.stupidrefframe_v1.selector.v1.core.SelectorV2;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @desc: TODO
  * @v: 1.0
  */
-public class StudentDAO extends Selector_v1<Student> {
+public class StudentDAO extends SelectorV2<Student> {
     public static void main(String[] args) {
         // 模拟在service层聚合
         StudentDAO dao = new StudentDAO();
@@ -45,7 +45,7 @@ public class StudentDAO extends Selector_v1<Student> {
     }
 
     public List<Student> queryStudentById(Integer id) {
-        return build().query2Lst(builder ->
+        return bud().query2Lst(builder ->
                 builder
                         .eq("id", id)
                         .between("age", 10, 20)

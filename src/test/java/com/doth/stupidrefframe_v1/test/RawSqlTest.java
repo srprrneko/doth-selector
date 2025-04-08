@@ -1,10 +1,9 @@
 package com.doth.stupidrefframe_v1.test;
 
-import com.doth.loose.rubbish_since331.Selector;
-import com.doth.stupidrefframe_v1.selector.v1.Selector_v1;
 import com.doth.loose.testbean.Classes;
 import com.doth.loose.testbean.Student;
 import com.doth.loose.rubbish.StatDTO;
+import com.doth.stupidrefframe_v1.selector.v1.core.SelectorV2;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class RawSqlTest {
         // 直接执行带 IN 子句的 SQL
         String sql2 = "SELECT * FROM student WHERE id IN (?, ?, ?)";
         Object[] params2 = {1, 2, 3};
-        List<Student> student2 = Selector.raw(Student.class).query2Lst(sql2, params2);
+        List<Student> student2 = SelectorV2.raw(Student.class).query2Lst(sql2, params2);
         System.out.println("ID为1/2/3的学生：" + student2);
         /* 预期结果：
            [
@@ -51,7 +50,7 @@ public class RawSqlTest {
         // 执行模糊查询（名字包含“张”）
         String sql3 = "SELECT * FROM student WHERE name LIKE ?";
         Object[] params3 = {"%张%"};
-        List<Student> student3 = Selector.raw(Student.class).query2Lst(sql3, params3);
+        List<Student> student3 = SelectorV2.raw(Student.class).query2Lst(sql3, params3);
         System.out.println("姓张的学生：" + student3);
 
         /* 预期结果：
@@ -61,7 +60,7 @@ public class RawSqlTest {
 
         // 执行无参数查询（获取年龄最大的3个学生）
         String sql4 = "SELECT * FROM student ORDER BY age DESC LIMIT 3";
-        List<Student> student4 = Selector.raw(Student.class).query2Lst(sql4);
+        List<Student> student4 = SelectorV2.raw(Student.class).query2Lst(sql4);
         System.out.println("年龄最大的3个学生：" + student4);
 
         /* 预期结果：
@@ -77,7 +76,7 @@ public class RawSqlTest {
         int pageNum = 2;
         String sql5 = "SELECT * FROM student LIMIT ? OFFSET ?";
         Object[] params5 = {pageSize, (pageNum - 1) * pageSize};
-        List<Student> student5 = Selector.raw(Student.class).query2Lst(sql5, params5);
+        List<Student> student5 = SelectorV2.raw(Student.class).query2Lst(sql5, params5);
         System.out.println("第2页学生：" + student5);
 
         /* 预期结果：
@@ -90,7 +89,7 @@ public class RawSqlTest {
 
         // 正确查询示例
         String sql = "SELECT COUNT(*) AS total, MAX(age) AS maxAge FROM student";
-        List<StatDTO> stats = Selector.raw(StatDTO.class).query2Lst(sql);
+        List<StatDTO> stats = SelectorV2.raw(StatDTO.class).query2Lst(sql);
         System.out.println("统计结果：" + stats);
 
         /* 预期结果：
@@ -108,7 +107,7 @@ public class RawSqlTest {
         // 添加类型转换和警告抑制
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> results = (List<Map<String, Object>>) (List<?>)
-                Selector.raw(Map.class).query2Lst(sql7, params7);
+                SelectorV2.raw(Map.class).query2Lst(sql7, params7);
 
         System.out.println("年龄>20的学生及班级：" + results);
 
@@ -124,7 +123,7 @@ public class RawSqlTest {
         // 查询不存在的记录
         String sql8 = "SELECT * FROM student WHERE id = ?";
         Object[] params8 = {999};
-        List<Student> student8 = Selector.raw(Student.class).query2Lst(sql8, params8);
+        List<Student> student8 = SelectorV2.raw(Student.class).query2Lst(sql8, params8);
         System.out.println("不存在的学生：" + student8);
 
         /* 预期结果：
@@ -135,7 +134,7 @@ public class RawSqlTest {
         String sql9 = "SELECT * FROM student WHERE id = ? AND age = ?";
         Object[] params9 = {1}; // 缺少第二个参数
         try {
-            List<Student> student9 = Selector.raw(Student.class).query2Lst(sql9, params9);
+            List<Student> student9 = SelectorV2.raw(Student.class).query2Lst(sql9, params9);
         } catch (RuntimeException e) {
             System.out.println("捕获异常：" + e.getMessage());
         }
@@ -144,7 +143,7 @@ public class RawSqlTest {
            捕获异常：SQL 执行失败: SELECT * FROM student WHERE id = ? AND age = ? */
 
         String sql10 = "select * from classes";
-        List<Classes> classes = Selector.raw(Classes.class).query2Lst(sql10);
+        List<Classes> classes = SelectorV2.raw(Classes.class).query2Lst(sql10);
         System.out.println("classes = " + classes);
 
         long end = System.currentTimeMillis();
@@ -152,11 +151,11 @@ public class RawSqlTest {
     }
 }
 // 定义 DTO 接收统计结果
-class StudentHandler extends Selector_v1<Student> {
+class StudentHandler extends SelectorV2<Student> {
     public static void method1() {
         // 直接执行带参数的 SQL
         String sql1 = "SELECT * FROM student WHERE id = ?";
-        // List<Student> student1 = Selector_v1.raw().query2Lst(sql1, 1);
+        // List<Student> student1 = Selector_v2_v1.raw().query2Lst(sql1, 1);
         // System.out.println("ID为1的学生：" + student1);
     }
 }

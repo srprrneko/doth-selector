@@ -1,7 +1,7 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.anno.JoinColumn;
-import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.BeanConvertor;
+import com.doth.stupidrefframe_v1.anno.Join;
+import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -72,9 +72,9 @@ public class JoinBeanConvertor implements BeanConvertor {
 
         // 处理关联字段
         for (Field field : clz.getDeclaredFields()) {
-            if (field.isAnnotationPresent(JoinColumn.class)) {
-                JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
-                processJoinField(mapping, field, joinColumn, meta);
+            if (field.isAnnotationPresent(Join.class)) {
+                Join join = field.getAnnotation(Join.class);
+                processJoinField(mapping, field, join, meta);
             }
         }
 
@@ -98,7 +98,7 @@ public class JoinBeanConvertor implements BeanConvertor {
     //         field.setAccessible(true);
     //
     //         // 处理普通字段
-    //         if (!field.isAnnotationPresent(JoinColumn.class)) {
+    //         if (!field.isAnnotationPresent(Join.class)) {
     //             String fullColumn = parentPrefix + SelectGenerateFacade.camel2SnakeCase(field.getName());
     //             if (containsColumn(meta, fullColumn)) {
     //                 mapping.primaryMapping.put(fullColumn, field);
@@ -107,21 +107,21 @@ public class JoinBeanConvertor implements BeanConvertor {
     //         }
     //
     //         // 处理关联字段
-    //         JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+    //         Join join = field.getAnnotation(Join.class);
     //         String currentPrefix = parentPrefix + field.getName() + "_";
     //
     //         // 递归处理嵌套对象
     //         processNestedFields(mapping, field.getType(), currentPrefix, meta);
     //
     //         // 处理外键映射
-    //         String fkColumn = parentPrefix + joinColumn.fk();
+    //         String fkColumn = parentPrefix + join.fk();
     //         if (containsColumn(meta, fkColumn)) {
-    //             Field refField = findReferencedField(field.getType(), joinColumn.referencedColumn());
+    //             Field refField = findReferencedField(field.getType(), join.referencedColumn());
     //             mapping.primaryMapping.put(fkColumn, refField);
     //         }
     //     }
     // }
-    private void processJoinField(JoinMapping mapping, Field joinField, JoinColumn joinColumn, ResultSetMetaData meta) throws Exception {
+    private void processJoinField(JoinMapping mapping, Field joinField, Join join, ResultSetMetaData meta) throws Exception {
         Class<?> joinClass = joinField.getType();
         String prefix = joinField.getName() + "_"; // 如department_
 
@@ -145,9 +145,9 @@ public class JoinBeanConvertor implements BeanConvertor {
         }
 
         // 处理外键
-        Field refField = joinFieldCache.get(joinColumn.referencedColumn().toLowerCase());
+        Field refField = joinFieldCache.get(join.referencedColumn().toLowerCase());
         if (refField != null) {
-            columnMapping.put(joinColumn.fk(), refField);
+            columnMapping.put(join.fk(), refField);
         }
 
         mapping.joinMappings.put(joinField, columnMapping);

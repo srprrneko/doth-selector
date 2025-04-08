@@ -1,7 +1,7 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.anno.JoinColumn;
-import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.BeanConvertor;
+import com.doth.stupidrefframe_v1.anno.Join;
+import com.doth.stupidrefframe_v1.selector.v1.coordinator.supports.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -36,10 +36,10 @@ public class JoinBeanConvertor_v1 implements BeanConvertor {
 
         for (Field field : clz.getDeclaredFields()) {
             field.setAccessible(true);
-            JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
-            if (joinColumn != null) {
-                String fkColumn = joinColumn.fk();
-                String refColumn = joinColumn.referencedColumn().isEmpty() ? "id" : joinColumn.referencedColumn();
+            Join join = field.getAnnotation(Join.class);
+            if (join != null) {
+                String fkColumn = join.fk();
+                String refColumn = join.referencedColumn().isEmpty() ? "id" : join.referencedColumn();
 
                 if (columnExists(meta, fkColumn)) {
                     Class<?> refClass = field.getType();

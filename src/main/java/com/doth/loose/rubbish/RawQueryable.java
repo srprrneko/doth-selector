@@ -12,7 +12,7 @@ public interface RawQueryable extends EntityQueryable {
     }
 
     default <T> List<T> query2Lst4Join(Class<T> beanClass, String sql, boolean isAutoAlias, Object... params) {
-        return getHelper().queryByJoinRaw(beanClass, sql, isAutoAlias, params);
+        return getHelper().queryJoinByRaw(beanClass, sql, isAutoAlias, params);
     }
 
 

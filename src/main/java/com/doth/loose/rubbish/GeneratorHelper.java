@@ -31,7 +31,7 @@ public class GeneratorHelper {
     // todo : 废弃方法
     // // ----------------- 查询方法中抽象出的共用方法 -----------------
     // protected static String globalSelect(String columns, String tableName, LinkedHashMap<String, Object> conditions) {
-    //     // sql 结构搭建
+    //     // sqlgenerator 结构搭建
     //     sb = new StringBuilder("select ").append(columns).append(" from ").append(tableName);
     //     if (conditions == null || conditions.isEmpty()) {
     //         return sb.toString();

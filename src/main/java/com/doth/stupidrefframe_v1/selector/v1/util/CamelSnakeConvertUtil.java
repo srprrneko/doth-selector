@@ -44,7 +44,7 @@ public class CamelSnakeConvertUtil {
     }
 
 
-    // 不需要处理注解的 sql 驼峰转换
+    // 不需要处理注解的 sqlgenerator 驼峰转换
     public static String camel2SnakeCase(String sql, Boolean isRaw) {
         if (!isRaw) return camel2SnakeCase(sql);
         String regex = "(?<=[a-z0-9])[A-Z]";

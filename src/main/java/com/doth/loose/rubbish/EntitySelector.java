@@ -1,10 +1,9 @@
 package com.doth.loose.rubbish;
 
 
-import com.doth.stupidrefframe_v1.selector.v1.core.coordinator.ExecuteCoordinator;
-import com.doth.stupidrefframe_v1.selector.v1.supports.adapeter.EntityAdapter;
-import com.doth.stupidrefframe_v1.selector.v1.supports.builder.ConditionBuilder;
-import com.doth.stupidrefframe_v1.selector.v1.supports.convertor.ConvertorType;
+import com.doth.loose.rubbish_since331.ExecuteCoordinator;
+import com.doth.stupidrefframe_v1.selector.v1.util.adapeter.EntityAdapter;
+import com.doth.stupidrefframe_v1.selector.v1.executor.supports.builder.ConditionBuilder;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -171,7 +170,7 @@ public class EntitySelector {
         ConditionBuilder builder = new ConditionBuilder();
         conditionSetup.accept(builder);
         return helper.queryByBuilderVzRaw(beanClass, sql, builder);
-        // return helper.mapResultSet(beanClass, sql, builder.getParams());
+        // return helper.mapResultSet(beanClass, sqlgenerator, builder.getParams());
     }
     // endregion
 
@@ -185,14 +184,14 @@ public class EntitySelector {
     // public static <T> int insert(T t){
     //     // 功能实现...
     //     List<Object> values = getValuesFromObject(t);
-    //     // 获取 sql
-    //     String sql = SqlGenerate.generateInsert(t.getClass());
+    //     // 获取 sqlgenerator
+    //     String sqlgenerator = SqlGenerate.generateInsert(t.getClass());
     //
     //     int rowsAffected = 0;
     //
     //     try {
     //         System.out.println(values);
-    //         rowsAffected = DruidUtil.executeUpdate(sql, values.toArray());
+    //         rowsAffected = DruidUtil.executeUpdate(sqlgenerator, values.toArray());
     //     } catch (Exception e) {
     //         e.printStackTrace();
     //     } finally {

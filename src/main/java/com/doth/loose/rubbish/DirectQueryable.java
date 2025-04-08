@@ -1,6 +1,6 @@
 package com.doth.loose.rubbish;
 
-import com.doth.stupidrefframe_v1.selector.v1.core.coordinator.ExecuteCoordinator;
+import com.doth.loose.rubbish_since331.ExecuteCoordinator;
 
 import java.util.LinkedHashMap;
 import java.util.List;

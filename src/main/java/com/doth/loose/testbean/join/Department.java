@@ -1,7 +1,7 @@
 package com.doth.loose.testbean.join;
 
 import com.doth.stupidrefframe_v1.anno.Id;
-import com.doth.stupidrefframe_v1.anno.JoinColumn;
+import com.doth.stupidrefframe_v1.anno.Join;
 
 /**
  * @project: test02
@@ -16,7 +16,7 @@ public class Department {
     private Integer id;
     private String name;
 
-    @JoinColumn(fk = "com_id")
+    @Join(fk = "com_id")
     private Company company;
 
 

@@ -1,8 +1,8 @@
 package com.doth.loose.rubbish_since331;
 
-import com.doth.stupidrefframe_v1.selector.v1.core.executor.BuilderQueryExecutor;
-import com.doth.stupidrefframe_v1.selector.v1.core.executor.DirectQueryExecutor;
-import com.doth.stupidrefframe_v1.selector.v1.core.executor.RawQueryExecutor;
+import com.doth.stupidrefframe_v1.selector.v1.executor.basic.query.BuilderQueryExecutor;
+import com.doth.stupidrefframe_v1.selector.v1.executor.basic.query.DirectQueryExecutor;
+import com.doth.stupidrefframe_v1.selector.v1.executor.basic.query.RawQueryExecutor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ import java.util.Map;
  *   <li>强制转型在门面类内部可控，外部调用无需感知</li>
  * </ul>
  */
-@Deprecated
+@Deprecated(since = "1.0; forRemoval in 2.0", forRemoval = true)
 public class Selector<T> {
 
     /**
@@ -76,7 +76,7 @@ public class Selector<T> {
     public static <T> BuilderQueryExecutor<T> builder(Class<T> beanClass) {
         if (!builderCache.containsKey(beanClass)) {
             // 新建实例并确保类型匹配
-            builderCache.put(beanClass, new BuilderQueryExecutor<>(beanClass));
+            // builderCache.put(beanClass, new BuilderQueryExecutor<>(beanClass));
         }
         // 安全转型：存入时已保证 Class<T> 对应 BuilderQueryExecutor<T>
         return (BuilderQueryExecutor<T>) builderCache.get(beanClass);
@@ -98,7 +98,7 @@ public class Selector<T> {
     @SuppressWarnings("unchecked")
     public static <T> RawQueryExecutor<T> raw(Class<T> beanClass) {
         if (!rawCache.containsKey(beanClass)) {
-            rawCache.put(beanClass, new RawQueryExecutor<>(beanClass));
+            // rawCache.put(beanClass, new RawQueryExecutor<>(beanClass));
         }
         return (RawQueryExecutor<T>) rawCache.get(beanClass);
     }
@@ -119,7 +119,7 @@ public class Selector<T> {
     @SuppressWarnings("unchecked")
     public static <T> DirectQueryExecutor<T> direct(Class<T> beanClass) {
         if (!directCache.containsKey(beanClass)) {
-            directCache.put(beanClass, new DirectQueryExecutor<>(beanClass));
+            // directCache.put(beanClass, new DirectQueryExecutor<>(beanClass));
         }
         return (DirectQueryExecutor<T>) directCache.get(beanClass);
     }
