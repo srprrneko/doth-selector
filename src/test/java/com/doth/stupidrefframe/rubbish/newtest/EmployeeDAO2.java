@@ -13,7 +13,7 @@ import java.util.List;
  * @desc: TODO
  * @v: 1.0
  */
-// data assecess object
+// data access object
 public class EmployeeDAO2 extends SelectorV2<Employee> {
     public static void main(String[] args) {
         // service
