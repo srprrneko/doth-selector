@@ -16,7 +16,7 @@ public class Employee {
     private Integer id; // e_id
     private String name; // as employee_name
 
-    @Join(fk = "d_id", referencedColumn = "id")
+    @Join(fk = "d_id", refFK = "id")
     private Department department;
 
     public Employee() {

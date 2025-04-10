@@ -123,7 +123,7 @@ public class JoinBeanConvertor implements BeanConvertor {
                 String fkColumn = join.fk();  // 获取外键列名
                 // 处理引用列（默认为"id"）
                 // String refColumn = join.referencedColumn().isEmpty() ? "id" : join.referencedColumn(); // 去除没有必要的防御性编程
-                String refColumn = join.referencedColumn(); // 直接获取
+                String refColumn = join.refFK(); // 直接获取
 
 
                 // 验证外键列是否存在

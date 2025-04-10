@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Join {
     String fk(); // 外键列名（如d_id）
-    String referencedColumn() default "id"; // 目标表的主键列名（默认id）
+    String refFK() default "id"; // 目标表的主键列名（默认id）
+    String alias() default "";
 }

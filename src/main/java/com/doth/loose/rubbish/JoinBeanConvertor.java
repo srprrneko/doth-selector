@@ -145,7 +145,7 @@ public class JoinBeanConvertor implements BeanConvertor {
         }
 
         // 处理外键
-        Field refField = joinFieldCache.get(join.referencedColumn().toLowerCase());
+        Field refField = joinFieldCache.get(join.refFK().toLowerCase());
         if (refField != null) {
             columnMapping.put(join.fk(), refField);
         }

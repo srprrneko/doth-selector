@@ -33,14 +33,7 @@ public class JoinTest {
                 "JOIN company c on d.com_id = c.id " +
                 "where d.id = ?";
 
-        // String sqlgenerator = "SELECT d.id, d.name, d.com_id, " +
-        //         "c.name AS company_name "
-        //         + "FROM department d " +
-        //         "JOIN company c on d.com_id = c.id " +
-        //         "where d.id = ?";
-        // d: id
 
-        // e: {id, name, department{id, }}
         List<Employee> employees = SelectorV2.raw(Employee.class).query2Lst(sql,1);
         for (Employee employee : employees) {
             System.out.println(employee);

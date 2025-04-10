@@ -45,6 +45,7 @@ public class SelectorTest {
 
     @Test // exeQuery 方法（带原生条件参数）
     public void test2() {
+
         // 测试查询 "名字以张开头" 且 "年龄在18、19、20岁" 的学生，按id降序排列，取第一条结果
         LinkedHashMap<String, Object> conditions = new LinkedHashMap<>(); // 保证条件顺序
         conditions.put("name", "张%");   // LIKE 模糊查询（注意包含通配符）

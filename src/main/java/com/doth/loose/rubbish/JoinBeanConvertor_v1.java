@@ -39,7 +39,7 @@ public class JoinBeanConvertor_v1 implements BeanConvertor {
             Join join = field.getAnnotation(Join.class);
             if (join != null) {
                 String fkColumn = join.fk();
-                String refColumn = join.referencedColumn().isEmpty() ? "id" : join.referencedColumn();
+                String refColumn = join.refFK().isEmpty() ? "id" : join.refFK();
 
                 if (columnExists(meta, fkColumn)) {
                     Class<?> refClass = field.getType();

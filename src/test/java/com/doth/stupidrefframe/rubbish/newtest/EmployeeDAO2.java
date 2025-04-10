@@ -1,5 +1,7 @@
 package com.doth.stupidrefframe.rubbish.newtest;
 
+import com.doth.loose.testbean.join.Company;
+import com.doth.loose.testbean.join.Department;
 import com.doth.loose.testbean.join.Employee;
 import com.doth.stupidrefframe.selector.v1.core.SelectorV2;
 
@@ -59,16 +61,18 @@ public class EmployeeDAO2 extends SelectorV2<Employee> {
         return dct$().query2Lst();
     }
 
-    // public List<Employee> queryByName() {
-    //     Employee employee = new Employee();
-    //     Department department = new Department();
-    //     department.setId(2);
-    //     Company company = new Company();
-    //     company.setId(2);
-    //
-    //
-    //     department.setCompany(company);
-    //     employee.setDepartment(department);
-    //     return direct_pro().query2Lst(employee);
-    // }
+
+    public List<Employee> queryByName() {
+        Employee employee = new Employee();
+        Department department = new Department();
+        department.setId(2);
+        Company company = new Company();
+        company.setId(2);
+
+        department.setCompany(company);
+        employee.setDepartment(department);
+
+
+        return dct$().query2Lst(employee);
+    }
 }

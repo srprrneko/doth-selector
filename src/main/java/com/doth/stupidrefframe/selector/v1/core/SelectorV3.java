@@ -1,5 +1,8 @@
 package com.doth.stupidrefframe.selector.v1.core;
 
+import com.doth.stupidrefframe.anno.CreateDaoImpl;
+import com.doth.stupidrefframe.selector.v1.core.factory.CreateExecutorFactory;
+import com.doth.stupidrefframe.selector.v1.core.factory.impl.DefaultCreateExecutorFactory;
 import com.doth.stupidrefframe.selector.v1.executor.basic.BasicKindQueryExecutor;
 import com.doth.stupidrefframe.selector.v1.executor.basic.query.BuilderQueryExecutor;
 import com.doth.stupidrefframe.selector.v1.executor.basic.query.DirectQueryExecutor;
@@ -7,8 +10,6 @@ import com.doth.stupidrefframe.selector.v1.executor.basic.query.RawQueryExecutor
 import com.doth.stupidrefframe.selector.v1.executor.enhanced.query.BuilderQueryExecutorPro;
 import com.doth.stupidrefframe.selector.v1.executor.enhanced.query.DirectQueryExecutorPro;
 import com.doth.stupidrefframe.selector.v1.executor.enhanced.query.RawQueryExecutorPro;
-import com.doth.stupidrefframe.selector.v1.core.factory.CreateExecutorFactory;
-import com.doth.stupidrefframe.selector.v1.core.factory.impl.DefaultCreateExecutorFactory;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -25,22 +26,47 @@ import java.util.Map;
  *   <li>隐藏底层实现细节，提供简洁的链式调用API</li>
  * </ol>
  */
-public abstract class SelectorV2<T> {
+public class SelectorV3<T> {
 
     protected Class<T> beanClass;
-    // 默认执行器工厂
+    // 默认执行器工厂（可通过替换实现扩展）
     private static CreateExecutorFactory createExecutorFactory = new DefaultCreateExecutorFactory();
-    // 统一缓存：<Class>,  <执行器枚举, 执行器实例>
+    // 统一缓存：Class -> <执行器枚举,执行器实例>
     private static final Map<Class<?>, Map<ExecutorType, BasicKindQueryExecutor<?>>> cache = new HashMap<>();
 
 
+    // 将动态获取子类泛型更改成了遍历继承链获取泛型, 避免抽象dao的子实现类不指定泛型则报错的现象
+    public SelectorV3() {
+        // 指向实际实例化的子类, 例: EmpDAOImpl 而非 selector 本类
+        // 用于解析逻辑从最底层的实现类开始，沿继承链向上查找，确保能定位到开发者定义的泛型参数。
+        this.beanClass = resolveBeanClass(this.getClass());
+    }
+    @SuppressWarnings("unchecked")
+    private Class<T> resolveBeanClass(Class<?> clazz) {
+        
+        // 从子类开始, 递进查找继承体系, 直到本类
+        while (clazz != null && !clazz.equals(SelectorV3.class)) {
 
-    public SelectorV2() {
-        Type superClass = getClass().getGenericSuperclass();
-        if (!(superClass instanceof ParameterizedType)) {
-            throw new IllegalArgumentException("子类必须指定泛型参数");
+            Type superType = clazz.getGenericSuperclass();// 返回参数化类型, 例: Selector<Employee>
+
+            if (superType instanceof ParameterizedType) {
+                ParameterizedType pt = (ParameterizedType) superType;
+                if (pt.getRawType() == SelectorV3.class) {
+                    // 获取实际泛型参数
+                    Type typeArg = pt.getActualTypeArguments()[0];
+                    if (typeArg instanceof Class) {
+                        return (Class<T>) typeArg;
+                    } else if (typeArg instanceof ParameterizedType) {
+                        // 处理嵌套泛型（如List<Employee>）
+                        return (Class<T>) ((ParameterizedType) typeArg).getRawType();
+                    }
+                }
+            }
+
+            clazz = clazz.getSuperclass();
         }
-        this.beanClass = (Class<T>) ((ParameterizedType) superClass).getActualTypeArguments()[0];
+
+        throw new IllegalArgumentException("必须在继承链中指定泛型参数");
     }
 
 
