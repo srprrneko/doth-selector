@@ -60,11 +60,11 @@ public interface ExecuteCoordinatorService {
     /**
      * sqlgenerator 执行中介, 全自定义sql
      *
+     * @param <T>       目标实体类类型
      * @param beanClass 映射目标实体类
-     * @param sql 全自定义sql
-     * @param params 参数(?)
+     * @param sql       全自定义sql
+     * @param params    参数(?)
      * @return 目标实体类结构的集合
-     * @param <T> 目标实体类类型
      */
     <T> List<T> queryByRaw(Class<T> beanClass, String sql, Object... params);
 

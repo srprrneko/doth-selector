@@ -57,6 +57,11 @@ public class SelectGenerateFacade {
         return AliasConvertUtil.generateAliases(sql); // 是否开启自动别名? 生成别名 : 原始sql
     }
 
+    @Deprecated(since = "3.0", forRemoval = true) // 强制要求开发者不能起别名, 因此删除, 如果非要起, 可能的考虑list<map>: dto的方式去实现
+    public static String cvn4joinRaw(String sql, boolean isAutoAlias) {
+        return isAutoAlias ? AliasConvertUtil.generateAliases(sql) : sql; // 是否开启自动别名? 生成别名 : 原始sql
+    }
+
     // ----------------- 生成原生的连接查询 -----------------
     public static String cvn4joinBuilderVzRaw(String sql, ConditionBuilder builder) {
         String baseSql = AliasConvertUtil.generateAliases(sql);

@@ -1,7 +1,7 @@
 package com.doth.stupidrefframe.selector.v1.coordinator.supports.mapper;
 
-import com.doth.stupidrefframe.exception.NoColumnExistException;
-import com.doth.stupidrefframe.exception.NonUniqueResultException;
+import com.doth.stupidrefframe.selector.v1.exception.NoColumnExistException;
+import com.doth.stupidrefframe.selector.v1.exception.NonUniqueResultException;
 import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.BeanConvertor;
 import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.BeanConvertorFactory;
 import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.ConvertorType;

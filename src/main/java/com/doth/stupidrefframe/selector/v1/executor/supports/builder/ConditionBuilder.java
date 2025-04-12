@@ -135,10 +135,12 @@ public class ConditionBuilder {
     }
 
     /**
+     * todo: 难以动态化
      * 自定义条件（raw = 原生SQL）
      * @param rawClause 原生条件语句
      * @param values 对应参数
      */
+    @Deprecated
     public ConditionBuilder raw(String rawClause, Object... values) {
         appendCondition(rawClause, values);
         return this;

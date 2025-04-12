@@ -1,9 +1,9 @@
 package com.doth.stupidrefframe.selector.v1.coordinator.supports.sqlgenerator.tool;
 
-import com.doth.loose.testbean.join.Employee;
-import com.doth.stupidrefframe.anno.Id;
-import com.doth.stupidrefframe.anno.Join;
-import com.doth.stupidrefframe.exception.NonPrimaryKeyException;
+import com.doth.stupidrefframe.selector.v1.loose.testbean.join.Employee;
+import com.doth.stupidrefframe.selector.v1.anno.Id;
+import com.doth.stupidrefframe.selector.v1.anno.Join;
+import com.doth.stupidrefframe.selector.v1.exception.NonPrimaryKeyException;
 import com.doth.stupidrefframe.selector.v1.util.AnnoNamingConvertUtil;
 import com.doth.stupidrefframe.selector.v1.util.CamelSnakeConvertUtil;
 
@@ -69,7 +69,8 @@ public class DynamicQueryGenerator {
         joinClauses.add(String.format("join %s %s ON %s.%s = %s.%s",
                 refTable, nextAlias,
                 currentAlias, jc.fk(),
-                nextAlias, refColumn));
+                nextAlias, refColumn)
+        );
 
         // 递归解析关联实体（过滤主键字段）
         parseEntity(field.getType(), nextAlias, selectList, joinClauses, joinFloors + 1);

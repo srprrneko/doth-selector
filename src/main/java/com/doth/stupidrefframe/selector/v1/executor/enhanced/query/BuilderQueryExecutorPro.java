@@ -1,6 +1,6 @@
 package com.doth.stupidrefframe.selector.v1.executor.enhanced.query;
 
-import com.doth.stupidrefframe.anno.Overload;
+import com.doth.stupidrefframe.selector.v1.anno.Overload;
 import com.doth.stupidrefframe.selector.v1.coordinator.supports.mapper.ResultSetMapper;
 import com.doth.stupidrefframe.selector.v1.executor.enhanced.JoinExecutor;
 import com.doth.stupidrefframe.selector.v1.executor.supports.builder.ConditionBuilder;

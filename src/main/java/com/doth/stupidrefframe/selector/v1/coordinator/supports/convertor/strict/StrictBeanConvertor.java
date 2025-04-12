@@ -1,7 +1,7 @@
 package com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.strict;
 
 
-import com.doth.stupidrefframe.exception.NoColumnExistException;
+import com.doth.stupidrefframe.selector.v1.exception.NoColumnExistException;
 import com.doth.stupidrefframe.selector.v1.coordinator.supports.convertor.BeanConvertor;
 
 import java.lang.reflect.Field;

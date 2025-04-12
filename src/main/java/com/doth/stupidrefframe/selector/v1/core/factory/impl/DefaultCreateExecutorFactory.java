@@ -4,6 +4,7 @@ import com.doth.stupidrefframe.selector.v1.executor.basic.BasicKindQueryExecutor
 import com.doth.stupidrefframe.selector.v1.executor.basic.query.BuilderQueryExecutor;
 import com.doth.stupidrefframe.selector.v1.executor.basic.query.DirectQueryExecutor;
 import com.doth.stupidrefframe.selector.v1.executor.basic.query.RawQueryExecutor;
+import com.doth.stupidrefframe.selector.v1.executor.enhanced.query.BuilderQueryExecutorPro;
 import com.doth.stupidrefframe.selector.v1.executor.enhanced.query.DirectQueryExecutorPro;
 import com.doth.stupidrefframe.selector.v1.executor.enhanced.query.RawQueryExecutorPro;
 import com.doth.stupidrefframe.selector.v1.core.ExecutorType;
@@ -27,7 +28,7 @@ public class DefaultCreateExecutorFactory implements CreateExecutorFactory {
             case DIRECT_PRO:
                 return createWithSetter(beanClass, DirectQueryExecutorPro::new);
             case BUILDER_PRO:
-                return createWithSetter(beanClass, BuilderQueryExecutor::new);
+                return createWithSetter(beanClass, BuilderQueryExecutorPro::new);
             case RAW_PRO:
                 return createWithSetter(beanClass, RawQueryExecutorPro::new);
             default:

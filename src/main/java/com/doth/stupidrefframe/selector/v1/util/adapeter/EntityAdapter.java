@@ -1,9 +1,9 @@
 package com.doth.stupidrefframe.selector.v1.util.adapeter;
 
-import com.doth.loose.testbean.join.Company;
-import com.doth.loose.testbean.join.Department;
-import com.doth.loose.testbean.join.Employee;
-import com.doth.stupidrefframe.anno.Join;
+import com.doth.stupidrefframe.selector.v1.loose.testbean.join.Company;
+import com.doth.stupidrefframe.selector.v1.loose.testbean.join.Department;
+import com.doth.stupidrefframe.selector.v1.loose.testbean.join.Employee;
+import com.doth.stupidrefframe.selector.v1.anno.Join;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

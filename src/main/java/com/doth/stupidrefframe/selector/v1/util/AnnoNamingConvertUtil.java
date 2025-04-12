@@ -1,7 +1,7 @@
 package com.doth.stupidrefframe.selector.v1.util;
 
-import com.doth.stupidrefframe.anno.ColumnName;
-import com.doth.stupidrefframe.anno.TableName;
+import com.doth.stupidrefframe.selector.v1.anno.ColumnName;
+import com.doth.stupidrefframe.selector.v1.anno.TableName;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

@@ -1,6 +1,5 @@
 package com.doth.stupidrefframe.selector.v1.core;
 
-import com.doth.stupidrefframe.anno.CreateDaoImpl;
 import com.doth.stupidrefframe.selector.v1.core.factory.CreateExecutorFactory;
 import com.doth.stupidrefframe.selector.v1.core.factory.impl.DefaultCreateExecutorFactory;
 import com.doth.stupidrefframe.selector.v1.executor.basic.BasicKindQueryExecutor;
@@ -37,7 +36,7 @@ public class SelectorV3<T> {
 
     // 将动态获取子类泛型更改成了遍历继承链获取泛型, 避免抽象dao的子实现类不指定泛型则报错的现象
     public SelectorV3() {
-        // 指向实际实例化的子类, 例: EmpDAOImpl 而非 selector 本类
+        // 指向实际实例化的子类, 例: this.class = EmpDAOImpl 而非 selector 本类
         // 用于解析逻辑从最底层的实现类开始，沿继承链向上查找，确保能定位到开发者定义的泛型参数。
         this.beanClass = resolveBeanClass(this.getClass());
     }
@@ -45,25 +44,29 @@ public class SelectorV3<T> {
     private Class<T> resolveBeanClass(Class<?> clazz) {
         
         // 从子类开始, 递进查找继承体系, 直到本类
-        while (clazz != null && !clazz.equals(SelectorV3.class)) {
+        while (clazz != null && !clazz.equals(SelectorV3.class)) { // 区间: 子类 -> ... <- self
 
             Type superType = clazz.getGenericSuperclass();// 返回参数化类型, 例: Selector<Employee>
 
             if (superType instanceof ParameterizedType) {
                 ParameterizedType pt = (ParameterizedType) superType;
+
+                // 确保处理的是当前类 的原始类是 本类 -> 防御
                 if (pt.getRawType() == SelectorV3.class) {
                     // 获取实际泛型参数
                     Type typeArg = pt.getActualTypeArguments()[0];
+                    
+                    // 判断用于确保类型转换安全
                     if (typeArg instanceof Class) {
                         return (Class<T>) typeArg;
-                    } else if (typeArg instanceof ParameterizedType) {
-                        // 处理嵌套泛型（如List<Employee>）
+                    } else if (typeArg instanceof ParameterizedType) { //
+                        // 处理嵌套泛型, 例: 如List<Employee> -> List.class
                         return (Class<T>) ((ParameterizedType) typeArg).getRawType();
                     }
                 }
             }
 
-            clazz = clazz.getSuperclass();
+            clazz = clazz.getSuperclass(); // 递进继承链
         }
 
         throw new IllegalArgumentException("必须在继承链中指定泛型参数");
@@ -163,7 +166,7 @@ public class SelectorV3<T> {
 
 
     /**
-     * 替换工厂 todo
+     * 替换工厂 todo: 暂无其他工厂可替换
      * @param factory 工厂
      */
     @Deprecated
