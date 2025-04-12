@@ -17,27 +17,56 @@ public class EmployeeDAODctTest {
 
     @Test
     public void testQueryAll() {
-        List<Employee> result = dao.queryAll();
-        System.out.println("queryAll result: " + result);
+        // 也可以直接调用
+        long start = System.currentTimeMillis();
+        List<Employee> employees = dao.dct$().query2Lst();
+        // List<Employee> result = dao.queryAll(); // 连接查询总共 20 条数据的性能消耗
+        long end = System.currentTimeMillis();
+
+        System.out.println("queryAll result: " + employees);
+        System.out.println("总耗时" + (end - start));
     }
+
+
+
 
     @Test
     public void testQueryById1() {
+        long start = System.currentTimeMillis();
         List<Employee> result = dao.queryById1();
+        long end = System.currentTimeMillis();
+
         System.out.println("queryById1 result: " + result);
+        System.out.println("总耗时" + (end - start));
     }
+
+
+
 
     @Test
     public void testQueryById2() {
+        long start = System.currentTimeMillis();
         List<Employee> result = dao.queryById2();
+        long end = System.currentTimeMillis();
+
         System.out.println("queryById2 result: " + result);
+        System.out.println("总耗时" + (end - start));
     }
 
     @Test
     public void testQueryByNameAndDepartmentId1() {
+
+        long start = System.currentTimeMillis();
         List<Employee> result = dao.queryByNameAndDepartmentId1();
+        long end = System.currentTimeMillis();
+
         System.out.println("queryByNameAndDepartmentId1 result: " + result);
+        System.out.println("总耗时" + (end - start));
     }
+
+
+
+
 
     @Test
     public void testQueryByNameAndDepartmentId2() {
@@ -47,32 +76,51 @@ public class EmployeeDAODctTest {
         Department department = new Department();
         department.setId(1);
         param.setDepartment(department);
-        
+
+        long start = System.currentTimeMillis();
         List<Employee> result = dao.queryByNameAndDepartmentId2(param);
+        long end = System.currentTimeMillis();
+
         System.out.println("queryByNameAndDepartmentId2 result: " + result);
+        System.out.println("总耗时" + (end - start));
     }
 
     @Test
     public void testQueryByNameAndDepartmentIds3() {
+        long start = System.currentTimeMillis();
         List<Employee> result = dao.queryByNameAndDepartmentIds3();
-        System.out.println("queryByNameAndDepartmentIds3 result: " + result);
-    }
+        long end = System.currentTimeMillis();
 
-    @Test
-    public void testQueryByNameAndDepartmentIds4() {
-        List<Employee> result = dao.queryByNameAndDepartmentIds4();
-        System.out.println("queryByNameAndDepartmentIds4 result: " + result);
+        System.out.println("queryByNameAndDepartmentIds3 result: " + result);
+        System.out.println("总耗时" + (end - start));
     }
 
     @Test
     public void testQueryByDepartmentName() {
+        long start = System.currentTimeMillis();
         List<Employee> result = dao.queryByDepartmentName("研发部");
+        long end = System.currentTimeMillis();
+
         System.out.println("queryByDepartmentName result: " + result);
+        System.out.println("总耗时" + (end - start));
     }
 
     @Test
     public void testQueryByName() {
+        long start = System.currentTimeMillis();
         List<Employee> result = dao.queryByName("李四");
+        long end = System.currentTimeMillis();
+
         System.out.println("queryByName result: " + result);
+        System.out.println("总耗时" + (end - start));
+    }
+
+    @Test
+    public void testQueryByDepartmentIdVzName() {
+        long start = System.currentTimeMillis();
+        List<Employee> employees = dao.queryByDepartmentIdVzName(1,"%张三");
+        long end = System.currentTimeMillis();
+        System.out.println("employees = " + employees);
+        System.out.println("总耗时" + (end - start));
     }
 }

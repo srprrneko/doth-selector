@@ -36,6 +36,9 @@ public abstract class EmployeeDAO extends SelectorV3<Employee> {
         return dct$().query2Lst();
     }
 
+
+
+
     /**
      * 根据ID查询员工
      * @return 员工列表
@@ -46,6 +49,9 @@ public abstract class EmployeeDAO extends SelectorV3<Employee> {
 
         return dct$().query2Lst(params);
     }
+
+
+
 
     /**
      * 根据ID查询员工
@@ -66,7 +72,7 @@ public abstract class EmployeeDAO extends SelectorV3<Employee> {
         LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
         params.put("t0.name", "张三"); // >> t0 代表主表 todo: 可能考虑后续通过别名替换的方式, 增加自由度提高阅读性, 但底层执行的还是t0., 修改这个缺点: emp.id -> t0.id
-        params.put("t1.department_id", 1); // >> t1 代表第一张从表
+        params.put("t1.id", 1); // >> t1 代表第一张从表
 
         return dct$().query2Lst(params);
     }
@@ -88,24 +94,9 @@ public abstract class EmployeeDAO extends SelectorV3<Employee> {
         LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
         params.put("t0.name", "张三%"); // 自动对应 like 张三%
-        params.put("t1.department_id", Arrays.asList(1, 2, 3)); // 自动对应 in(1,2,3)
+        params.put("t1.id", Arrays.asList(1, 2, 3)); // 自动对应 in(1,2,3)
 
         return dct$().query2Lst(params);
-    }
-
-    /**
-     * 根据姓名和部门ID列表查询员工，并附加SQL子句
-     * @return 员工列表
-     */
-    public List<Employee> queryByNameAndDepartmentIds4() {
-        LinkedHashMap<String, Object> conditions = new LinkedHashMap<>();
-        conditions.put("name", "张%");
-        conditions.put("t1.department_id", Arrays.asList(1, 2, 3));
-
-        return dct$().query2Lst(
-                conditions,
-                "ORDER BY id DESC LIMIT 1" // 附加子句
-        );
     }
 
     /**
@@ -122,6 +113,9 @@ public abstract class EmployeeDAO extends SelectorV3<Employee> {
      */
     public abstract List<Employee> queryByName(String name);
 
+    // 演示通过部门编号和员工姓名 查询员工
+    // 故意传参数少传
+    public abstract List<Employee> queryByDepartmentIdVzName(Integer id, String name);
     ////////////////////////////////////////////////// END 固定, 模版方式查询 END //////////////////////////////////////////////////
 
 
@@ -150,16 +144,16 @@ public abstract class EmployeeDAO extends SelectorV3<Employee> {
     // builder 演示分页
     public List<Employee> queryByNameAndDepartmentIds7() {
         return bud$().query2Lst(builder ->
-                builder.like("t0.name", "张%")
-                        .in("t1.id", Arrays.asList(1, 2, 3))
+                builder
+                        // .in("t1.id", Arrays.asList(1, 2, 3))
                         .page("t0.id", 1, 5) // 游标分页, todo: 传统分页
         );
     }
-    // builder 演示自定义子句实现排序
+    // builder 演示自定义子句实现排序 todo : 待完善
     public List<Employee> queryByNameAndDepartmentIds8() {
         return bud$().query2Lst(builder ->
                 builder.like("t0.name", "张%")
-                        .in("t1.id", Arrays.asList(1, 2, 3))
+                        // .in("t1.id", Arrays.asList(1, 2, 3))
                         .raw("order by t0.id DESC") // 自定义子句
                 // 注意: raw 仅仅支持固定的条件子句, 例如排序, 其他的带参数的无法实现, 下面有替代方式
         );

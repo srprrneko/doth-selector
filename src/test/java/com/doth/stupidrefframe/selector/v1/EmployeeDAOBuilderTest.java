@@ -15,13 +15,13 @@ public class EmployeeDAOBuilderTest {
     }
 
     @Test
-    public void testQueryByNameAndDepartmentIds5() {
+    public void testQueryByNameAndDepartmentIds5() { // 没有
         List<Employee> result = dao.queryByNameAndDepartmentIds5();
         System.out.println("queryByNameAndDepartmentIds5 result: " + result);
     }
 
     @Test
-    public void testQueryByNameAndDepartmentIds6() {
+    public void testQueryByNameAndDepartmentIds6() { // 这个也是没有
         List<Employee> result = dao.queryByNameAndDepartmentIds6();
         System.out.println("queryByNameAndDepartmentIds6 result: " + result);
     }
@@ -30,7 +30,7 @@ public class EmployeeDAOBuilderTest {
     public void testQueryByNameAndDepartmentIds7() {
         List<Employee> result = dao.queryByNameAndDepartmentIds7();
         System.out.println("queryByNameAndDepartmentIds7 result: " + result);
-    }
+    } // 支持游标分页
 
 
 }

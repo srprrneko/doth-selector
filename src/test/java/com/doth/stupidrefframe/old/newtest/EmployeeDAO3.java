@@ -50,7 +50,6 @@ public abstract class EmployeeDAO3 extends SelectorV3<Employee> {
     public abstract List<Employee> queryByDepartmentId(Integer id);
 
 
-    // todo : and 条件拼接
     public abstract List<Employee> queryByDepartmentNameVzId(String name, Integer id);
 
 
