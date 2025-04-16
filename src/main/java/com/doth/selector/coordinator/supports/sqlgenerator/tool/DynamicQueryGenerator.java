@@ -12,6 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DynamicQueryGenerator {
+
+    /*
+        emp{ t0
+            dep t1 {
+                com t2
+            }
+            office t3
+        }
+
+
+
+     */
     private static final String MAIN_ALIAS = "t0"; // 默认主表别名
     private static int joinLevel = 1;  // join 层数, 主表固定为0, 从表从1开始
 

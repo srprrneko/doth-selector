@@ -8,13 +8,20 @@ import com.doth.selector.anno.Join;
  * @package: com.doth.stupidrefframe.testbean
  * @author: doth
  * @creTime: 2025-03-27  11:35
- * @desc: TODO
+ * @desc:
+ * n+1
+ *  select from emp...
+ *      -> d_id
+ *      select from dept where d_id = ?
  * @v: 1.0
  */
 public class Employee {
     @Id
     private Integer id; // e_id
     private String name; // as employee_name
+
+    // dept_id -> 1
+    // Department -> null
 
     @Join(fk = "d_id", refFK = "id")
     private Department department;

@@ -127,7 +127,8 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     // builder 演示大于, 小于, 大于等于...
     public List<Employee> queryByNameAndDepartmentIds6() {
         return bud$().query2Lst(builder ->
-                builder.like("t0.name", "张%")
+                builder.
+                        like("t0.name", "张%")
                         .in("t1.id", Arrays.asList(1, 2, 3))
                         .gt("t0.id", 1)  // greater than: >
                         .lt("t0.id", 10) // less than: <

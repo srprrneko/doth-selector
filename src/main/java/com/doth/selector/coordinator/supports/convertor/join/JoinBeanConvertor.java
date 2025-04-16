@@ -15,35 +15,19 @@ import java.util.HashMap;
 /**
  * 联查结果转换器
  *
- * 功能：将联查后的 ResultSet 转换为具有嵌套结构的JavaBean
- * 特性：
- *   @desc
- *   - 仅支持 @Join 注解处理关联字段
- *   - 使用MethodHandle实现高效字段赋值
- *      反射调用 Field.set() 会进行安全检查（权限验证），导致性能损耗
- *      而MethodHandler 初始化后直接调用：MethodHandle 获取 字段的直接赋值能力, 相当于直接执行 field.set(obj, value), 无需类中存在setter,
- *      并缓存（SETTER_CACHE），后续调用直接跳过了反射的权限检查，接近原生方法调用的性能
- *      句柄: (handle) 对某个资源的间接引用
- *      使用:
- *          MethodHandles.loopup().unreflectSetter(MyClass.class.getDeclaredField("field")).invoke(obj, "值")
- *
- *   - 类结构元数据缓存提升转换性能
- *      通过 JOIN_CACHE 缓存 MetaMap 对象，避免每次转换时重复解析类的关联结构
- *
- *   - 递归处理多层级对象嵌套
- *   
- *   
- *   analysis:
- *      将联查后的结果集通过别名识别存储
- *      问题1 : 为什么查询返回后需要将 结果集每一个列再次转换回驼峰命名?
- *          答 : 与实体类保持一致
+ * 功能 ResultSet 转换转化为嵌套实体
+ * 支持说明
+ *   1.@Join 注解处理关联字段
+ *   2.使用 MethodHandle 实现高效字段赋值
+ *   3.类结构元缓存提升转换性能
+ *   4.通过 JOIN_CACHE 缓存 MetaMap 对象，避免每次转换时重复解析类的关联结构
  */
 public class JoinBeanConvertor implements BeanConvertor {
     
     /**
-     * 类结构元数据缓存
-     * 
-     * Key: 目标Bean的Class对象, 主对象和嵌套对象, 避免多次映射
+     * 类结构元缓存器
+     *
+     * Key: bean的Class对象, 主对象和嵌套对象, 避免多次映射
      * Value: 解析完成的字段映射关系（包含普通字段和关联字段）
      */
     private static final Map<Class<?>, MetaMap> JOIN_CACHE = new HashMap<>();
@@ -76,11 +60,10 @@ public class JoinBeanConvertor implements BeanConvertor {
     public <T> T convert(ResultSet rs, Class<T> beanClass) throws Throwable {
         ResultSetMetaData meta = rs.getMetaData();
         
-        // 获取或创建类结构映射（带缓存机制）
-        // computeIfAbsent: 存在即返回，不存在则计算并存储该 原数据结构(MetaMap)
+        // 通过元缓存器 获取结构元
         MetaMap metaMap = JOIN_CACHE.computeIfAbsent(beanClass, clz -> {
             try {
-                // 递归解析类结构（包含嵌套关联）
+                // 1.解析类结构
                 return analyzeClzStruct(clz, meta, ""); // 主表无前缀
             } catch (Exception e) {
                 throw new RuntimeException("解析联表结构失败: " + e.getMessage(), e);
@@ -92,17 +75,11 @@ public class JoinBeanConvertor implements BeanConvertor {
     }
 
     /**
-     * 解析类结构（递归方法）
-     * 
+     * 递归解析类结构
+     *
      * @param clz 当前解析的目标类
      * @param meta 结果集元数据（用于字段存在性验证）
      * @param prefix 字段前缀（用于处理嵌套对象的字段别名）
-     * 
-     * 处理逻辑：
-     * 1. 遍历所有字段
-     * 2. 识别关联字段 @Join
-     * 3. 验证并处理普通字段
-     * 4. 递归处理嵌套元
      */
     private MetaMap analyzeClzStruct(Class<?> clz, ResultSetMetaData meta, String prefix) throws Exception {
         // 初始化元数据结构
@@ -129,7 +106,7 @@ public class JoinBeanConvertor implements BeanConvertor {
                 // 验证外键列是否存在
                 if (columnExists(meta, fkColumn)) { // 是自定义对象
                     Class<?> refClass = field.getType();  // 获取关联类
-                    String nestedPrefix = field.getName() + "_";  // 生成嵌套字段前缀
+                    String nestedPrefix = field.getName() + "_";  // 生成嵌套字段前缀 department_, department_name
                     // 递归解析关联类结构
                     MetaMap refMapping = analyzeClzStruct(refClass, meta, nestedPrefix); // nested: 嵌套
                     // 存储嵌套映射关系
@@ -157,7 +134,7 @@ public class JoinBeanConvertor implements BeanConvertor {
         // 遍历所有列进行匹配（不区分大小写）
         for (int i = 1; i <= columnCount; i++) {
             String colName = meta.getColumnLabel(i);
-            if (colName.equalsIgnoreCase(columnName)) {
+            if (colName.equalsIgnoreCase(columnName)) { // d_id -> d_id
                 return true;
             }
         }
@@ -166,24 +143,19 @@ public class JoinBeanConvertor implements BeanConvertor {
 
     /**
      * 构建JavaBean实例（递归方法）
-     * 
-     * @param rs 结果集游标（需指向当前记录）
-     * @param beanClass 目标Bean类型
-     * @param metaMap 类结构映射信息
-     * 
-     * 实现步骤：
-     * 1. 创建目标类实例
-     * 2. 填充普通字段值
-     * 3. 递归构建并填充关联对象
-     * 4. 设置外键关联关系
+     * @param rs 结果集
+     * @param beanClass 最终目标类
+     * @param metaMap 类结构元映射 信息
      */
     private <T> T buildJoinBean(ResultSet rs, Class<T> beanClass, MetaMap metaMap) throws Throwable {
-        T bean = beanClass.getDeclaredConstructor().newInstance(); // 初始化主表
+        // 初始化目标类 准备进行填充
+        T bean = beanClass.getDeclaredConstructor().newInstance();
 
-        // 遍历填充获取非关联的普通字段 (FieldMapping)
+        // 通过字段缓存器 设置主表值
         for (Map.Entry<Field, String> entry : metaMap.getFieldMeta().entrySet()) {
             Field k = entry.getKey();  // 获取字段键
             Object v = rs.getObject(entry.getValue()); // 获取字段对应的列名
+
             setFieldValue(bean, k, v);  // 使用缓存setter + 方法句柄 进行赋值`  
         }
 
@@ -229,7 +201,7 @@ public class JoinBeanConvertor implements BeanConvertor {
                 throw new RuntimeException("赋值失败! " + e.getMessage());
             }
         });
-        setter.invoke(target, value);  // 执行高效赋值
+        setter.invoke(target, value);  // 赋值
     }
 
     /**
