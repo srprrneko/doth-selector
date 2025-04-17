@@ -1,5 +1,4 @@
 package com.doth.selector;// EmployeeDAODctTest.java 测试类
-import com.doth.selector.testbean.join.Department;
 import com.doth.selector.testbean.join.Employee;
 import org.junit.Before;
 import org.junit.Test;

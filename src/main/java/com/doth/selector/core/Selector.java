@@ -12,8 +12,10 @@ import com.doth.selector.executor.enhanced.query.RawQueryExecutorPro;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.WildcardType;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * 实体查询门面类 - 提供所有查询方法使用入口, 整合多种查询策略的执行器, 简化调用复杂度, 提高代码可读性
@@ -40,6 +42,9 @@ public class Selector<T> {
         // 用于解析逻辑从最底层的实现类开始，沿继承链向上查找，确保能定位到开发者定义的泛型参数。
         this.beanClass = resolveBeanClass(this.getClass());
     }
+    public void then(Function<T, ?> getter, String type, Object value) {
+
+    }
 
     @SuppressWarnings("unchecked")
     private Class<T> resolveBeanClass(Class<?> clazz) {
@@ -63,8 +68,12 @@ public class Selector<T> {
                     } else if (typeArg instanceof ParameterizedType) { //
                         // 处理嵌套泛型, 例: 如List<Employee> -> List.class
                         return (Class<T>) ((ParameterizedType) typeArg).getRawType();
+                    } else if (typeArg instanceof WildcardType) {
+                        throw new IllegalArgumentException("泛型参数不能是通配符类型");
                     }
+                    return (Class<T>) typeArg;
                 }
+
             }
 
             clazz = clazz.getSuperclass(); // 递进继承链

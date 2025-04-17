@@ -19,11 +19,9 @@ import java.util.List;
  *       无法实现 : 抽象类无法被实例化 -> 解决方式, 使用代理
  *
  *       其他想法 : 后续可以使用代理类生成实体类的 public entity setter(xx), 然后通过
- *          query.get()
- *              .setName(value)
- *              .setAge(value)
- *              .setAge(value)
- *              .
+ *          return query()
+ *              .setName(value, gt) : gt 比较策略 -> 父类常量
+ *              .setAge(value, eq)
  *              ...
  *          通过这样的方式代替方法名拆解的方式, 或者说, 两种方式都可以用?
  *

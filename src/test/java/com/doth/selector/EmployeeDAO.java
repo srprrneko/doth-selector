@@ -110,6 +110,9 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     // 演示通过部门编号和员工姓名 查询员工
     // 故意传参数少传
     public abstract List<Employee> queryByDepartmentIdVzName(Integer id, String name);
+
+    // @EnhanceBuilder
+    // public abstract List<Employee> queryByAgeGt(int how);
     ////////////////////////////////////////////////// END 固定, 模版方式查询 END //////////////////////////////////////////////////
 
 
@@ -126,6 +129,8 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     }
     // builder 演示大于, 小于, 大于等于...
     public List<Employee> queryByNameAndDepartmentIds6() {
+
+        // then(employee::getName, LIKE);
         return bud$().query2Lst(builder ->
                 builder.
                         like("t0.name", "张%")
@@ -135,6 +140,53 @@ public abstract class EmployeeDAO extends Selector<Employee> {
                         .ge("t0.id", 1)  // greater equal: >=
                         .le("t0.id", 10) // less equal: <=
         );
+        /*
+            return builder
+            .then(emp.getDepartmentName(), LIKE) // emp.department -> 从表 -> t1
+            .then(emp.getName(), EQ)          // emp -> 主表 -> t0
+
+         */
+
+        /*
+        目前问题: 手动别名, 看着疑惑
+            select ... from ... join ... on
+            where t0.like = ?
+            t1.id in (?,?)
+
+        增强builder
+            builder.
+                then(emp.getName(), LIKE)
+
+                then(Method)
+                    bean = method.getClz()
+
+                    bean.for:fields[]
+                        if (f.isAnnoPresent(@Join.clz)) {
+                            t++
+                        }
+                    Object n = method.invoke
+
+
+
+         */
+        /*
+        使用例:
+        .then(pojo.getProperty(), LK)
+        ...
+
+        clz EnhanceBuilder extends Selector<T> // 继承Selector共享泛型
+
+            static EnhanceBuilder then(Method getter, String equalStrategy) {
+            }
+
+            static void end(){
+            }
+
+
+
+
+
+         */
     }
     // builder 演示分页
     public List<Employee> queryByNameAndDepartmentIds7() {
