@@ -158,7 +158,7 @@ public class ConditionBuilder {
     }
 
     /**
-     * 设置分页（page = 分页参数配置）
+     * 设置分页（page = 分页参数配置）todo: 去掉返回值
      * @param cursorField 游标字段（通常为排序字段）
      * @param cursorValue 游标起始值
      * @param pageSize 每页数量
@@ -171,7 +171,7 @@ public class ConditionBuilder {
 
 
 
-    /* ------------------------ 外用方法 ------------------------ */
+    /* ------------------------ 底层处理方法 ------------------------ */
     /**
      * 获取WHERE子句（getWhereClause = 生成WHERE部分）
      * @return 包含所有条件的WHERE子句

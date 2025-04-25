@@ -1,4 +1,4 @@
-package com.doth.selector.coordinator.supports.convertor;
+package com.doth.selector.coordinator.convertor;
 
 public enum ConvertorType {
         LIGHT,      // 轻量级模式

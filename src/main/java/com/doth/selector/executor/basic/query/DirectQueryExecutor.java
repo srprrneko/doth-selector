@@ -1,6 +1,6 @@
 package com.doth.selector.executor.basic.query;
 
-import com.doth.selector.coordinator.supports.mapper.ResultSetMapper;
+import com.doth.selector.coordinator.mapper.ResultSetMapper;
 import com.doth.selector.executor.basic.BasicKindQueryExecutor;
 import com.doth.selector.util.adapeter.EntityAdapter;
 

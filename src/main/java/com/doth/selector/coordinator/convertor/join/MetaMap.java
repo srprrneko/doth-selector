@@ -1,4 +1,4 @@
-package com.doth.selector.coordinator.supports.convertor.join;
+package com.doth.selector.coordinator.convertor.join;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -63,7 +63,14 @@ class MetaMap {
         fkColumns.put(field, fkColumn);
         refColumns.put(field, refColumn);
     }
-
+    /**
+     * 判断是否存在嵌套结构元数据
+     *
+     * @return 存在嵌套结构返回true，否则返回false
+     */
+    public boolean hasNested() {
+        return !nestedMeta.isEmpty();
+    }
 
     /**
      * 获取字段与其元数据字符串的映射

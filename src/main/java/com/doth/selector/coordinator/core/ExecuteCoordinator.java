@@ -1,7 +1,7 @@
 package com.doth.selector.coordinator.core;
 
-import com.doth.selector.coordinator.supports.mapper.ResultSetMapper;
-import com.doth.selector.coordinator.supports.convertor.ConvertorType;
+import com.doth.selector.coordinator.mapper.ResultSetMapper;
+import com.doth.selector.coordinator.convertor.ConvertorType;
 import com.doth.selector.util.DruidUtil;
 
 import java.sql.ResultSet;

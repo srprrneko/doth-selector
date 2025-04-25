@@ -1,7 +1,7 @@
 package com.doth.selector.executor.basic.query;
 
 import com.doth.selector.anno.Overload;
-import com.doth.selector.coordinator.supports.mapper.ResultSetMapper;
+import com.doth.selector.coordinator.mapper.ResultSetMapper;
 import com.doth.selector.executor.basic.BasicKindQueryExecutor;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
 

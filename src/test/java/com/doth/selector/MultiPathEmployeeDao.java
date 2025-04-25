@@ -25,6 +25,9 @@ public abstract class MultiPathEmployeeDao extends Selector<Employee> {
     // 预期生成的列键: t2.office_code (办公地点代码)
     public abstract List<Employee> queryByEmployeeDepartmentDepartmentOfficeOfficeCode(String code);
 
+
+    public abstract List<Employee> queryByEmployeeDepartmentDepartmentOfficeOfficeCodeVzCompanyName(String code, String name);
+
     // // 测试用例3: 复杂驼峰嵌套（4层关联）
     // // 条件段解析: DepartmentOfficeLocationCity → departmentOffice.officeLocation.locCity
     // // 预期生成的列键: t3.location_city (所在城市)

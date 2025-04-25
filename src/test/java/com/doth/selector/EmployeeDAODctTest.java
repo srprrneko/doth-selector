@@ -117,7 +117,7 @@ public class EmployeeDAODctTest {
     @Test
     public void testQueryByDepartmentIdVzName() {
         long start = System.currentTimeMillis();
-        List<Employee> employees = dao.queryByDepartmentIdVzName(1, "张%");
+        List<Employee> employees = dao.queryByDepartmentIdVzName(1, "张三");
         long end = System.currentTimeMillis();
         System.out.println("employees = " + employees);
         System.out.println("总耗时" + (end - start));

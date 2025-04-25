@@ -1,7 +1,7 @@
 
-package com.doth.selector.coordinator.supports.convertor.join;
+package com.doth.selector.coordinator.convertor.join;
 import com.doth.selector.anno.Join;
-import com.doth.selector.coordinator.supports.convertor.BeanConvertor;
+import com.doth.selector.coordinator.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -22,8 +22,10 @@ import java.util.HashMap;
  *   3.类结构元缓存提升转换性能
  *   4.通过 JOIN_CACHE 缓存 MetaMap 对象，避免每次转换时重复解析类的关联结构
  */
-public class JoinBeanConvertor implements BeanConvertor {
-    
+public class JoinBeanConvertorV1 implements BeanConvertor {
+
+
+
     /**
      * 类结构元缓存器
      *
@@ -31,10 +33,10 @@ public class JoinBeanConvertor implements BeanConvertor {
      * Value: 解析完成的字段映射关系（包含普通字段和关联字段）
      */
     private static final Map<Class<?>, MetaMap> JOIN_CACHE = new HashMap<>();
-    
+
     /**
      * 字段赋值器缓存, 避免多次创建 MH 对象
-     * 
+     *
      * Key: 需要赋值的字段对象
      * Value: 通过MethodHandle生成的字段赋值器
      */
@@ -42,11 +44,11 @@ public class JoinBeanConvertor implements BeanConvertor {
 
     /**
      * 核心转换方法, 入口
-     * 
+     *
      * @param rs 包含联表查询结果的数据集（必须包含所有需要的字段）
      * @param beanClass 要转换的目标Bean类型
      * @return 包含完整嵌套结构的JavaBean
-     * 
+     *
      * 实现流程：
      * 1. 获取结果集元数据
      * 2. 从缓存获取或解析类结构映射
@@ -59,7 +61,7 @@ public class JoinBeanConvertor implements BeanConvertor {
     @Override
     public <T> T convert(ResultSet rs, Class<T> beanClass) throws Throwable {
         ResultSetMetaData meta = rs.getMetaData();
-        
+
         // 通过元缓存器 获取结构元
         MetaMap metaMap = JOIN_CACHE.computeIfAbsent(beanClass, clz -> {
             try {
@@ -69,7 +71,7 @@ public class JoinBeanConvertor implements BeanConvertor {
                 throw new RuntimeException("解析联表结构失败: " + e.getMessage(), e);
             }
         });
-        
+
         // 根据映射关系构建对象实例
         return buildJoinBean(rs, beanClass, metaMap);
     }
@@ -88,13 +90,16 @@ public class JoinBeanConvertor implements BeanConvertor {
         // 直接遍历类的所有字段
         for (Field field : clz.getDeclaredFields()) {
             field.setAccessible(true); // 开启访问权限
-            
+
             // 处理关联字段（带@JoinColumn注解）
             // Join joinColumn = field.getAnnotation(Join.class); // 直接通过该方式获取注解, 无需使用iAnnotationPresent进行判断, 后续再通过!=null来区分开来
 
             // if (joinColumn != null) {
-            // 如果注解存在但代理类生成失败，此处可能抛出异常, 防御性编程, 实则没有多大用处
             if (field.isAnnotationPresent(Join.class)) { // 第二种方式, 先判断在获取, 避免由运行时期的注解自动返回的动态代理类, 注解代理类, 带来的空指针异常
+                // 判断当前关联的对象 是否和主表的关联 形成一对一关联  防止一对一死递归的问题
+
+
+
                 Join join = field.getAnnotation(Join.class);
 
                 String fkColumn = join.fk();  // 获取外键列名
@@ -113,7 +118,7 @@ public class JoinBeanConvertor implements BeanConvertor {
                     metaMap.addNestedMeta(field, refMapping, fkColumn, refColumn);
                 }
 
-            // 处理普通字段
+                // 处理普通字段
             } else {
                 String columnName = prefix + field.getName();  // 构造完整列名
                 if (columnExists(meta, columnName)) {
@@ -156,14 +161,14 @@ public class JoinBeanConvertor implements BeanConvertor {
             Field k = entry.getKey();  // 获取字段键
             Object v = rs.getObject(entry.getValue()); // 获取字段对应的列名
 
-            setFieldValue(bean, k, v);  // 使用缓存setter + 方法句柄 进行赋值`  
+            setFieldValue(bean, k, v);  // 使用缓存setter + 方法句柄 进行赋值`
         }
 
         // 处理关联对象
         for (Map.Entry<Field, MetaMap> entry : metaMap.getNestedMeta().entrySet()) {
             Field field = entry.getKey();
             MetaMap nestedMeta = entry.getValue();
-            
+
             // 获取外键信息
             String fkColumn = metaMap.getFkColumn(field);
             String refColumn = metaMap.getRefColumn(field);

@@ -1,7 +1,7 @@
 package com.doth.selector.coordinator.supports.sqlgenerator.facede;
 
 import com.doth.selector.coordinator.supports.sqlgenerator.tool.AliasConvertUtil;
-import com.doth.selector.coordinator.supports.sqlgenerator.tool.DynamicQueryGenerator;
+import com.doth.selector.coordinator.supports.sqlgenerator.tool.AutoQueryGenerator;
 import com.doth.selector.coordinator.supports.sqlgenerator.builder.SqlBuilder;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
 
@@ -75,7 +75,7 @@ public class SelectGenerateFacade {
     public static String generateJoin4map(Class<?> clz, LinkedHashMap<String, Object> conditions) {
         // 生成联查sql
         long start = System.currentTimeMillis();
-        String baseSql = DynamicQueryGenerator.generated(clz);
+        String baseSql = AutoQueryGenerator.generated(clz);
         long end = System.currentTimeMillis();
         System.out.println("\"生成联查sql\" = " + (end - start));
 
@@ -88,13 +88,14 @@ public class SelectGenerateFacade {
     }
 
     public static <T> String generateJoin4mapVzClause(Class<T> beanClass, LinkedHashMap<String, Object> condBean, String strClause) {
-        String baseSql = DynamicQueryGenerator.generated(beanClass);
+        String baseSql = AutoQueryGenerator.generated(beanClass);
         String finalSql = AliasConvertUtil.generateAliases(baseSql);
         return buildWhereClause(finalSql, condBean, strClause);
     }
 
     public static <T> String generateJoin4builder(Class<T> beanClass, ConditionBuilder builder) {
-        String baseSql = DynamicQueryGenerator.generated(beanClass);
-        return baseSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullSql());
+        String baseSql = AutoQueryGenerator.generated(beanClass);
+        String finalSql = AliasConvertUtil.generateAliases(baseSql);
+        return finalSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullSql());
     }
 }

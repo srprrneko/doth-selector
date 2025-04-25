@@ -98,10 +98,10 @@ public class AliasConvertUtil {
     }
 
     public static void main(String[] args) {
-        String originalSql = "select t0.id, t0.name, t0.d_id, t1.name, t1.com_id, t2.name "
-                + "from employee t0 "
-                + "join department t1 ON t0.d_id = t1.id "
-                + "join company t2 on t1.com_id = t2.id ";
+        String originalSql = "select t0.id, t0.name, t0.d_id, t1.name, t1.com_id, t2.name\n" +
+                "from employee t0\n" +
+                "join department t1 ON t0.d_id = t1.id\n" +
+                "join company t2 ON t1.com_id = t2.id";
 
         System.out.println(generateAliases(originalSql));
     }

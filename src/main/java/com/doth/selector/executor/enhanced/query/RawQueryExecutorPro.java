@@ -1,6 +1,6 @@
 package com.doth.selector.executor.enhanced.query;
 
-import com.doth.selector.coordinator.supports.mapper.ResultSetMapper;
+import com.doth.selector.coordinator.mapper.ResultSetMapper;
 import com.doth.selector.executor.enhanced.JoinExecutor;
 
 import java.util.List;

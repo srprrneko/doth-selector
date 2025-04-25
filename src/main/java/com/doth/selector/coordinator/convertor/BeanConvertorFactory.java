@@ -1,8 +1,9 @@
-package com.doth.selector.coordinator.supports.convertor;
+package com.doth.selector.coordinator.convertor;
 
-import com.doth.selector.coordinator.supports.convertor.join.JoinBeanConvertor;
-import com.doth.selector.coordinator.supports.convertor.strict.CommonBeanConvertorLv;
-import com.doth.selector.coordinator.supports.convertor.strict.CommonBeanConvertor;
+import com.doth.selector.coordinator.convertor.join.JoinBeanConvertor;
+import com.doth.selector.coordinator.convertor.join.JoinBeanConvertorV1;
+import com.doth.selector.coordinator.convertor.strict.CommonBeanConvertorLv;
+import com.doth.selector.coordinator.convertor.strict.CommonBeanConvertor;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class BeanConvertorFactory {
         // 绑定枚举与转换器
         // instances.put(ConvertorType.MULTI_JOIN, new JoinBeanConvertorPro()); // 多表连接
         instances.put(ConvertorType.LIGHT, new CommonBeanConvertorLv()); // 轻量级 light_version
-        instances.put(ConvertorType.JOIN_MAP, new JoinBeanConvertor()); // 多表转换器
+        instances.put(ConvertorType.JOIN_MAP, new JoinBeanConvertorV1()); // 多表转换器
         instances.put(ConvertorType.STRICT, new CommonBeanConvertor());
         instances.put(ConvertorType.LENIENT, null); // 或许可扩展
 

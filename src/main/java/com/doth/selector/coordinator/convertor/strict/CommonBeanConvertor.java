@@ -1,8 +1,8 @@
-package com.doth.selector.coordinator.supports.convertor.strict;
+package com.doth.selector.coordinator.convertor.strict;
 
 
 import com.doth.selector.exception.NoColumnExistException;
-import com.doth.selector.coordinator.supports.convertor.BeanConvertor;
+import com.doth.selector.coordinator.convertor.BeanConvertor;
 
 import java.lang.reflect.Field;
 import java.sql.ResultSet;

@@ -107,12 +107,16 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      */
     public abstract List<Employee> queryByName(String name);
 
-    // 演示通过部门编号和员工姓名 查询员工
-    // 故意传参数少传
+    /**
+     * 通过部门编号和员工姓名 查询员工
+     * @param id 部门编号
+     * @param name 员工姓名
+     * @return 员工列表
+     */
     public abstract List<Employee> queryByDepartmentIdVzName(Integer id, String name);
 
     // @EnhanceBuilder
-    // public abstract List<Employee> queryByAgeGt(int how);
+    public abstract List<Employee> queryByIdGtVzNameLike(int how, String name);
     ////////////////////////////////////////////////// END 固定, 模版方式查询 END //////////////////////////////////////////////////
 
 
