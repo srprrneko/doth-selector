@@ -1,5 +1,6 @@
 package com.doth.selector.testbean.join;
 
+import com.doth.selector.anno.Entity;
 import com.doth.selector.anno.Id;
 import com.doth.selector.anno.Join;
 
@@ -15,9 +16,12 @@ import com.doth.selector.anno.Join;
  *      select from dept where d_id = ?
  * @v: 1.0
  */
+@Entity
 public class Employee {
+
     @Id
     private Integer id; // e_id
+
     private String name; // as employee_name
 
     // dept_id -> 1
@@ -25,6 +29,17 @@ public class Employee {
 
     @Join(fk = "d_id", refFK = "id")
     private Department department;
+    /*
+        student {
+            id
+            class_id
+        }
+
+        class {
+            id
+            ...
+        }
+     */
 
     public Employee() {
     }

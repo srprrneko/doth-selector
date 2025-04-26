@@ -13,7 +13,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    <!-- 艺峰泥嚎 -->
     <dependencies>
         <!-- MySQL Connector/J 依赖 -->
         <dependency>

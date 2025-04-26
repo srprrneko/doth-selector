@@ -109,11 +109,20 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     /**
      * 通过部门编号和员工姓名 查询员工
-     * @param id 部门编号
+     *
+     * @param id   部门编号 where name
      * @param name 员工姓名
      * @return 员工列表
      */
-    public abstract List<Employee> queryByDepartmentIdVzName(Integer id, String name);
+    // by -> 条件
+    // with -> Vz and
+    // greater than -> gt
+    // greater equal -> ge
+    // less than -> lt
+    // less equal -> le
+    // in
+    //                             queryByIdAndDepartmentName
+    public abstract List<Employee> queryByDepartmentIdGtVzNameLike(Integer id, String name);
 
     // @EnhanceBuilder
     public abstract List<Employee> queryByIdGtVzNameLike(int how, String name);
@@ -223,12 +232,6 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     // 演示raw 查询
     public List<Employee> queryByNameAndDepartmentIds9() {
         return raw$().query2Lst(
-                // 自定义不依赖固定表别名, 但是依赖固定表列别名
-                // "SELECT t0.id, t0.name, t0.d_id, " + // 查询从表主键使用主表外键替代
-                //         "t1.name FROM employee t0 " +
-                //         "LEFT JOIN department t1 ON t0.d_id = t1.id " +
-                //         "WHERE t0.name LIKE ? AND t1.id IN (?, ?, ?) " +
-                //         "ORDER BY t0.id DESC",
                 "SELECT emp.id, emp.name, emp.d_id, " + // 查询从表主键使用主表外键替代
                         "dep.name FROM employee emp " +
                         "JOIN department dep ON emp.d_id = dep.id " +
