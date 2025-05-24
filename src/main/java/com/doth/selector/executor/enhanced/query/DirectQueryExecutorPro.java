@@ -3,7 +3,7 @@ package com.doth.selector.executor.enhanced.query;
 import com.doth.selector.anno.Overload;
 import com.doth.selector.coordinator.mapper.ResultSetMapper;
 import com.doth.selector.executor.enhanced.JoinExecutor;
-import com.doth.selector.util.adapeter.EntityAdapter;
+import com.doth.selector.common.util.adapeter.EntityAdapter;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,12 +24,12 @@ public class DirectQueryExecutorPro<T> extends JoinExecutor<T> {
         return coordinator.queryByMap(super.beanClass,(LinkedHashMap<String, Object>) null);
     }
     @Overload
-    public List<T> query2Lst(T t) {
+    public List<T> query2Lst(T t) { // 参数是t的方法重载, 表示以一个实体为条件传递过来
         LinkedHashMap<String, Object> condMap = EntityAdapter.extractNestedFields(t);
         return coordinator.queryByMap(super.beanClass, condMap);
     }
     @Overload
-    public List<T> query2Lst(LinkedHashMap<String, Object> cond) {
+    public List<T> query2Lst(LinkedHashMap<String, Object> cond) { // 以map为条件的重载
         return coordinator.queryByMap(super.beanClass, cond);
     }
 

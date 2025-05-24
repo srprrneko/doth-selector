@@ -7,7 +7,7 @@ import com.doth.selector.executor.basic.query.RawQueryExecutor;
 import com.doth.selector.executor.enhanced.query.BuilderQueryExecutorPro;
 import com.doth.selector.executor.enhanced.query.DirectQueryExecutorPro;
 import com.doth.selector.executor.enhanced.query.RawQueryExecutorPro;
-import com.doth.selector.core.ExecutorType;
+import com.doth.selector.core.model.ExecutorType;
 import com.doth.selector.core.factory.CreateExecutorFactory;
 
 import java.util.function.Supplier;

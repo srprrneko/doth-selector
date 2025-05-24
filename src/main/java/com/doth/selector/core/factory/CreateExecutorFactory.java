@@ -1,7 +1,7 @@
 package com.doth.selector.core.factory;
 
 import com.doth.selector.executor.basic.BasicKindQueryExecutor;
-import com.doth.selector.core.ExecutorType;
+import com.doth.selector.core.model.ExecutorType;
 
 /**
  * 执行器工厂接口（允许自定义实现）

@@ -7,9 +7,9 @@ import com.doth.selector.executor.supports.builder.ConditionBuilder;
 
 import java.util.LinkedHashMap;
 
-import static com.doth.selector.util.adapeter.SqlNormalizer.replaceWildcard;
+import static com.doth.selector.common.util.adapeter.SqlNormalizer.replaceWildcard;
 import static com.doth.selector.coordinator.supports.sqlgenerator.builder.SqlBuilder.buildWhereClause;
-import static com.doth.selector.util.CamelSnakeConvertUtil.camel2SnakeCase;
+import static com.doth.selector.common.util.CamelSnakeConvertUtil.camel2SnakeCase;
 import static com.doth.selector.coordinator.supports.sqlgenerator.builder.SqlBuilder.buildFieldList;
 
 /**
@@ -94,8 +94,18 @@ public class SelectGenerateFacade {
     }
 
     public static <T> String generateJoin4builder(Class<T> beanClass, ConditionBuilder builder) {
+        // 生成联查sql
+        long start = System.currentTimeMillis();
         String baseSql = AutoQueryGenerator.generated(beanClass);
+        long end = System.currentTimeMillis();
+        System.out.println("\"生成联查sql\" = " + (end - start));
+
+        long start1 = System.currentTimeMillis();
+        // 起别名耗时
         String finalSql = AliasConvertUtil.generateAliases(baseSql);
+        long end1 = System.currentTimeMillis();
+        System.out.println("\"起别名耗时\" = " + (end1 - start1));
+
         return finalSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullSql());
     }
 }

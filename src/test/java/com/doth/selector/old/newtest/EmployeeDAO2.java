@@ -1,9 +1,9 @@
 package com.doth.selector.old.newtest;
 
 import com.doth.selector.core.Selector;
-import com.doth.selector.testbean.join.Company;
-import com.doth.selector.testbean.join.Department;
-import com.doth.selector.testbean.join.Employee;
+import com.doth.selector.common.testbean.join.Company;
+import com.doth.selector.common.testbean.join.Department;
+import com.doth.selector.common.testbean.join.Employee;
 
 import java.util.List;
 

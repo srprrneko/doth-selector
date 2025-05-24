@@ -2,7 +2,7 @@ package com.doth.selector;
 
 import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.core.Selector;
-import com.doth.selector.testbean.join.Employee;
+import com.doth.selector.common.testbean.join.Employee;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -18,20 +18,6 @@ import java.util.List;
 @CreateDaoImpl
 public abstract class EmployeeDAO extends Selector<Employee> {
 
-    // 模拟 service 聚合
-    // private EmployeeDAO dao = new EmployeeDAOImpl();
-
-    ////////////////////////////////////////////////// START 固定, 模版方式查询 START //////////////////////////////////////////////////
-    /**
-     * 查询全部
-     * @return 员工列表
-     */
-    public List<Employee> queryAll() {
-        return dct$().query2Lst();
-    }
-
-
-
 
     /**
      * 根据ID查询员工
@@ -41,10 +27,16 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         LinkedHashMap<String, Object> params = new LinkedHashMap<>();
         params.put("t0.id", 1);
 
-        return dct$().query2Lst(params);
+        return dct$().query2Lst(params); // map为参数
     }
 
 
+
+    /*
+        ================================================================================================
+        我们一般 开发的时候 都会出现 一种 条件组合的形式, 导致我们的报错原因 或是
+        ================================================================================================
+     */
 
 
     /**
@@ -52,11 +44,29 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      * @return 员工列表
      */
     public List<Employee> queryById2() {
+        // 模拟controller自动解析json结构
         Employee employee = new Employee();
         employee.setId(1);
 
-        return dct$().query2Lst(employee);
+        return dct$().query2Lst(employee); // 这是带实体参数的 ,重载 表示前端需要传递一个 实体条件, 解决了map字符串繁琐手写键值对的问题
     }
+
+
+
+    /**
+     * 根据姓名和部门ID列表查询员工
+     * @return 员工列表
+     */
+    public List<Employee> queryByNameAndDepartmentIds3() {
+        LinkedHashMap<String, Object> params = new LinkedHashMap<>();
+
+        params.put("t0.name", "张三%"); // 自动对应 like 张三% 条件为识别到 '%'
+        params.put("t1.id", Arrays.asList(1, 2, 3)); // 自动对应 and t1.id in(1,2,3) 条件是识别到 Collection
+
+        return dct$().query2Lst(params);
+    }
+
+
 
     /**
      * 根据姓名和部门ID查询员工
@@ -65,11 +75,13 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     public List<Employee> queryByNameAndDepartmentId1() {
         LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
-        params.put("t0.name", "张三"); // >> t0 代表主表 todo: 可能考虑后续通过别名替换的方式, 增加自由度提高阅读性, 但底层执行的还是t0., 修改这个缺点: emp.id -> t0.id
-        params.put("t1.id", 1); // >> t1 代表第一张从表
+        params.put("t0.name", "张三"); // >> t0 代表主表 todo: 可能考虑后续通过注解标注别名替换的方式, 增加自由度提高阅读性, 但底层执行的还是t0., 修改这个缺点: emp.id -> t0.id
+        params.put("t1.id", 1); // >> t1 代表第一张从表 // tN 方式太过于难看, 所以第二版进行了优化 ↓
 
         return dct$().query2Lst(params);
     }
+
+
 
     /**
      * 根据员工对象查询员工
@@ -80,18 +92,86 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         return dct$().query2Lst(employee);
     }
 
-    /**
-     * 根据姓名和部门ID列表查询员工
-     * @return 员工列表
-     */
-    public List<Employee> queryByNameAndDepartmentIds3() {
-        LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
-        params.put("t0.name", "张三%"); // 自动对应 like 张三%
-        params.put("t1.id", Arrays.asList(1, 2, 3)); // 自动对应 and t1.id in(1,2,3)
 
-        return dct$().query2Lst(params);
+    // builder演示比较, 不等于空..
+    public List<Employee> queryByNameAndDepartmentIds5() {
+        return bud$().query2Lst(builder ->
+                builder.like("t0.name", "张三")
+                        .in("t1.id", 1, 2, 3)
+                        .isNotNull("t0.name") // 这样就有数据了 IsNull 是没有的
+        );
     }
+
+
+
+    // builder 演示大于, 小于, 大于等于...
+    public List<Employee> queryByNameAndDepartmentIds6() {
+        return bud$().query2Lst(builder -> // 复杂条件也没有问题, 十分灵活
+                builder.
+                    like("t0.name", "张%")
+                    .in("t1.id", Arrays.asList(1, 2, 3))
+                    .gt("t0.id", 1)  // greater than: >
+                    .lt("t0.id", 10) // less than: <
+                    .ge("t0.id", 1)  // greater equal: >=
+                    .le("t0.id", 10) // less equal: <=
+        );
+
+    }
+
+
+
+    // builder 演示分页
+    public List<Employee> queryByNameAndDepartmentIds7() {
+        return bud$().query2Lst(builder ->
+                builder
+                    .page("t0.id", 1, 5) // 游标分页, todo: 传统分页
+        );
+    }
+
+
+    // 自定义查询语法规则
+    // 1: 查询列表中, 不能包含从表主键, 而是使用主表外键替代, 这是因为内部仅对主表外键做了处理,
+    // 虽然可以使用从表主键, 但会自动替换为主表外键, 这是没有意义的
+    // 2. 确保连接条件 (on) 中, 左侧是外键, 这是sql的规范, 也是底层映射的强制约束
+    // 3. 强制不能通过 as 对列起别名, 这是因为内部做了自动 列别名的处理, 否则会报错
+    // 演示raw 查询
+    public List<Employee> queryByNameAndDepartmentIds9() {
+
+        return raw$().query2Lst( // 对于不查询的列赋值为空
+                "SELECT " +
+                        "emp.id, emp.name, emp.d_id, " + // 查询从表主键使用主表外键替代
+                        "dep.name FROM employee emp " +
+                        "JOIN department dep ON emp.d_id = dep.id " +
+                        "WHERE emp.name LIKE ? AND dep.id IN (?, ?, ?) " +
+                        "ORDER BY emp.id DESC",
+
+                "张%", List.of(1,2,3) // 底层自动展开参数
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 通过 员工的 部门名称 查询员工
@@ -114,14 +194,6 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      * @param name 员工姓名
      * @return 员工列表
      */
-    // by -> 条件
-    // with -> Vz and
-    // greater than -> gt
-    // greater equal -> ge
-    // less than -> lt
-    // less equal -> le
-    // in
-    //                             queryByIdAndDepartmentName
     public abstract List<Employee> queryByDepartmentIdGtVzNameLike(Integer id, String name);
 
     // @EnhanceBuilder
@@ -132,115 +204,14 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
 
     ////////////////////////////////////////////////// START 以条件构建者(ConditionBuilder)为核心, 结合模版 查询 START //////////////////////////////////////////////////
-    // builder演示比较, 等于空, 不等于空..
-    public List<Employee> queryByNameAndDepartmentIds5() {
-        return bud$().query2Lst(builder ->
-                builder.like("t0.name", "张%")
-                        .in("t1.id", Arrays.asList(1, 2, 3))
-                        .isNotNull("t0.name")
-                );
-    }
-    // builder 演示大于, 小于, 大于等于...
-    public List<Employee> queryByNameAndDepartmentIds6() {
 
-        // then(employee::getName, LIKE);
-        return bud$().query2Lst(builder ->
-                builder.
-                        like("t0.name", "张%")
-                        .in("t1.id", Arrays.asList(1, 2, 3))
-                        .gt("t0.id", 1)  // greater than: >
-                        .lt("t0.id", 10) // less than: <
-                        .ge("t0.id", 1)  // greater equal: >=
-                        .le("t0.id", 10) // less equal: <=
-        );
-        /*
-            return builder
-            .then(emp.getDepartmentName(), LIKE) // emp.department -> 从表 -> t1
-            .then(emp.getName(), EQ)          // emp -> 主表 -> t0
-
-         */
-
-        /*
-        目前问题: 手动别名, 看着疑惑
-            select ... from ... join ... on
-            where t0.like = ?
-            t1.id in (?,?)
-
-        增强builder
-            builder.
-                then(emp.getName(), LIKE)
-
-                then(Method)
-                    bean = method.getClz()
-
-                    bean.for:fields[]
-                        if (f.isAnnoPresent(@Join.clz)) {
-                            t++
-                        }
-                    Object n = method.invoke
-
-
-
-         */
-        /*
-        使用例:
-        .then(pojo.getProperty(), LK)
-        ...
-
-        clz EnhanceBuilder extends Selector<T> // 继承Selector共享泛型
-
-            static EnhanceBuilder then(Method getter, String equalStrategy) {
-            }
-
-            static void end(){
-            }
-
-
-
-
-
-         */
-    }
-    // builder 演示分页
-    public List<Employee> queryByNameAndDepartmentIds7() {
-        return bud$().query2Lst(builder ->
-                builder
-                        // .in("t1.id", Arrays.asList(1, 2, 3))
-                        .page("t0.id", 1, 5) // 游标分页, todo: 传统分页
-        );
-    }
-    // builder 演示自定义子句实现排序 todo : 待完善
-    public List<Employee> queryByNameAndDepartmentIds8() {
-        return bud$().query2Lst(builder ->
-                builder.like("t0.name", "张%")
-                        // .in("t1.id", Arrays.asList(1, 2, 3))
-                        .raw("order by t0.id DESC") // 自定义子句
-                // 注意: raw 仅仅支持固定的条件子句, 例如排序, 其他的带参数的无法实现, 下面有替代方式
-        );
-    }
 
     ////////////////////////////////////////////////// END 以条件构建者为核心, 结合模版 查询 END //////////////////////////////////////////////////
 
 
 
     ////////////////////////////////////////////////// START 以自定义sql为核心 START //////////////////////////////////////////////////
-    // 自定义语法规则
-    // 1: 查询列表中, 不能包含从表主键, 而是使用主表外键替代, 这是因为内部仅对主表外键做了处理,
-    // 虽然可以使用从表主键, 但会自动替换为主表外键, 这是没有意义的
-    // 2. 确保连接条件 (on) 中, 左侧是外键, 这是sql的规范, 也是底层映射的强制约束
-    // 3. 强制不能通过 as 对列起别名, 这是因为内部做了自动 列别名的处理, 否则会报错
-    // 演示raw 查询
-    public List<Employee> queryByNameAndDepartmentIds9() {
-        return raw$().query2Lst(
-                "SELECT emp.id, emp.name, emp.d_id, " + // 查询从表主键使用主表外键替代
-                        "dep.name FROM employee emp " +
-                        "JOIN department dep ON emp.d_id = dep.id " +
-                        "WHERE emp.name LIKE ? AND dep.id IN (?, ?, ?) " +
-                        "ORDER BY emp.id DESC",
 
-                "张%", 1, 2, 3
-        );
-    }
 
     ////////////////////////////////////////////////// END 以自定义sql为核心 END //////////////////////////////////////////////////
 }

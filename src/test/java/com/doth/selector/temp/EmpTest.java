@@ -2,7 +2,7 @@ package com.doth.selector.temp;
 
 import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.core.Selector;
-import com.doth.selector.testbean.join.Employee;
+import com.doth.selector.common.testbean.join.Employee;
 
 /**
  * @author 贤

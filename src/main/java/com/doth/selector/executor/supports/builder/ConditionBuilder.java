@@ -2,7 +2,11 @@
 package com.doth.selector.executor.supports.builder;
 
 
+import com.doth.selector.common.SFunction;
+// import com.doth.selector.temp.MethodReferenceParserV1;
+
 import java.util.*;
+
 
 
 /**
@@ -22,6 +26,15 @@ public class ConditionBuilder {
     // 分页处理器（组合模式） 隔离分页逻辑
     private final BuilderPage pagination = new BuilderPage();
 
+    // todo:
+    private Class<?> clz;
+
+    public ConditionBuilder(){}
+
+    public ConditionBuilder(Class<?> clz) {
+        this.clz = clz;
+    }
+
     /**
      * 等于条件（eq = Equal）
      * @param field 字段名
@@ -31,6 +44,14 @@ public class ConditionBuilder {
         appendCondition(field + " = ?", value);
         return this;
     }
+
+    public <T, R> ConditionBuilder eq(SFunction<T, R> lambda, Object value) {
+        // LbdMeta info = LambdaFieldPathResolver.cvnLbd2Meta(lambda);
+        // return eq(info.getFieldName(),value);
+        return null;
+    }
+
+
 
     /**
      * 大于条件（gt = Greater Than）
@@ -87,6 +108,19 @@ public class ConditionBuilder {
     }
 
     /**
+     * NOT IN查询（not in = 多值匹配）
+     * @param field 字段名
+     * @param values 值数组
+     */
+    public ConditionBuilder nin(String field, Object... values) {
+        // 创建与参数数量相同的"?"占位符列表（如["?","?","?"]）
+        // 使用Collections.nCopies生成指定数量的占位符，配合String.join实现IN语句参数动态化
+        String placeholders = String.join(",", Collections.nCopies(values.length, "?"));
+        appendCondition(field + " not in (" + placeholders + ")", values);
+        return this;
+    }
+
+    /**
      * 不等于（ne = Not Equal）
      * @param field 字段名
      * @param value 比较值
@@ -135,7 +169,7 @@ public class ConditionBuilder {
     }
 
     /**
-     * todo: 难以动态化
+     * todo: 正在优化
      * 自定义条件（raw = 原生SQL）
      * @param rawClause 原生条件语句
      * @param values 对应参数

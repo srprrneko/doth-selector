@@ -2,6 +2,7 @@ package com.doth.selector.core;
 
 import com.doth.selector.core.factory.CreateExecutorFactory;
 import com.doth.selector.core.factory.impl.DefaultCreateExecutorFactory;
+import com.doth.selector.core.model.ExecutorType;
 import com.doth.selector.executor.basic.BasicKindQueryExecutor;
 import com.doth.selector.executor.basic.query.BuilderQueryExecutor;
 import com.doth.selector.executor.basic.query.DirectQueryExecutor;
@@ -41,9 +42,6 @@ public class Selector<T> {
         // 指向实际实例化的子类, 例: this.class = EmpDAOImpl 而非 selector 本类
         // 用于解析逻辑从最底层的实现类开始，沿继承链向上查找，确保能定位到开发者定义的泛型参数。
         this.beanClass = resolveBeanClass(this.getClass());
-    }
-    public void then(Function<T, ?> getter, String type, Object value) {
-
     }
 
     @SuppressWarnings("unchecked")
@@ -119,9 +117,7 @@ public class Selector<T> {
         return getExecutor(beanClass, ExecutorType.BUILDER, BuilderQueryExecutor.class);
     }
 
-    public BuilderQueryExecutorPro<T> bud$() {
-        return getExecutor(beanClass, ExecutorType.BUILDER_PRO, BuilderQueryExecutorPro.class);
-    }
+    public BuilderQueryExecutorPro<T> bud$() {return getExecutor(beanClass, ExecutorType.BUILDER_PRO, BuilderQueryExecutorPro.class);}
 
 
     public RawQueryExecutor<T> raw() {
@@ -133,7 +129,7 @@ public class Selector<T> {
     }
 
 
-    public DirectQueryExecutor<T> dct() {
+    public DirectQueryExecutor<T> dct() { // 单表时可以使用
         return getExecutor(beanClass, ExecutorType.DIRECT, DirectQueryExecutor.class);
     }
 

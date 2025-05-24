@@ -1,11 +1,11 @@
 package com.doth.selector.coordinator.supports.sqlgenerator.builder;
 
-import com.doth.selector.util.AnnoNamingConvertUtil;
+import com.doth.selector.common.util.AnnoNamingConvertUtil;
 
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 
-import static com.doth.selector.util.AnnoNamingConvertUtil.camel2Snake;
+import static com.doth.selector.common.util.AnnoNamingConvertUtil.camel2Snake;
 
 
 public class SqlBuilder {

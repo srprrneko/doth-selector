@@ -1,7 +1,7 @@
 package com.doth.selector.old.newtest;
 
 import com.doth.selector.core.Selector;
-import com.doth.selector.testbean.Student;
+import com.doth.selector.common.testbean.Student;
 
 import java.util.List;
 

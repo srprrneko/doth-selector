@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="191546c3-4bb9-4ec1-89f0-58626937abab" name="Changes" comment="process nested entity one to one">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/codegena/ColumnPathResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/codegena/MethodBodyGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/core/ImplClassWriter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/model/ConditionStructure.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/SFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/temp/LambdaFieldPathResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/temp/LbdMeta.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/temp/MethodReferenceParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/EnhanceBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Mapping.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessorV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessorV2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/EntityProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/EntityProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/OverloadProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/OverloadProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/process/JoinExecuteCoordinator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/process/JoinExecuteCoordinator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/facede/SelectGenerateFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/facede/SelectGenerateFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/ExecutorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/model/ExecutorType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/Selector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/Selector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/CreateExecutorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/CreateExecutorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/impl/DefaultCreateExecutorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/impl/DefaultCreateExecutorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/DirectQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/DirectQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/RawQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/RawQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/testbean/join/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/testbean/join/Department.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/testbean/join/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/testbean/join/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/util/adapeter/EntityAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/util/adapeter/EntityAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAODctTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAODctTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Exception" />
+        <option value="MyDAO" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="D:\self-study2frs\catch\apache-maven-3.6.1-bin\apache-maven-3.6.1" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+        <option name="userSettingsFile" value="D:\self-study2frs\catch\apache-maven-3.6.1-bin\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="11" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2upeingecVtWUlb3TI18tPzVNlz" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="compactDirectories" value="true" />
+    <option name="flattenModules" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showModules" value="false" />
+    <option name="showScratchesAndConsoles" value="false" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AliasConvertUtil.executor": "Run",
+    "Application.AutoQueryGenerator.executor": "Run",
+    "Application.BaseDruidUtil.executor": "Run",
+    "Application.BuilderSqlTest.executor": "Run",
+    "Application.Department.executor": "Run",
+    "Application.DynamicQueryGenerator.executor": "Run",
+    "Application.DynamicSQLBuilder.executor": "Run",
+    "Application.Employee.executor": "Run",
+    "Application.EmployeeDAO.executor": "Run",
+    "Application.EmployeeDAO2.executor": "Run",
+    "Application.EntityAdapter.executor": "Run",
+    "Application.FixedMethodReferenceParser.executor": "Run",
+    "Application.JoinBeanConvertorV1.executor": "Run",
+    "Application.LambdaFieldPathResolver.executor": "Run",
+    "Application.LambdaParser.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.MethodReferenceParser.executor": "Run",
+    "Application.MethodReferenceParserFinal.executor": "Run",
+    "Application.MethodReferenceParserV1.executor": "Run",
+    "Application.MethodReferenceParserV2.executor": "Run",
+    "Application.MethodReferenceUtil.executor": "Run",
+    "Application.RawSqlTest.executor": "Run",
+    "Application.SelectorTest.executor": "Run",
+    "Application.SqlAliasGenerator.executor": "Run",
+    "Application.SqlAliasGenerator_v1.executor": "Run",
+    "Application.SqlGenerator_join.executor": "Run",
+    "Application.StableMethodReferenceParser.executor": "Run",
+    "Application.StudentDAO.executor": "Run",
+    "Application.StudentHandler.executor": "Run",
+    "Application.StudentSon.executor": "Run",
+    "Application.TempTest.executor": "Run",
+    "Application.Test.executor": "Run",
+    "Application.com.doth.stupidrefframe.selector.v1.core.EmployeeDAO.executor": "Run",
+    "Application.com.doth.stupidrefframe_v1.trygetgenericity.Main.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds5.executor": "Run",
+    "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds6.executor": "Run",
+    "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds7.executor": "Run",
+    "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds8.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryAll.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByDepartmentIdVzName.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByDepartmentName.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryById1.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryById2.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByName.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentId1.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentId2.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds3.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds5.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds6.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds7.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds9.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testAll.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testNew.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testQueryByDepartmentIdAndNameLike.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testQueryByDepartmentNameLikeAndAgeGt.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testQueryByName.executor": "Run",
+    "JUnit.EmployeeDAORawTest.testQueryByNameAndDepartmentIds9.executor": "Run",
+    "JUnit.EntityAdapter.testNormal.executor": "Run",
+    "JUnit.EntityAdapter.testRecursive.executor": "Run",
+    "JUnit.JoinBeanConvertorV1.main.executor": "Run",
+    "JUnit.JoinTest.test1.executor": "Run",
+    "JUnit.SelectorTest.test2.executor": "Run",
+    "JUnit.SelectorTest.test3.executor": "Run",
+    "JUnit.StudentDAO.queryDep.executor": "Run",
+    "Maven.selector [clean,install,--non-recursive].executor": "Run",
+    "Maven.selector [clean].executor": "Run",
+    "Maven.selector [compile].executor": "Run",
+    "Maven.selector [install,--non-recursive].executor": "Run",
+    "Maven.selector [install].executor": "Run",
+    "Maven.test02 [clean].executor": "Run",
+    "Maven.test02 [compile].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/贤/Desktop/temp/java-try/selector/src/main/java/com/doth/selector/temp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.3643678",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.doth.stupidrefframe_v1.testbean" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\贤\Desktop\temp\java-try\selector\src\main\java\com\doth\selector\temp" />
+      <recent name="C:\Users\贤\Desktop\temp\java-try\test02\src\main\java\com\doth" />
+      <recent name="C:\Users\贤\Desktop\temp\java-try\test02\src\main\java\com\doth\stupidrefframe_v1\selector\v1\core\coordinator\supports" />
+      <recent name="C:\Users\贤\Desktop\temp\java-try\test02\src\main\java\com\doth\loose\rubbish" />
+      <recent name="C:\Users\贤\Desktop\test02\src\main\java\com\doth" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.doth.selector" />
+      <recent name="com.doth.stupidrefframe_v1.selector.v1.executor.basic" />
+      <recent name="com.doth.stupidrefframe_v1.selector.v1" />
+      <recent name="com.doth.stupidrefframe_v1" />
+      <recent name="com.doth.stupidrefframe_v1.test" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.doth.selector.coordinator.convertor.join" />
+      <recent name="com.doth.selector.anno.processor" />
+      <recent name="com.doth.selector.testbean" />
+      <recent name="com.doth.stupidrefframe.selector.v1.core" />
+      <recent name="com.doth.stupidrefframe_v1.newtest" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.LambdaFieldPathResolver">
+    <configuration name="FixedMethodReferenceParser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.FixedMethodReferenceParser" />
+      <module name="selector" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.temp.LbdMeta" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LambdaFieldPathResolver" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.LambdaFieldPathResolver" />
+      <module name="selector" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.temp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MethodReferenceParser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.MethodReferenceParser" />
+      <module name="selector" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.temp.LbdMeta" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MethodReferenceParserV1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.MethodReferenceParserV1" />
+      <module name="selector" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.temp.LbdMeta" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StableMethodReferenceParser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.StableMethodReferenceParser" />
+      <module name="selector" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.temp.LbdMeta" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.LambdaFieldPathResolver" />
+        <item itemvalue="Application.MethodReferenceParserV1" />
+        <item itemvalue="Application.MethodReferenceParser" />
+        <item itemvalue="Application.StableMethodReferenceParser" />
+        <item itemvalue="Application.FixedMethodReferenceParser" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="191546c3-4bb9-4ec1-89f0-58626937abab" name="Changes" comment="" />
+      <created>1742950074077</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742950074077</updated>
+      <workItem from="1742950075310" duration="27531000" />
+      <workItem from="1742988931885" duration="473000" />
+      <workItem from="1742989425648" duration="42400000" />
+      <workItem from="1743084770770" duration="16673000" />
+      <workItem from="1743133531678" duration="9912000" />
+      <workItem from="1743179675550" duration="47077000" />
+      <workItem from="1743378397453" duration="63874000" />
+      <workItem from="1743578997026" duration="31141000" />
+      <workItem from="1743771105600" duration="27863000" />
+      <workItem from="1743872124615" duration="9035000" />
+      <workItem from="1743925918889" duration="29225000" />
+      <workItem from="1744078519489" duration="39732000" />
+      <workItem from="1744261384391" duration="10291000" />
+      <workItem from="1744356695373" duration="30560000" />
+      <workItem from="1744459802980" duration="317000" />
+      <workItem from="1744460137349" duration="4562000" />
+      <workItem from="1744536902314" duration="11810000" />
+      <workItem from="1744631219987" duration="27313000" />
+      <workItem from="1744770349164" duration="13121000" />
+      <workItem from="1744820506023" duration="16594000" />
+      <workItem from="1744875474377" duration="10320000" />
+      <workItem from="1744937288831" duration="5397000" />
+      <workItem from="1744975676724" duration="20028000" />
+      <workItem from="1745052271657" duration="8593000" />
+      <workItem from="1745089405273" duration="756000" />
+      <workItem from="1745090978650" duration="3870000" />
+      <workItem from="1745143486295" duration="5100000" />
+      <workItem from="1745162876472" duration="5483000" />
+      <workItem from="1745168921011" duration="449000" />
+      <workItem from="1745248607042" duration="2546000" />
+      <workItem from="1745283582271" duration="56000" />
+      <workItem from="1745283670331" duration="194000" />
+      <workItem from="1745571346244" duration="7789000" />
+      <workItem from="1745588260671" duration="708000" />
+      <workItem from="1745676912980" duration="2276000" />
+      <workItem from="1745712364344" duration="661000" />
+      <workItem from="1745800330053" duration="652000" />
+      <workItem from="1745855531252" duration="598000" />
+      <workItem from="1746266704309" duration="427000" />
+      <workItem from="1746267140932" duration="23526000" />
+      <workItem from="1746370007468" duration="5708000" />
+      <workItem from="1746437877255" duration="556000" />
+      <workItem from="1746438461912" duration="284000" />
+      <workItem from="1746438774166" duration="6239000" />
+      <workItem from="1746461284226" duration="2965000" />
+      <workItem from="1746489425427" duration="1288000" />
+      <workItem from="1746583154214" duration="617000" />
+      <workItem from="1746866884454" duration="10907000" />
+      <workItem from="1746946056090" duration="1451000" />
+      <workItem from="1747096442029" duration="1702000" />
+      <workItem from="1747180448679" duration="640000" />
+      <workItem from="1747267773509" duration="218000" />
+      <workItem from="1747473310903" duration="32204000" />
+      <workItem from="1747566249841" duration="3843000" />
+      <workItem from="1747614420567" duration="3888000" />
+      <workItem from="1747785779227" duration="1207000" />
+      <workItem from="1747791096823" duration="12662000" />
+      <workItem from="1747874454158" duration="639000" />
+      <workItem from="1747921017239" duration="1199000" />
+      <workItem from="1747983979604" duration="6944000" />
+    </task>
+    <task id="LOCAL-00001" summary="3/28 created in 5 days">
+      <option name="closed" value="true" />
+      <created>1743095177533</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1743095177533</updated>
+    </task>
+    <task id="LOCAL-00002" summary="3/28 created in 5 days">
+      <option name="closed" value="true" />
+      <created>1743128343717</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1743128343717</updated>
+    </task>
+    <task id="LOCAL-00003" summary="3/30 add multi join">
+      <option name="closed" value="true" />
+      <created>1743333994143</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743333994143</updated>
+    </task>
+    <task id="LOCAL-00004" summary="3/31 update&#10; 1.separate SelectorHelper.java duties &#10; 2.project structure &#10; - add [util] catalogue&#10; - add [core] catalogue&#10; - add [coordinator] catalogue&#10; - variety [convertor] catalogue&#10; - add sql catalogue">
+      <option name="closed" value="true" />
+      <created>1743352830009</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1743352830009</updated>
+    </task>
+    <task id="LOCAL-00005" summary="3/31 update&#10; 1.separate GeneratorHelper.java&#10; duties&#10; 2.add class &#10; - NamingConverter.java &#10; - ConditionResolver.java&#10; - ConditionParamBuilder.java&#10; - ConditionSqlParser.java&#10; - SqlBuilder.java&#10; 3.update class&#10; - SqlGenerator.java&#10; 4.delete class&#10; - GeneratorHelper.java">
+      <option name="closed" value="true" />
+      <created>1743397929233</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743397929233</updated>
+    </task>
+    <task id="LOCAL-00006" summary="4/5 update">
+      <option name="closed" value="true" />
+      <created>1743789854442</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1743789854442</updated>
+    </task>
+    <task id="LOCAL-00007" summary="4/8 refactor project structure&#10;add function &#10;1.auto multi entity structure mapper">
+      <option name="closed" value="true" />
+      <created>1744101456673</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1744101456673</updated>
+    </task>
+    <task id="LOCAL-00008" summary="4/8 update directory name">
+      <option name="closed" value="true" />
+      <created>1744116554163</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1744116554163</updated>
+    </task>
+    <task id="LOCAL-00009" summary="4/8 update directory name">
+      <option name="closed" value="true" />
+      <created>1744116778490</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744116778490</updated>
+    </task>
+    <task id="LOCAL-00010" summary="4/10 first commit v3">
+      <option name="closed" value="true" />
+      <created>1744266688285</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1744266688285</updated>
+    </task>
+    <task id="LOCAL-00011" summary="4/12 update&#10;add&#10;1.detail comment&#10;2.and|with auto method generate condition supports">
+      <option name="closed" value="true" />
+      <created>1744457929905</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1744457929905</updated>
+    </task>
+    <task id="LOCAL-00012" summary="4/12 update&#10;add&#10;1.more testing in&#10;com.doth.stupidrefframe.selector.v1.EmployeeDAO">
+      <option name="closed" value="true" />
+      <created>1744463008273</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1744463008273</updated>
+    </task>
+    <task id="LOCAL-00013" summary="4/14 update">
+      <option name="closed" value="true" />
+      <created>1744645831602</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1744645831602</updated>
+    </task>
+    <task id="LOCAL-00014" summary="4/14 update&#10;more cleaning comments;&#10;comments format;">
+      <option name="closed" value="true" />
+      <created>1744820641213</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1744820641213</updated>
+    </task>
+    <task id="LOCAL-00015" summary="4/17 happy time: &#10;back to development">
+      <option name="closed" value="true" />
+      <created>1744882287920</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1744882287920</updated>
+    </task>
+    <task id="LOCAL-00016" summary="process nested entity one to one">
+      <option name="closed" value="true" />
+      <created>1745574033346</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1745574033346</updated>
+    </task>
+    <task id="LOCAL-00017" summary="process nested entity one to one">
+      <option name="closed" value="true" />
+      <created>1745677137873</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1745677137873</updated>
+    </task>
+    <task id="LOCAL-00018" summary="process nested entity one to one">
+      <option name="closed" value="true" />
+      <created>1745677440778</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1745677440778</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="3/28 created in 5 days" />
+    <MESSAGE value="3/30 add multi join" />
+    <MESSAGE value="3/31 update&#10; 1.separate SelectorHelper.java duties &#10; 2.project structure &#10; - add [util] catalogue&#10; - add [core] catalogue&#10; - add [coordinator] catalogue&#10; - variety [convertor] catalogue&#10; - add sql catalogue" />
+    <MESSAGE value="3/31 update&#10; 1.separate GeneratorHelper.java&#10; duties&#10; 2.add class &#10; - NamingConverter.java &#10; - ConditionResolver.java&#10; - ConditionParamBuilder.java&#10; - ConditionSqlParser.java&#10; - SqlBuilder.java&#10; 3.update class&#10; - SqlGenerator.java&#10; 4.delete class&#10; - GeneratorHelper.java" />
+    <MESSAGE value="4/5 update" />
+    <MESSAGE value="4/8 refactor project structure&#10;add function &#10;1.auto multi entity structure mapper" />
+    <MESSAGE value="4/8 update directory name" />
+    <MESSAGE value="4/10 first commit v3" />
+    <MESSAGE value="4/12 update&#10;add&#10;1.detail comment&#10;2.and|with auto method generate condition supports" />
+    <MESSAGE value="4/12 update&#10;add&#10;1.more testing in&#10;com.doth.stupidrefframe.selector.v1.EmployeeDAO" />
+    <MESSAGE value="4/14 update" />
+    <MESSAGE value="4/14 update&#10;more cleaning comments;&#10;comments format;" />
+    <MESSAGE value="4/17 happy time: &#10;back to development" />
+    <MESSAGE value="lala" />
+    <MESSAGE value="process nested entity one to one" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/dev' into dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/dev' into dev" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

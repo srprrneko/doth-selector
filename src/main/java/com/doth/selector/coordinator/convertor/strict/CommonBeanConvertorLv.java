@@ -1,7 +1,7 @@
 package com.doth.selector.coordinator.convertor.strict;
 
 
-import com.doth.selector.exception.NoColumnExistException;
+import com.doth.selector.common.exception.NoColumnExistException;
 import com.doth.selector.coordinator.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.doth.selector.util.CamelSnakeConvertUtil.snake2CamelCase;
+import static com.doth.selector.common.util.CamelSnakeConvertUtil.snake2CamelCase;
 
 /**
  * 职责：将ResultSet中的行数据转换为指定 Bean 对象，轻量版

@@ -2,7 +2,7 @@ package com.doth.selector.executor.basic.query;
 
 import com.doth.selector.coordinator.mapper.ResultSetMapper;
 import com.doth.selector.executor.basic.BasicKindQueryExecutor;
-import com.doth.selector.util.adapeter.EntityAdapter;
+import com.doth.selector.common.util.adapeter.EntityAdapter;
 
 import java.util.LinkedHashMap;
 import java.util.List;

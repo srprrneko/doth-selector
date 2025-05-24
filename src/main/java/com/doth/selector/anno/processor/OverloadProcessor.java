@@ -29,14 +29,18 @@ import java.util.Set;
  *
  * @AutoService(Processor.class)          // 自动注册为SPI服务（通过auto-service库生成META-INF配置）[2,5](@ref)
  * @SupportedAnnotationTypes("com.doth...")// 指定处理的注解类型为@Overload
- * @SupportedSourceVersion(RELEASE_11)    // 支持Java 11语法
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("anno.com.doth.selector.v1.Overload")
-@SupportedSourceVersion(SourceVersion.RELEASE_11)
+@SupportedAnnotationTypes("com.doth.selector.anno.Overload")
 public class OverloadProcessor extends AbstractProcessor {
     private Types typeUtils;  // 类型操作工具（用于泛型擦除/继承关系判断）
     private Elements elementUtils; // 元素操作工具（用于获取包/类信息）
+
+    // 动态获取jdk最高版本
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latestSupported();
+    }
 
     @Override
     public synchronized void init(ProcessingEnvironment env) {
@@ -60,7 +64,7 @@ public class OverloadProcessor extends AbstractProcessor {
                 continue;
             }
 
-            // 转换为方法元素并获取所属类
+            // 强行转换为方法元素并获取所属类
             ExecutableElement method = (ExecutableElement) element;
             TypeElement classElement = (TypeElement) element.getEnclosingElement();
 

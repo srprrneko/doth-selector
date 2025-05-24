@@ -2,8 +2,7 @@ package com.doth.selector;
 
 import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.core.Selector;
-import com.doth.selector.testbean.join2.Employee;
-import org.junit.Test;
+import com.doth.selector.common.testbean.join2.Employee;
 
 import java.util.List;
 
@@ -28,19 +27,19 @@ public abstract class MultiPathEmployeeDao extends Selector<Employee> {
 
     public abstract List<Employee> queryByEmployeeDepartmentDepartmentOfficeOfficeCodeVzCompanyName(String code, String name);
 
-    // // 测试用例3: 复杂驼峰嵌套（4层关联）
-    // // 条件段解析: DepartmentOfficeLocationCity → departmentOffice.officeLocation.locCity
-    // // 预期生成的列键: t3.location_city (所在城市)
-    // public abstract List<Employee> queryByDepartmentOfficeLocationCity(String city);
-    //
-    // // 测试用例4: 混合条件段分割（With/Vz）
-    // // 分割后条件段: DepartmentId, Name
-    // // 预期生成的列键: t1.d_id (部门ID), t0.employee_name (员工姓名)
-    // public abstract List<Employee> queryByDepartmentIdWithName(Integer id, String name);
-    //
-    // // 错误测试用例: 无效字段路径
-    // // 预期行为: 编译器报错"无法找到字段: InvalidField"
-    // public abstract List<Employee> queryByDepartmentInvalidField(String invalid);
+    // 测试用例3: 复杂驼峰嵌套（4层关联）
+    // 条件段解析: DepartmentOfficeLocationCity → departmentOffice.officeLocation.locCity
+    // 预期生成的列键: t3.location_city (所在城市)
+    public abstract List<Employee> queryByEmployeeDepartmentDepartmentOfficeOfficeLocationLocCity(String city);
+
+    // 测试用例4: 混合条件段分割（With/Vz）
+    // 分割后条件段: DepartmentId, Name
+    // 预期生成的列键: t1.d_id (部门ID), t0.employee_name (员工姓名)
+    public abstract List<Employee> queryByDepartmentIdWithName(Integer id, String name);
+
+    // 错误测试用例: 无效字段路径
+    // 预期行为: 编译器报错"无法找到字段: InvalidField"
+    public abstract List<Employee> queryByDepartmentInvalidField(String invalid);
 
 
 

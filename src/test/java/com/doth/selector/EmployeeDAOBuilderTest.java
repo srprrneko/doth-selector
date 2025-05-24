@@ -1,9 +1,6 @@
 package com.doth.selector;// EmployeeDAOBuilderTest.java 测试类
-import com.doth.selector.testbean.join.Employee;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 public class EmployeeDAOBuilderTest {
     

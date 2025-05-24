@@ -1,7 +1,7 @@
 package com.doth.selector.old.newtest;
 
 import com.doth.selector.core.Selector;
-import com.doth.selector.testbean.join.Employee;
+import com.doth.selector.common.testbean.join.Employee;
 import org.junit.Test;
 
 import java.util.List;

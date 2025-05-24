@@ -3,14 +3,13 @@ package com.doth.selector.coordinator.supports.sqlgenerator.tool;
 import com.doth.selector.anno.Id;
 import com.doth.selector.anno.Join;
 import com.doth.selector.anno.OneToOne;
-import com.doth.selector.exception.NonPrimaryKeyException;
-import com.doth.selector.testbean.join3.User;
-import com.doth.selector.util.AnnoNamingConvertUtil;
-import com.doth.selector.util.CamelSnakeConvertUtil;
+import com.doth.selector.common.exception.NonPrimaryKeyException;
+import com.doth.selector.common.testbean.join3.User;
+import com.doth.selector.common.util.AnnoNamingConvertUtil;
+import com.doth.selector.common.util.CamelSnakeConvertUtil;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AutoQueryGenerator {
     private static final String MAIN_ALIAS = "t0"; // 默认主表别名
@@ -74,7 +73,7 @@ public class AutoQueryGenerator {
                     if (!field.isAnnotationPresent(OneToOne.class)) {
                         throw new RuntimeException("检测到未标注@OneToOne的相互持有关系: " +
                                 entity.getSimpleName() + "." + field.getName() +
-                                " ↔ " + mainEntity.getSimpleName() +
+                                " < (◣_◢) >" + mainEntity.getSimpleName() +
                                 "\n请使用@OneToOne标注或使用DTO解决循环引用");
                     }
                     continue;

@@ -2,13 +2,12 @@ package com.doth.selector.coordinator.core.process;
 
 import com.doth.selector.coordinator.core.ExecuteCoordinator;
 import com.doth.selector.coordinator.mapper.ResultSetMapper;
-import com.doth.selector.util.adapeter.EntityAdapter;
+import com.doth.selector.common.util.adapeter.EntityAdapter;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
 import com.doth.selector.coordinator.convertor.ConvertorType;
 import com.doth.selector.coordinator.supports.sqlgenerator.facede.SelectGenerateFacade;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author 贤
@@ -57,7 +56,16 @@ public class JoinExecuteCoordinator extends ExecuteCoordinator {
 
     @Override
     public <T> List<T> queryByRaw(Class<T> beanClass, String sql, Object... params) {
-        String finalSql = SelectGenerateFacade.cvn4joinRaw(sql); // 自动生成别名 cvn: convert
-        return executeQuery(beanClass, finalSql, params);
+        String finalSql = SelectGenerateFacade.cvn4joinRaw(sql); //  自动生成别名 cvn: convert
+        // 自动展开所有List/Collection参数
+        List<Object> finalParams = new ArrayList<>();
+        for (Object param : params) {
+            if (param instanceof Collection) {
+                finalParams.addAll((Collection<?>) param);
+            } else {
+                finalParams.add(param);
+            }
+        }
+        return executeQuery(beanClass, finalSql, finalParams.toArray());
     }
 }

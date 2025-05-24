@@ -2,7 +2,7 @@ package com.doth.selector.coordinator.core;
 
 import com.doth.selector.coordinator.mapper.ResultSetMapper;
 import com.doth.selector.coordinator.convertor.ConvertorType;
-import com.doth.selector.util.DruidUtil;
+import com.doth.selector.common.util.DruidUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
