@@ -1,6 +1,6 @@
 package com.doth.selector.common.testbean.join2;
 
-import com.doth.selector.anno.Join;
+import com.doth.selector.annotation.Join;
 
 // Profile.java
 public class Profile {

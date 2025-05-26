@@ -2,7 +2,9 @@
 package com.doth.selector.executor.supports.builder;
 
 
-import com.doth.selector.common.SFunction;
+import com.doth.selector.annotation.Overload;
+import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
+import com.doth.selector.executor.supports.lambda.SFunction;
 // import com.doth.selector.temp.MethodReferenceParserV1;
 
 import java.util.*;
@@ -13,7 +15,7 @@ import java.util.*;
  * SQL条件构建器，用于动态生成WHERE子句和分页查询
  * 使用示例：new EntityAdapter().eq("name", "Alice").page("id", 1000, 20).getFullSql()
  */
-public class ConditionBuilder {
+public class ConditionBuilder<T> {
     // where子句构建器
     // 使用StringBuilder处理频繁字符串拼接操作，相比String直接拼接更高效（避免多次创建String对象）
     private final StringBuilder whereClause = new StringBuilder();
@@ -27,12 +29,16 @@ public class ConditionBuilder {
     private final BuilderPage pagination = new BuilderPage();
 
     // todo:
-    private Class<?> clz;
+    private Class<T> entityClz;
+
+    public void setEntityClz(Class<T> entityClz) {
+        this.entityClz = entityClz;
+    }
 
     public ConditionBuilder(){}
 
-    public ConditionBuilder(Class<?> clz) {
-        this.clz = clz;
+    public ConditionBuilder(Class<T> entityClz) {
+        this.entityClz = entityClz;
     }
 
     /**
@@ -40,25 +46,17 @@ public class ConditionBuilder {
      * @param field 字段名
      * @param value 比较值
      */
-    public ConditionBuilder eq(String field, Object value) {
+    public ConditionBuilder<T> eq(String field, Object value) {
         appendCondition(field + " = ?", value);
         return this;
     }
-
-    public <T, R> ConditionBuilder eq(SFunction<T, R> lambda, Object value) {
-        // LbdMeta info = LambdaFieldPathResolver.cvnLbd2Meta(lambda);
-        // return eq(info.getFieldName(),value);
-        return null;
-    }
-
-
 
     /**
      * 大于条件（gt = Greater Than）
      * @param field 字段名
      * @param value 比较值
      */
-    public ConditionBuilder gt(String field, Object value) {
+    public ConditionBuilder<T> gt(String field, Object value) {
         appendCondition(field + " > ?", value);
         return this;
     }
@@ -68,7 +66,7 @@ public class ConditionBuilder {
      * @param field 字段名
      * @param value 比较值
      */
-    public ConditionBuilder lt(String field, Object value) {
+    public ConditionBuilder<T> lt(String field, Object value) {
         appendCondition(field + " < ?", value);
         return this;
     }
@@ -79,7 +77,7 @@ public class ConditionBuilder {
      * @param start 起始值
      * @param end 结束值
      */
-    public ConditionBuilder between(String field, Object start, Object end) {
+    public ConditionBuilder<T> between(String field, Object start, Object end) {
         appendCondition(field + " between ? and ?", start, end);
         return this;
     }
@@ -89,7 +87,7 @@ public class ConditionBuilder {
      * @param field 字段名
      * @param pattern 匹配模式（需包含%）
      */
-    public ConditionBuilder like(String field, String pattern) {
+    public ConditionBuilder<T> like(String field, String pattern) {
         appendCondition(field + " like ?", pattern);
         return this;
     }
@@ -99,7 +97,7 @@ public class ConditionBuilder {
      * @param field 字段名
      * @param values 值数组
      */
-    public ConditionBuilder in(String field, Object... values) {
+    public ConditionBuilder<T> in(String field, Object... values) {
         // 创建与参数数量相同的"?"占位符列表（如["?","?","?"]）
         // 使用Collections.nCopies生成指定数量的占位符，配合String.join实现IN语句参数动态化
         String placeholders = String.join(",", Collections.nCopies(values.length, "?"));
@@ -112,7 +110,7 @@ public class ConditionBuilder {
      * @param field 字段名
      * @param values 值数组
      */
-    public ConditionBuilder nin(String field, Object... values) {
+    public ConditionBuilder<T> nin(String field, Object... values) {
         // 创建与参数数量相同的"?"占位符列表（如["?","?","?"]）
         // 使用Collections.nCopies生成指定数量的占位符，配合String.join实现IN语句参数动态化
         String placeholders = String.join(",", Collections.nCopies(values.length, "?"));
@@ -125,7 +123,7 @@ public class ConditionBuilder {
      * @param field 字段名
      * @param value 比较值
      */
-    public ConditionBuilder ne(String field, Object value) {
+    public ConditionBuilder<T> ne(String field, Object value) {
         appendCondition(field + " != ?", value);
         return this;
     }
@@ -135,7 +133,7 @@ public class ConditionBuilder {
      * @param field 字段名
      * @param value 比较值
      */
-    public ConditionBuilder ge(String field, Object value) {
+    public ConditionBuilder<T> ge(String field, Object value) {
         appendCondition(field + " >= ?", value);
         return this;
     }
@@ -145,7 +143,7 @@ public class ConditionBuilder {
      * @param field 字段名
      * @param value 比较值
      */
-    public ConditionBuilder le(String field, Object value) {
+    public ConditionBuilder<T> le(String field, Object value) {
         appendCondition(field + " <= ?", value);
         return this;
     }
@@ -154,7 +152,7 @@ public class ConditionBuilder {
      * 空值检查（isNull = 字段为NULL）
      * @param field 字段名
      */
-    public ConditionBuilder isNull(String field) {
+    public ConditionBuilder<T> isNull(String field) {
         appendCondition(field + " is null");
         return this;
     }
@@ -163,7 +161,7 @@ public class ConditionBuilder {
      * 非空检查（isNotNull = 字段不为NULL）
      * @param field 字段名
      */
-    public ConditionBuilder isNotNull(String field) {
+    public ConditionBuilder<T> isNotNull(String field) {
         appendCondition(field + " is not null");
         return this;
     }
@@ -175,10 +173,88 @@ public class ConditionBuilder {
      * @param values 对应参数
      */
     @Deprecated
-    public ConditionBuilder raw(String rawClause, Object... values) {
+    public ConditionBuilder<T> raw(String rawClause, Object... values) {
         appendCondition(rawClause, values);
         return this;
     }
+
+    // region ============================== 重载 区域 ==============================
+    @Overload
+    public <R> ConditionBuilder<T> eq(SFunction<T, R> lambda, Object value) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return eq(field, value);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> gt(SFunction<T, R> lambda, Object value) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return gt(field, value);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> lt(SFunction<T, R> lambda, Object value) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return lt(field, value);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> ge(SFunction<T, R> lambda, Object value) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return ge(field, value);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> le(SFunction<T, R> lambda, Object value) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return le(field, value);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> ne(SFunction<T, R> lambda, Object value) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return ne(field, value);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> like(SFunction<T, R> lambda, String pattern) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return like(field, pattern);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> between(SFunction<T, R> lambda, Object start, Object end) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return between(field, start, end);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> in(SFunction<T, R> lambda, Object... values) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return in(field, values);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> nin(SFunction<T, R> lambda, Object... values) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return nin(field, values);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> isNull(SFunction<T, R> lambda) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return isNull(field);
+    }
+
+    @Overload
+    public <R> ConditionBuilder<T> isNotNull(SFunction<T, R> lambda) {
+        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        return isNotNull(field);
+    }
+
+    // endregion  ============================== 重载 区域 ==============================
+
+
+
 
     // 内部方法：追加条件和参数
     // 使用可变参数和Collections.addAll实现批量参数添加
@@ -197,7 +273,7 @@ public class ConditionBuilder {
      * @param cursorValue 游标起始值
      * @param pageSize 每页数量
      */
-    public ConditionBuilder page(String cursorField, Object cursorValue, int pageSize) {
+    public ConditionBuilder<T> page(String cursorField, Object cursorValue, int pageSize) {
         pagination.initPage(cursorField, cursorValue, pageSize);
         return this;
     }

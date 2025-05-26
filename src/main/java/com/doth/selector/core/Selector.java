@@ -3,20 +3,21 @@ package com.doth.selector.core;
 import com.doth.selector.core.factory.CreateExecutorFactory;
 import com.doth.selector.core.factory.impl.DefaultCreateExecutorFactory;
 import com.doth.selector.core.model.ExecutorType;
-import com.doth.selector.executor.basic.BasicKindQueryExecutor;
-import com.doth.selector.executor.basic.query.BuilderQueryExecutor;
-import com.doth.selector.executor.basic.query.DirectQueryExecutor;
-import com.doth.selector.executor.basic.query.RawQueryExecutor;
-import com.doth.selector.executor.enhanced.query.BuilderQueryExecutorPro;
-import com.doth.selector.executor.enhanced.query.DirectQueryExecutorPro;
-import com.doth.selector.executor.enhanced.query.RawQueryExecutorPro;
+import com.doth.selector.executor.query.basic.BasicKindQueryExecutor;
+import com.doth.selector.executor.query.basic.impl.BuilderQueryExecutor;
+import com.doth.selector.executor.query.basic.impl.DirectQueryExecutor;
+import com.doth.selector.executor.query.basic.impl.RawQueryExecutor;
+import com.doth.selector.executor.query.enhanced.impl.BuilderQueryExecutorPro;
+import com.doth.selector.executor.query.enhanced.impl.DirectQueryExecutorPro;
+import com.doth.selector.executor.query.enhanced.impl.RawQueryExecutorPro;
+import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
+import com.doth.selector.executor.supports.lambda.SFunction;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * 实体查询门面类 - 提供所有查询方法使用入口, 整合多种查询策略的执行器, 简化调用复杂度, 提高代码可读性
@@ -31,6 +32,11 @@ import java.util.function.Function;
 public class Selector<T> {
 
     protected Class<T> beanClass;
+
+    public Class<T> getBeanClass() {
+        return beanClass;
+    }
+
     // 默认执行器工厂（可通过替换实现扩展）
     private static CreateExecutorFactory createExecutorFactory = new DefaultCreateExecutorFactory();
     // 统一缓存：Class -> <执行器枚举,执行器实例>
@@ -117,7 +123,10 @@ public class Selector<T> {
         return getExecutor(beanClass, ExecutorType.BUILDER, BuilderQueryExecutor.class);
     }
 
-    public BuilderQueryExecutorPro<T> bud$() {return getExecutor(beanClass, ExecutorType.BUILDER_PRO, BuilderQueryExecutorPro.class);}
+    public BuilderQueryExecutorPro<T> bud$() {
+        return getExecutor(beanClass, ExecutorType.BUILDER_PRO, BuilderQueryExecutorPro.class);
+    }
+
 
 
     public RawQueryExecutor<T> raw() {
@@ -168,6 +177,12 @@ public class Selector<T> {
         }
         return (E) executor;
     }
+
+
+    public String field(SFunction<T, ?> lambda) {
+        return LambdaFieldPathResolver.resolve(lambda, beanClass);
+    }
+
 
 
 

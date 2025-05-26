@@ -33,7 +33,7 @@ public class BasicExecuteCoordinator extends ExecuteCoordinator {
     }
 
     @Override
-    public <T> List<T> queryByBuilder(Class<T> beanClass, ConditionBuilder builder) {
+    public <T> List<T> queryByBuilder(Class<T> beanClass, ConditionBuilder<T> builder) {
         String sql = SelectGenerateFacade.generate4builder(beanClass, builder);
         Object[] params = builder.getParams();
         return executeQuery(beanClass, sql, params);
@@ -47,7 +47,7 @@ public class BasicExecuteCoordinator extends ExecuteCoordinator {
     }
 
     @Override
-    public <T> List<T> queryByBuilderVzRaw(Class<T> beanClass, String sql, ConditionBuilder builder) {
+    public <T> List<T> queryByBuilderVzRaw(Class<T> beanClass, String sql, ConditionBuilder<T> builder) {
         // sqlgenerator = sqlgenerator + builder.getFullSql();
 
         return executeQuery(beanClass, sql, builder.getParams());

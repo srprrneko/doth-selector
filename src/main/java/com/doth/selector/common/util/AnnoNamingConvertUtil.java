@@ -1,7 +1,7 @@
 package com.doth.selector.common.util;
 
-import com.doth.selector.anno.ColumnName;
-import com.doth.selector.anno.TableName;
+import com.doth.selector.annotation.ColumnName;
+import com.doth.selector.annotation.TableName;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;

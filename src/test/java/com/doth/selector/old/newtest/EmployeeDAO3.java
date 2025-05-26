@@ -3,7 +3,7 @@ package com.doth.selector.old.newtest;
 // import com.doth.stupidrefframe.selector.v1.core.EmployeeDAOImpl;
 import com.doth.selector.core.Selector;
 import com.doth.selector.common.testbean.join.Employee;
-import com.doth.selector.anno.CreateDaoImpl;
+import com.doth.selector.annotation.CreateDaoImpl;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  *       无法实现 : 抽象类无法被实例化 -> 解决方式, 使用代理
  *
  *       其他想法 : 后续可以使用代理类生成实体类的 public entity setter(xx), 然后通过
- *          return query()
+ *          return impl()
  *              .setName(value, gt) : gt 比较策略 -> 父类常量
  *              .setAge(value, eq)
  *              ...

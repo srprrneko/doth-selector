@@ -1,7 +1,8 @@
 package com.doth.selector.common.testbean.join;
 
-import com.doth.selector.anno.Entity;
-import com.doth.selector.anno.Id;
+import com.doth.selector.annotation.DTOConstructor;
+import com.doth.selector.annotation.Entity;
+import com.doth.selector.annotation.Id;
 
 /**
  * @project: test02
@@ -18,6 +19,11 @@ public class Company {
     private String name;
 
     public Company() {
+    }
+
+    @DTOConstructor(id = "simple")
+    public Company(String name) {
+        this.name = name ;
     }
 
     public Company(Integer id, String name) {

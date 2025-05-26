@@ -1,12 +1,12 @@
 package com.doth.selector.core.factory.impl;
 
-import com.doth.selector.executor.basic.BasicKindQueryExecutor;
-import com.doth.selector.executor.basic.query.BuilderQueryExecutor;
-import com.doth.selector.executor.basic.query.DirectQueryExecutor;
-import com.doth.selector.executor.basic.query.RawQueryExecutor;
-import com.doth.selector.executor.enhanced.query.BuilderQueryExecutorPro;
-import com.doth.selector.executor.enhanced.query.DirectQueryExecutorPro;
-import com.doth.selector.executor.enhanced.query.RawQueryExecutorPro;
+import com.doth.selector.executor.query.basic.BasicKindQueryExecutor;
+import com.doth.selector.executor.query.basic.impl.BuilderQueryExecutor;
+import com.doth.selector.executor.query.basic.impl.DirectQueryExecutor;
+import com.doth.selector.executor.query.basic.impl.RawQueryExecutor;
+import com.doth.selector.executor.query.enhanced.impl.BuilderQueryExecutorPro;
+import com.doth.selector.executor.query.enhanced.impl.DirectQueryExecutorPro;
+import com.doth.selector.executor.query.enhanced.impl.RawQueryExecutorPro;
 import com.doth.selector.core.model.ExecutorType;
 import com.doth.selector.core.factory.CreateExecutorFactory;
 

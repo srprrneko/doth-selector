@@ -32,7 +32,7 @@ public interface ExecuteCoordinatorService {
      * @return 目标实体类结构的集合
      * @param <T> 目标实体类类型
      */
-    <T> List<T> queryByBuilder(Class<T> beanClass, ConditionBuilder builder);
+    <T> List<T> queryByBuilder(Class<T> beanClass, ConditionBuilder<T> builder);
 
     /**
      * sqlgenerator 执行中介, 带 map 以及字符串子从句为条件集
@@ -54,7 +54,7 @@ public interface ExecuteCoordinatorService {
      * @return 目标实体类结构的集合
      * @param <T> 目标实体类类型
      */
-    <T> List<T> queryByBuilderVzRaw(Class<T> beanClass, String sql, ConditionBuilder builder) ;
+    <T> List<T> queryByBuilderVzRaw(Class<T> beanClass, String sql, ConditionBuilder<T> builder) ;
 
 
     /**

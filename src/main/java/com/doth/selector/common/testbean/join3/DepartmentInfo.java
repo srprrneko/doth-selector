@@ -1,8 +1,8 @@
 package com.doth.selector.common.testbean.join3;
 
-import com.doth.selector.anno.Id;
-import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneToOne;
+import com.doth.selector.annotation.Id;
+import com.doth.selector.annotation.Join;
+import com.doth.selector.annotation.OneToOne;
 
 public class DepartmentInfo {
     @Id

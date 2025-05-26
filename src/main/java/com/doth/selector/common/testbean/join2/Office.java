@@ -1,7 +1,7 @@
 package com.doth.selector.common.testbean.join2;
 
-import com.doth.selector.anno.Id;
-import com.doth.selector.anno.Join;
+import com.doth.selector.annotation.Id;
+import com.doth.selector.annotation.Join;
 
 // 办公地点实体
 public class Office {

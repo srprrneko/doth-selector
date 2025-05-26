@@ -3,7 +3,7 @@ package com.doth.selector.common.util.adapeter;
 import com.doth.selector.common.testbean.join.Company;
 import com.doth.selector.common.testbean.join.Department;
 import com.doth.selector.common.testbean.join.Employee;
-import com.doth.selector.anno.Join;
+import com.doth.selector.annotation.Join;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

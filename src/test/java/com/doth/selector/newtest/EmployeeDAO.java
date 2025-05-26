@@ -1,6 +1,7 @@
 package com.doth.selector.newtest;
 
-import com.doth.selector.anno.CreateDaoImpl;
+import com.doth.selector.annotation.CreateDaoImpl;
+import com.doth.selector.annotation.UseDTO;
 import com.doth.selector.core.Selector;
 import com.doth.selector.common.testbean.join.Employee;
 import org.junit.Test;
@@ -12,6 +13,28 @@ import java.util.List;
  * @version 1.0
  * @date 2025/5/3 18:49
  * @description 测试员工查询接口
+ *
+ *  后续的 优化思路:
+ *  1.自动 dto
+ *      难点: 动态选择该方法返回 的 dto 类
+ *
+ *  2.懒加载忽略
+ *      不加载不需要的类
+ *      思路: 在sql生成的 时候拦截
+ *      难点: 注解是在方法里加的, 怎么识别到?
+ *      解决1: 在类中 标记懒加载策略注解, 方法里通过注解引用 (有些类似于JPA的做法)
+ *          缺点: 实体类有了不该有的东西, 有点为了实现而实现了, 再加上 自己设置的构造方法缘由, 那么实体中的信息一定会太多太多的
+ *          不过我有个方法
+ *              首先我调用的方法 不就可以拿到 字节码, 然后判断获取注解吗
+ *                  接着我就可以 走分支了, 然后把我的sql生成类 用工厂或者策略模式 进行 逻辑切换, 不就行了?
+ *
+ *  ================================================================================================
+ *
+ *  总结自动dto遇到的问题
+ *  1.同参数构造方法无法控制
+ *      解决: 考虑同样支持方法
+ *  2.
+ *
  */
 @CreateDaoImpl
 public abstract class EmployeeDAO extends Selector<Employee> {
@@ -20,14 +43,19 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     @Test
     public void testNew() {
-        // System.out.println("query() = " + query());
+        List<Employee> impl = impl();
+        System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
+        System.out.println("impl() = " + impl());
     }
 
-    // public List<Employee> query() {
-        // return (List<Employee>) budEnhanced()
-        //         .like(Employee::getName, "张三")
-        //         .in(e -> e.getDepartment().getId(), 1, 2, 3);
-    // }
+    @UseDTO(id = "empSimple")
+    public List<Employee> impl() {
+        String deptName = field(e -> e.getDepartment().getName());
+        return bud$().query2Lst(builder ->
+                // builder.eq(e -> e.getDepartment().getName(), "研发部")
+                builder.eq(deptName, "研发部")
+        );
+    }
 
     
     /**
@@ -46,7 +74,10 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         List<Employee> result = this.queryByName("张三");
         long cost = System.currentTimeMillis() - start;
         System.out.println("queryByName 执行耗时: " + cost + "ms, 结果数量: " + (result != null ? result.size() : 0));
-        System.out.println(result);
+        System.out.println("result = " + result);
+
+        System.out.println("result.getClass() = " + result.get(0).getClass());
+
     }
 
 

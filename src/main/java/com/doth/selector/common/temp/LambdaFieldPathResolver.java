@@ -1,6 +1,6 @@
 package com.doth.selector.common.temp;
 
-import com.doth.selector.common.SFunction;
+import com.doth.selector.executor.supports.lambda.SFunction;
 import com.doth.selector.common.testbean.join.Employee;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

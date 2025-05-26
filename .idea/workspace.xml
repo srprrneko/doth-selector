@@ -4,39 +4,81 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="191546c3-4bb9-4ec1-89f0-58626937abab" name="Changes" comment="process nested entity one to one">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/codegena/ColumnPathResolver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/codegena/MethodBodyGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/core/ImplClassWriter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/model/ConditionStructure.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/SFunction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/temp/LambdaFieldPathResolver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/temp/LbdMeta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/temp/MethodReferenceParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/EnhanceBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Mapping.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessorV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessorV2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/EntityProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/EntityProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/OverloadProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/OverloadProcessor.java" afterDir="false" />
+    <list default="true" id="191546c3-4bb9-4ec1-89f0-58626937abab" name="Changes" comment="lambda 加强 builder 正式诞生">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/DTOConstructor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/UseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/DTOConstructorProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/ValueConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/ValueConverterFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/impl/DateToLocalDateConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/impl/DateToLocalDateTimeConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/impl/TimestampToLocalDateTimeConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/TypeResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DTOFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/lambda/LambdaFieldPathResolver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/lambda/LambdaPathRecorder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/ColumnName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/ColumnName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/CreateDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/CreateDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Id.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/Id.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Join.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/Join.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/OneToOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/OneToOne.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Overload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/Overload.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/TableName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/TableName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/CreateDaoImplProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessorV2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/CreateDaoImplProcessorV2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/EntityProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/EntityProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/FieldTypeProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/FieldTypeProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/OverloadProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/OverloadProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/codegena/ColumnPathResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/codegena/ColumnPathResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/codegena/MethodBodyGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/codegena/MethodBodyGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/core/ImplClassWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/core/ImplClassWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/model/ConditionStructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/annotation/processor/model/ConditionStructure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/SFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/lambda/SFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/LambdaFieldPathResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/LambdaFieldPathResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Courses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Courses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Students.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Students.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Department.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/StudentCourseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/StudentCourseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Department.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Office.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Office.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Profile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join3/DepartmentInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join3/DepartmentInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join3/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join3/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/AnnoNamingConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/AnnoNamingConvertUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/adapeter/EntityAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/adapeter/EntityAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/convertor/BeanConvertorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/convertor/BeanConvertorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/convertor/join/JoinBeanConvertor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/convertor/join/JoinBeanConvertor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/convertor/join/JoinBeanConvertorV1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/convertor/join/MetaMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/convertor/join/MetaMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/process/BasicExecuteCoordinator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/process/BasicExecuteCoordinator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/process/JoinExecuteCoordinator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/process/JoinExecuteCoordinator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/facede/SelectGenerateFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/facede/SelectGenerateFacade.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/ExecutorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/model/ExecutorType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/Selector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/Selector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/CreateExecutorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/CreateExecutorFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/impl/DefaultCreateExecutorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/impl/DefaultCreateExecutorFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/DirectQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/DirectQueryExecutorPro.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/RawQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/RawQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/basic/BasicKindQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/basic/BasicKindQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/basic/query/BuilderQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/basic/impl/BuilderQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/basic/query/DirectQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/basic/impl/DirectQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/basic/query/RawQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/basic/impl/RawQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/JoinExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/JoinExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/BuilderQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/BuilderQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/DirectQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/DirectQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/enhanced/query/RawQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/RawQueryExecutorPro.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/testbean/join/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/testbean/join/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/testbean/join/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/testbean/join/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/util/adapeter/EntityAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/util/adapeter/EntityAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAODctTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAODctTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/EmployeeDAO3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/EmployeeDAO3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/temp/EmpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/temp/EmpTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +138,7 @@
     "Application.AutoQueryGenerator.executor": "Run",
     "Application.BaseDruidUtil.executor": "Run",
     "Application.BuilderSqlTest.executor": "Run",
+    "Application.CompanyDao.executor": "Run",
     "Application.Department.executor": "Run",
     "Application.DynamicQueryGenerator.executor": "Run",
     "Application.DynamicSQLBuilder.executor": "Run",
@@ -124,9 +167,11 @@
     "Application.StudentSon.executor": "Run",
     "Application.TempTest.executor": "Run",
     "Application.Test.executor": "Run",
+    "Application.com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver.executor": "Run",
     "Application.com.doth.stupidrefframe.selector.v1.core.EmployeeDAO.executor": "Run",
     "Application.com.doth.stupidrefframe_v1.trygetgenericity.Main.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
+    "JUnit.CompanyDao.test.executor": "Run",
     "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds5.executor": "Run",
     "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds6.executor": "Run",
     "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds7.executor": "Run",
@@ -159,6 +204,7 @@
     "JUnit.SelectorTest.test2.executor": "Run",
     "JUnit.SelectorTest.test3.executor": "Run",
     "JUnit.StudentDAO.queryDep.executor": "Run",
+    "Maven.selector [clean,compile].executor": "Run",
     "Maven.selector [clean,install,--non-recursive].executor": "Run",
     "Maven.selector [clean].executor": "Run",
     "Maven.selector [compile].executor": "Run",
@@ -180,8 +226,13 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.3643678",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "Code Search",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -196,11 +247,11 @@
       <recent name="C:\Users\贤\Desktop\test02\src\main\java\com\doth" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.doth.selector.newtest" />
       <recent name="com.doth.selector" />
       <recent name="com.doth.stupidrefframe_v1.selector.v1.executor.basic" />
       <recent name="com.doth.stupidrefframe_v1.selector.v1" />
       <recent name="com.doth.stupidrefframe_v1" />
-      <recent name="com.doth.stupidrefframe_v1.test" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.doth.selector.coordinator.convertor.join" />
@@ -210,39 +261,13 @@
       <recent name="com.doth.stupidrefframe_v1.newtest" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.LambdaFieldPathResolver">
-    <configuration name="FixedMethodReferenceParser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.FixedMethodReferenceParser" />
+  <component name="RunManager" selected="JUnit.EmployeeDAOImpl.testNew">
+    <configuration name="CompanyDao" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.CompanyDao" />
       <module name="selector" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.doth.selector.temp.LbdMeta" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LambdaFieldPathResolver" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.LambdaFieldPathResolver" />
-      <module name="selector" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.doth.selector.temp.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MethodReferenceParser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.MethodReferenceParser" />
-      <module name="selector" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.doth.selector.temp.LbdMeta" />
+          <option name="PATTERN" value="com.doth.selector.newtest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -263,26 +288,61 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StableMethodReferenceParser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.doth.selector.temp.StableMethodReferenceParser" />
+    <configuration name="CompanyDao.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="selector" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.doth.selector.temp.LbdMeta" />
+          <option name="PATTERN" value="com.doth.selector.newtest.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="com.doth.selector.newtest" />
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.CompanyDao" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeDAOImpl.testNew" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="selector" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.newtest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.doth.selector.newtest" />
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.EmployeeDAOImpl" />
+      <option name="METHOD_NAME" value="testNew" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeDAOImpl.testQueryByName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="selector" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.newtest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.doth.selector.newtest" />
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.EmployeeDAOImpl" />
+      <option name="METHOD_NAME" value="testQueryByName" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.LambdaFieldPathResolver" />
-        <item itemvalue="Application.MethodReferenceParserV1" />
-        <item itemvalue="Application.MethodReferenceParser" />
-        <item itemvalue="Application.StableMethodReferenceParser" />
-        <item itemvalue="Application.FixedMethodReferenceParser" />
+        <item itemvalue="JUnit.EmployeeDAOImpl.testNew" />
+        <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByName" />
+        <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByName" />
+        <item itemvalue="Application.CompanyDao" />
+        <item itemvalue="JUnit.CompanyDao.test" />
       </list>
     </recent_temporary>
   </component>
@@ -361,7 +421,9 @@
       <workItem from="1747791096823" duration="12662000" />
       <workItem from="1747874454158" duration="639000" />
       <workItem from="1747921017239" duration="1199000" />
-      <workItem from="1747983979604" duration="6944000" />
+      <workItem from="1747983979604" duration="27629000" />
+      <workItem from="1748173534375" duration="5902000" />
+      <workItem from="1748218027881" duration="8110000" />
     </task>
     <task id="LOCAL-00001" summary="3/28 created in 5 days">
       <option name="closed" value="true" />
@@ -507,7 +569,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745677440778</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="lambda 加强 builder 正式诞生">
+      <option name="closed" value="true" />
+      <created>1748083509758</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1748083509758</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -541,7 +611,29 @@
     <MESSAGE value="lala" />
     <MESSAGE value="process nested entity one to one" />
     <MESSAGE value="Merge remote-tracking branch 'origin/dev' into dev" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/dev' into dev" />
+    <MESSAGE value="enhance builder for lambda auto alias" />
+    <MESSAGE value="lambda 加强 builder 正式诞生" />
+    <option name="LAST_COMMIT_MESSAGE" value="lambda 加强 builder 正式诞生" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/LambdaFieldPathResolver.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/CompanyDao.java</url>
+          <line>20</line>
+          <properties class="com.doth.selector.newtest.CompanyDao">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

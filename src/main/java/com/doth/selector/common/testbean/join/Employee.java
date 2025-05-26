@@ -1,8 +1,9 @@
 package com.doth.selector.common.testbean.join;
 
-import com.doth.selector.anno.Entity;
-import com.doth.selector.anno.Id;
-import com.doth.selector.anno.Join;
+import com.doth.selector.annotation.DTOConstructor;
+import com.doth.selector.annotation.Entity;
+import com.doth.selector.annotation.Id;
+import com.doth.selector.annotation.Join;
 
 /**
  * @project: test02
@@ -29,14 +30,25 @@ public class Employee {
     @Join(fk = "d_id", refFK = "id")
     private Department department;
 
+
     public Employee() {
     }
 
+    /*
+        DTO新疑问: 当前的构造方法是这样的话, 我们就难以控制同样参数的构造的层级控制, 这后续可以通过 懒加载实现, 但使用的依然是实体, 似乎我的 DTO 生成方案有些难以解决这个问题
+     */
     public Employee(Integer id, String name, Integer age, Department department) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.department = department;
+    }
+
+    @DTOConstructor(id = "empSimple")
+    public Employee(Integer id, String name, Integer age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
     }
 
     /**
