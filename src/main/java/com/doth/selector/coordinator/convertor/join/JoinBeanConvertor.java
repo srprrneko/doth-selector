@@ -1,10 +1,12 @@
 package com.doth.selector.coordinator.convertor.join;
 
-import com.doth.selector.annotation.Join;
+import com.doth.selector.anno.Join;
+import com.doth.selector.anno.UseDTO;
 import com.doth.selector.common.convertor.ValueConverterFactory;
 import com.doth.selector.coordinator.convertor.BeanConvertor;
 import com.doth.selector.common.util.TypeResolver;
 import com.doth.selector.dto.DTOFactory;
+import com.doth.selector.dto.DtoStackResolver;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -49,11 +51,12 @@ public class JoinBeanConvertor implements BeanConvertor {
                     throw new RuntimeException(e);
                 }
             });
+            return buildJoinBean(rs, beanClass, metaMap);
         } catch (RuntimeException e) {
             throw new SQLException("联表结构解析失败", e);
+        } finally {
+            DtoStackResolver.clear();
         }
-
-        return buildJoinBean(rs, beanClass, metaMap);
     }
 
     /**
@@ -100,50 +103,19 @@ public class JoinBeanConvertor implements BeanConvertor {
         return false;
     }
 
-    /**
-     * 爱缓存多缓存
-     */
-    private static final Map<String, String> DTO_METHOD_CACHE = new ConcurrentHashMap<>();
-
-    private static final ThreadLocal<Boolean> FIRST_FLAG = ThreadLocal.withInitial(() -> Boolean.TRUE);
-
-    public static String resolveDTOIdFromStack() {
-        if (!FIRST_FLAG.get()) {
-            return null; // 不是第一次，不要再解析
-        }
-        FIRST_FLAG.set(false); // 标记为“后续调用”
-
-        StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-        for (StackTraceElement element : stack) {
-            String key = element.getClassName() + "#" + element.getMethodName();
-            try {
-                Class<?> clazz = Class.forName(element.getClassName());
-                for (Method method : clazz.getDeclaredMethods()) {
-                    if (method.getName().equals(element.getMethodName()) &&
-                            method.isAnnotationPresent(com.doth.selector.annotation.UseDTO.class)) {
-                        return method.getAnnotation(com.doth.selector.annotation.UseDTO.class).id();
-                    }
-                }
-            } catch (Exception ignored) {}
-        }
-        return null;
-    }
 
     /**
      * 构建嵌套对象（递归）
      */
     private <T> T buildJoinBean(ResultSet rs, Class<T> beanClass, MetaMap metaMap) throws Throwable {
         // 1. 通过调用栈查找是否启用了 UseDTO 注解
-        String dtoId = resolveDTOIdFromStack();
+        String dtoId = DtoStackResolver.resolveDTOIdFromStack();
 
         // 2. 尝试使用 DTOFactory 获取子类，如果没有，则退回使用原类型
         Class<?> actualClass = DTOFactory.resolve(beanClass, dtoId);
         T bean = (T) actualClass.getDeclaredConstructor().newInstance();
-        System.out.println("\n================================================================================================");
-        System.out.println("DTO ID resolved: " + dtoId);
-        System.out.println("Resolved Class: " + actualClass.getName());
-        System.out.println("bean.getClass(): " + bean.getClass().getName());
-        System.out.println("================================================================================================\n");
+        System.out.println("actualClass = " + actualClass);
+
 
         for (Map.Entry<Field, String> entry : metaMap.getFieldMeta().entrySet()) {
             Object val = rs.getObject(entry.getValue());

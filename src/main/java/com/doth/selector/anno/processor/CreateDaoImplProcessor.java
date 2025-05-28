@@ -1,6 +1,6 @@
-package com.doth.selector.annotation.processor;
+package com.doth.selector.anno.processor;
 
-import com.doth.selector.annotation.CreateDaoImpl;
+import com.doth.selector.anno.CreateDaoImpl;
 import com.google.auto.service.AutoService;
 
 import javax.annotation.processing.*;
@@ -11,10 +11,10 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import java.util.Set;
 
-import com.doth.selector.annotation.processor.core.ImplClassWriter;
+import com.doth.selector.anno.processor.core.ImplClassWriter;
 
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.doth.selector.annotation.CreateDaoImpl")
+@SupportedAnnotationTypes("com.doth.selector.anno.CreateDaoImpl")
 public class CreateDaoImplProcessor extends AbstractProcessor {
 
     private Filer filer;

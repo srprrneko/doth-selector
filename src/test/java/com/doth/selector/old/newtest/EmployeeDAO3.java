@@ -3,7 +3,7 @@ package com.doth.selector.old.newtest;
 // import com.doth.stupidrefframe.selector.v1.core.EmployeeDAOImpl;
 import com.doth.selector.core.Selector;
 import com.doth.selector.common.testbean.join.Employee;
-import com.doth.selector.annotation.CreateDaoImpl;
+import com.doth.selector.anno.CreateDaoImpl;
 
 import java.util.List;
 

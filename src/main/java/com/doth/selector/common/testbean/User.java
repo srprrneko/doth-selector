@@ -1,7 +1,7 @@
 package com.doth.selector.common.testbean;
 
 
-import com.doth.selector.annotation.Entity;
+import com.doth.selector.anno.Entity;
 
 /**
  * @project: classFollowing

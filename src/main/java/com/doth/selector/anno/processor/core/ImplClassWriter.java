@@ -1,6 +1,6 @@
-package com.doth.selector.annotation.processor.core;
+package com.doth.selector.anno.processor.core;
 
-import com.doth.selector.annotation.processor.codegena.MethodBodyGenerator;
+import com.doth.selector.anno.processor.codegena.MethodBodyGenerator;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;

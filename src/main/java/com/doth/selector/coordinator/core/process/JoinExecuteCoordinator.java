@@ -42,7 +42,7 @@ public class JoinExecuteCoordinator extends ExecuteCoordinator {
         return executeQuery(beanClass, sql, params);
     }
 
-    @Override
+    @Override // todo: 有可能后续移除
     public <T> List<T> queryByMapVzClause(Class<T> beanClass, LinkedHashMap<String, Object> cond, String strClause) {
         String sql = SelectGenerateFacade.generateJoin4mapVzClause(beanClass, cond, strClause);
         Object[] params =  EntityAdapter.buildParams(cond);
@@ -50,6 +50,7 @@ public class JoinExecuteCoordinator extends ExecuteCoordinator {
     }
 
     @Override
+    @Deprecated // todo: 有可能后续移除
     public <T> List<T> queryByBuilderVzRaw(Class<T> beanClass, String sql, ConditionBuilder<T> builder) {
         sql = SelectGenerateFacade.cvn4joinBuilderVzRaw(sql, builder);
         // sqlgenerator = sqlgenerator + builder.getFullSql();

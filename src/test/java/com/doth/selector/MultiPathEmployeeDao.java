@@ -1,6 +1,6 @@
 package com.doth.selector;
 
-import com.doth.selector.annotation.CreateDaoImpl;
+import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.core.Selector;
 import com.doth.selector.common.testbean.join2.Employee;
 

@@ -1,9 +1,11 @@
 package com.doth.selector.newtest;
 
-import com.doth.selector.annotation.CreateDaoImpl;
-import com.doth.selector.annotation.UseDTO;
+import com.doth.selector.anno.CreateDaoImpl;
+import com.doth.selector.anno.UseDTO;
 import com.doth.selector.core.Selector;
 import com.doth.selector.common.testbean.join.Employee;
+import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
+import com.doth.selector.executor.supports.lambda.SFunction;
 import org.junit.Test;
 
 import java.util.List;
@@ -38,25 +40,29 @@ import java.util.List;
  */
 @CreateDaoImpl
 public abstract class EmployeeDAO extends Selector<Employee> {
-    private Employee employee;
 
+    public static void main(String[] args) {
+        EmployeeDAO dao = new EmployeeDAOImpl();
+        List<Employee> impl = dao.impl();
+        System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
+        System.out.println("impl = " + impl);
 
+    }
     @Test
     public void testNew() {
-        List<Employee> impl = impl();
+        EmployeeDAO dao = new EmployeeDAOImpl();
+
+        List<Employee> impl = dao.impl();
         System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
-        System.out.println("impl() = " + impl());
+        System.out.println("impl = " + impl);
     }
 
     @UseDTO(id = "empSimple")
     public List<Employee> impl() {
-        String deptName = field(e -> e.getDepartment().getName());
         return bud$().query2Lst(builder ->
-                // builder.eq(e -> e.getDepartment().getName(), "研发部")
-                builder.eq(deptName, "研发部")
+                builder.eq(Employee::getName, "张三")
         );
     }
-
     
     /**
      * 根据员工姓名, 查询员工列表

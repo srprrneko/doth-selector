@@ -2,13 +2,14 @@
 package com.doth.selector.executor.supports.builder;
 
 
-import com.doth.selector.annotation.Overload;
+import com.doth.selector.anno.Overload;
 import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
 import com.doth.selector.executor.supports.lambda.SFunction;
 // import com.doth.selector.temp.MethodReferenceParserV1;
 
 import java.util.*;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -17,18 +18,18 @@ import java.util.*;
  */
 public class ConditionBuilder<T> {
     // where子句构建器
-    // 使用StringBuilder处理频繁字符串拼接操作，相比String直接拼接更高效（避免多次创建String对象）
     private final StringBuilder whereClause = new StringBuilder();
 
     // sql参数集合
-    // 使用ArrayList存储参数，提供快速随机访问和高效的空间增长策略（默认扩容50%）
     private final List<Object> params = new ArrayList<>();
 
 
     // 分页处理器（组合模式） 隔离分页逻辑
     private final BuilderPage pagination = new BuilderPage();
 
-    // todo:
+    /**
+     * 实体类型
+     */
     private Class<T> entityClz;
 
     public void setEntityClz(Class<T> entityClz) {
@@ -296,7 +297,7 @@ public class ConditionBuilder<T> {
      * 获取完整SQL（getFullSql = 生成完整查询语句）
      * @return 包含WHERE、ORDER BY和LIMIT的完整SQL
      */
-    public String getFullSql() {
+    public String getFullCause() {
         StringBuilder sql = new StringBuilder(whereClause);
         pagination.appendPaginationCondition(sql); // 添加分页条件
         pagination.appendOrderAndLimit(sql); // 添加排序和限制条件
@@ -314,4 +315,16 @@ public class ConditionBuilder<T> {
 
         return finalParams.toArray();
     }
+
+
+    public static Set<String> extractTableAliasesFromWhere(String whereClause) {
+        Set<String> aliases = new HashSet<>();
+        // 正则匹配所有形如 t1.name, t2.id 等字段
+        Matcher matcher = Pattern.compile("(t\\d+)\\.\\w+").matcher(whereClause);
+        while (matcher.find()) {
+            aliases.add(matcher.group(1)); // 提取 t0, t1 ...
+        }
+        return aliases;
+    }
+
 }

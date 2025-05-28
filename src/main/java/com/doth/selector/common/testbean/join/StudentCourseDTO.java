@@ -1,6 +1,6 @@
 package com.doth.selector.common.testbean.join;
 
-import com.doth.selector.annotation.Entity;
+import com.doth.selector.anno.Entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

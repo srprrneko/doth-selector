@@ -1,8 +1,8 @@
 package com.doth.selector.executor.query.basic.impl;
 
-import com.doth.selector.annotation.Overload;
+import com.doth.selector.anno.Overload;
 import com.doth.selector.coordinator.mapper.ResultSetMapper;
-import com.doth.selector.executor.query.basic.BasicKindQueryExecutor;
+import com.doth.selector.executor.query.BasicKindQueryExecutor;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
 
 import java.util.List;

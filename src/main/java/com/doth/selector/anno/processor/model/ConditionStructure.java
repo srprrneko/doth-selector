@@ -1,4 +1,4 @@
-package com.doth.selector.annotation.processor.model;
+package com.doth.selector.anno.processor.model;
 
 // 用于记录方法名中字段与操作符的结构
 public class ConditionStructure {

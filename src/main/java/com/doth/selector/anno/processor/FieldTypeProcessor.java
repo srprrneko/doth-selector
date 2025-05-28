@@ -1,6 +1,6 @@
-package com.doth.selector.annotation.processor;
+package com.doth.selector.anno.processor;
 
-import com.doth.selector.annotation.Entity;
+import com.doth.selector.anno.Entity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.doth.selector.annotation.processor;
+package com.doth.selector.anno.processor;
 
 import com.google.auto.service.AutoService;
 
@@ -12,7 +12,7 @@ import javax.tools.Diagnostic;
 import java.util.Set;
 
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.doth.selector.annotation.Entity") // 指定处理的注解
+@SupportedAnnotationTypes("com.doth.selector.anno.Entity") // 指定处理的注解
 @SupportedSourceVersion(SourceVersion.RELEASE_11) // 根据你的JDK版本调整
 public class EntityProcessor extends AbstractProcessor {
 
@@ -91,7 +91,7 @@ public class EntityProcessor extends AbstractProcessor {
     private boolean hasJoinAnnotation(VariableElement field) {
         // 检查字段上是否有@Join注解
         if (field.getAnnotationMirrors().stream()
-                .anyMatch(anno -> anno.getAnnotationType().toString().equals("com.doth.selector.annotation.Join"))) {
+                .anyMatch(anno -> anno.getAnnotationType().toString().equals("com.doth.selector.anno.Join"))) {
             return true;
         }
 
@@ -101,7 +101,7 @@ public class EntityProcessor extends AbstractProcessor {
             Element element = ((DeclaredType) fieldType).asElement();
             if (element instanceof TypeElement) {
                 return ((TypeElement) element).getAnnotationMirrors().stream()
-                        .anyMatch(anno -> anno.getAnnotationType().toString().equals("com.doth.selector.annotation.Join"));
+                        .anyMatch(anno -> anno.getAnnotationType().toString().equals("com.doth.selector.anno.Join"));
             }
         }
         return false;

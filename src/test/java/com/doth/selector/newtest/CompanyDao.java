@@ -1,9 +1,10 @@
 package com.doth.selector.newtest;
 
-import com.doth.selector.annotation.CreateDaoImpl;
-import com.doth.selector.annotation.UseDTO;
+import com.doth.selector.anno.CreateDaoImpl;
+import com.doth.selector.anno.UseDTO;
 import com.doth.selector.common.testbean.join.Company;
 import com.doth.selector.core.Selector;
+import org.junit.Test;
 
 import java.util.List;
 
@@ -20,9 +21,9 @@ public abstract class CompanyDao extends Selector<Company> {
 
     public static void main(String[] args) {
         CompanyDao dao = new CompanyDaoImpl();
-
-        System.out.println("dao.queryAllBasic() = " + dao.queryAllBasic());
-        System.out.println("Type = " + dao.queryAllBasic().get(0).getClass());
+        List<Company> res = dao.queryAllBasic();
+        System.out.println("dao.queryAllBasic() = " + res);
+        System.out.println("Type = " + res.get(0).getClass());
 
     }
     @UseDTO(id = "simple")

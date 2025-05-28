@@ -51,7 +51,7 @@ public class LambdaFieldPathResolver {
     }
 
     /**
-     * Lambda链式访问，如 e -> e.getDept().getCompany().getName()
+     * 链式 -> Lambda 解析
      */
     public static <T> LambdaPathRecorder resolveFromLambda(Function<T, ?> lambda, Class<T> rootClass) {
         LambdaPathRecorder recorder = new LambdaPathRecorder();

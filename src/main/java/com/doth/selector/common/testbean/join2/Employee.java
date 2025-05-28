@@ -1,7 +1,7 @@
 package com.doth.selector.common.testbean.join2;
 
-import com.doth.selector.annotation.Id;
-import com.doth.selector.annotation.Join;
+import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Join;
 import com.doth.selector.common.testbean.join.Company;
 
 // 员工实体（包含复杂关联关系）

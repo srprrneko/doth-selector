@@ -1,7 +1,7 @@
-// package com.doth.selector.annotation.processor;
+// package com.doth.selector.anno.processor;
 //
-// import com.doth.selector.annotation.CreateDaoImpl;
-// import com.doth.selector.annotation.Join;
+// import com.doth.selector.anno.CreateDaoImpl;
+// import com.doth.selector.anno.Join;
 // import com.google.auto.service.AutoService;
 //
 // import javax.annotation.processing.*;
@@ -21,7 +21,7 @@
 // import java.util.regex.Pattern;
 //
 // @AutoService(Processor.class)
-// @SupportedAnnotationTypes("com.doth.selector.annotation.CreateDaoImpl")
+// @SupportedAnnotationTypes("com.doth.selector.anno.CreateDaoImpl")
 // public class CreateDaoImplProcessorV2 extends AbstractProcessor {
 //
 //     private Filer filer;

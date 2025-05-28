@@ -1,4 +1,4 @@
-package com.doth.selector.executor.query.basic;
+package com.doth.selector.executor.query;
 
 import com.doth.selector.coordinator.core.process.BasicExecuteCoordinator;
 import com.doth.selector.coordinator.core.ExecuteCoordinatorService;

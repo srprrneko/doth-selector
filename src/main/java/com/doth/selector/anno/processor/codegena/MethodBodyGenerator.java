@@ -1,6 +1,6 @@
-package com.doth.selector.annotation.processor.codegena;
+package com.doth.selector.anno.processor.codegena;
 
-import com.doth.selector.annotation.processor.model.ConditionStructure;
+import com.doth.selector.anno.processor.model.ConditionStructure;
 
 import javax.annotation.processing.Messager;
 import javax.lang.model.element.*;

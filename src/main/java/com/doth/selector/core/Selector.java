@@ -3,7 +3,7 @@ package com.doth.selector.core;
 import com.doth.selector.core.factory.CreateExecutorFactory;
 import com.doth.selector.core.factory.impl.DefaultCreateExecutorFactory;
 import com.doth.selector.core.model.ExecutorType;
-import com.doth.selector.executor.query.basic.BasicKindQueryExecutor;
+import com.doth.selector.executor.query.BasicKindQueryExecutor;
 import com.doth.selector.executor.query.basic.impl.BuilderQueryExecutor;
 import com.doth.selector.executor.query.basic.impl.DirectQueryExecutor;
 import com.doth.selector.executor.query.basic.impl.RawQueryExecutor;

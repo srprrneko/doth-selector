@@ -1,8 +1,8 @@
 package com.doth.selector.common.testbean.join;
 
-import com.doth.selector.annotation.Entity;
-import com.doth.selector.annotation.Id;
-import com.doth.selector.annotation.Join;
+import com.doth.selector.anno.Entity;
+import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Join;
 
 /**
  * @project: test02

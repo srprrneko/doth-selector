@@ -9,6 +9,12 @@ public class DTOFactory {
         REGISTRY.computeIfAbsent(entityClass, k -> new HashMap<>()).put(id, dtoClass);
     }
 
+    /**
+     * 注册dto并获取
+     * @param entityClass 原类
+     * @param id id
+     * @return dto
+     */
     public static Class<?> resolve(Class<?> entityClass, String id) {
         if (id == null || id.isBlank()) return entityClass;
 
@@ -18,13 +24,16 @@ public class DTOFactory {
             try {
                 String fullName = entityClass.getName() + "$" + id + "DTO";
                 ClassLoader cl = entityClass.getClassLoader(); // 确保使用实体类相同的加载器
-                Class<?> generatedDTO = Class.forName(fullName, true, cl);
+                Class.forName(fullName, true, cl);
+                // Class<?> generatedDTO = Class.forName(fullName, true, cl);
 
-                // 如果加载后还是没注册，就说明生成类未触发静态块
-                idMap = REGISTRY.get(entityClass);
-                if (idMap == null || !idMap.containsKey(id)) {
-                    throw new IllegalStateException("DTO类加载成功但未注册，请确认 static 注册代码是否写入: " + fullName);
-                }
+                // // 如果加载后还是没注册，就说明生成类未触发静态块
+                // idMap = REGISTRY.get(entityClass);
+                // if (idMap == null || !idMap.containsKey(id)) {
+                //     throw new IllegalStateException("DTO类加载成功但未注册，请确认 static 注册代码是否写入: " + fullName);
+                // }
+                // System.out.println("generatedDTO = " + generatedDTO);
+                // return generatedDTO;
 
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("DTO类未找到: " + entityClass.getName() + " id=" + id, e);

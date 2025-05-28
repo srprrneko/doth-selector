@@ -1,9 +1,9 @@
-package com.doth.selector.annotation;
+package com.doth.selector.anno;
 
 import java.lang.annotation.*;
 
 @Target(ElementType.CONSTRUCTOR)
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface DTOConstructor {
     String id();
 }

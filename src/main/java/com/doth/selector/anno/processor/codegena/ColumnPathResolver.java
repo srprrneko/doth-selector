@@ -1,6 +1,6 @@
-package com.doth.selector.annotation.processor.codegena;
+package com.doth.selector.anno.processor.codegena;
 
-import com.doth.selector.annotation.Join;
+import com.doth.selector.anno.Join;
 
 import javax.lang.model.element.*;
 import javax.lang.model.util.Types;

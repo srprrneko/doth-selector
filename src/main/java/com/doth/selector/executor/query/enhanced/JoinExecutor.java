@@ -2,7 +2,7 @@ package com.doth.selector.executor.query.enhanced;
 
 import com.doth.selector.coordinator.core.ExecuteCoordinatorService;
 import com.doth.selector.coordinator.core.process.JoinExecuteCoordinator;
-import com.doth.selector.executor.query.basic.BasicKindQueryExecutor;
+import com.doth.selector.executor.query.BasicKindQueryExecutor;
 
 /**
  * @author 贤

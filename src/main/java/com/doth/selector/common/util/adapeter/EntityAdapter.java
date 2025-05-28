@@ -3,7 +3,7 @@ package com.doth.selector.common.util.adapeter;
 import com.doth.selector.common.testbean.join.Company;
 import com.doth.selector.common.testbean.join.Department;
 import com.doth.selector.common.testbean.join.Employee;
-import com.doth.selector.annotation.Join;
+import com.doth.selector.anno.Join;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -86,8 +86,8 @@ public class EntityAdapter {
 
     @Test
     public void testNormal() {
-        LinkedHashMap<String, Object> condMap = extractNonNullFields(new Employee(1, "John", 25, null));
-        condMap.forEach((k,v) -> System.out.println("Key: " + k + ", Value: " + v));
+        // LinkedHashMap<String, Object> condMap = extractNonNullFields(new Employee(1, "John", 25, null));
+        // condMap.forEach((k,v) -> System.out.println("Key: " + k + ", Value: " + v));
     }
 
     @Test

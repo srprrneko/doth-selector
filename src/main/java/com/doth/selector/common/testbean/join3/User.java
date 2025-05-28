@@ -1,8 +1,8 @@
 package com.doth.selector.common.testbean.join3;
 
-import com.doth.selector.annotation.Id;
-import com.doth.selector.annotation.Join;
-import com.doth.selector.annotation.OneToOne;
+import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Join;
+import com.doth.selector.anno.OneToOne;
 
 // 实体类定义
 public class User {

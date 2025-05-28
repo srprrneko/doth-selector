@@ -40,7 +40,7 @@ public class ResultSetMapper {
 
     public static <T> T getSingleResult(List<T> list) {
         if (list.size() > 1) {
-            throw new NonUniqueResultException("查询返回了 " + list.size() + " 条结果");
+            throw new NonUniqueResultException("结果超出！预期 1 条，实际 " + list.size() + " 条");
         }
         return list.isEmpty() ? null : list.get(0);
     }

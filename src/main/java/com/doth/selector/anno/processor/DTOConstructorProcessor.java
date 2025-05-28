@@ -1,11 +1,12 @@
-package com.doth.selector.annotation.processor;
+package com.doth.selector.anno.processor;
 
-import com.doth.selector.annotation.DTOConstructor;
+import com.doth.selector.anno.DTOConstructor;
 import com.google.auto.service.AutoService;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
@@ -14,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.doth.selector.annotation.DTOConstructor")
+@SupportedAnnotationTypes("com.doth.selector.anno.DTOConstructor")
 public class DTOConstructorProcessor extends AbstractProcessor {
 
     private Filer filer;

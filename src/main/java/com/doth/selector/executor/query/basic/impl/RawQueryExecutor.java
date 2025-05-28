@@ -1,7 +1,7 @@
 package com.doth.selector.executor.query.basic.impl;
 
 import com.doth.selector.coordinator.mapper.ResultSetMapper;
-import com.doth.selector.executor.query.basic.BasicKindQueryExecutor;
+import com.doth.selector.executor.query.BasicKindQueryExecutor;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.doth.selector.core.factory.impl;
 
-import com.doth.selector.executor.query.basic.BasicKindQueryExecutor;
+import com.doth.selector.executor.query.BasicKindQueryExecutor;
 import com.doth.selector.executor.query.basic.impl.BuilderQueryExecutor;
 import com.doth.selector.executor.query.basic.impl.DirectQueryExecutor;
 import com.doth.selector.executor.query.basic.impl.RawQueryExecutor;

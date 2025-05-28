@@ -1,6 +1,6 @@
 package com.doth.selector.common.testbean.join2;
-import com.doth.selector.annotation.Id;
-
+import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Join;
 // 位置实体
 public class Location {
     @Id

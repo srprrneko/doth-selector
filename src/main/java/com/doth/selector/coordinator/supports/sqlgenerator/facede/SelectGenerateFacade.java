@@ -41,9 +41,9 @@ public class SelectGenerateFacade {
     }
 
     // ----------------- 生成以builder为条件的查询 -----------------
-    public static <T> String generate4builder(Class<T> beanClass, ConditionBuilder builder) {
+    public static <T> String generate4builder(Class<T> beanClass, ConditionBuilder<T> builder) {
         String baseSql = SqlBuilder.buildBaseSelect(beanClass);
-        return baseSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullSql());
+        return baseSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullCause());
     }
 
     // ----------------- 生成原生的查询 -----------------
@@ -63,9 +63,10 @@ public class SelectGenerateFacade {
     }
 
     // ----------------- 生成原生的连接查询 -----------------
+    @Deprecated
     public static String cvn4joinBuilderVzRaw(String sql, ConditionBuilder builder) {
         String baseSql = AliasConvertUtil.generateAliases(sql);
-        return baseSql + builder.getFullSql(); // 是否开启自动别名? 生成别名 : 原始sql
+        return baseSql + builder.getFullCause(); // 是否开启自动别名? 生成别名 : 原始sql
     }
 
 
@@ -93,7 +94,7 @@ public class SelectGenerateFacade {
         return buildWhereClause(finalSql, condBean, strClause);
     }
 
-    public static <T> String generateJoin4builder(Class<T> beanClass, ConditionBuilder builder) {
+    public static <T> String generateJoin4builder(Class<T> beanClass, ConditionBuilder<T> builder) {
         // 生成联查sql
         long start = System.currentTimeMillis();
         String baseSql = AutoQueryGenerator.generated(beanClass);
@@ -106,6 +107,6 @@ public class SelectGenerateFacade {
         long end1 = System.currentTimeMillis();
         System.out.println("\"起别名耗时\" = " + (end1 - start1));
 
-        return finalSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullSql());
+        return finalSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullCause());
     }
 }

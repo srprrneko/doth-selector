@@ -1,4 +1,4 @@
-package com.doth.selector.annotation;
+package com.doth.selector.anno;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,6 +1,6 @@
-package com.doth.selector.annotation.processor;
+package com.doth.selector.anno.processor;
 
-import com.doth.selector.annotation.Overload;
+import com.doth.selector.anno.Overload;
 import com.google.auto.service.AutoService;
 
 import javax.annotation.processing.*;
@@ -31,7 +31,7 @@ import java.util.Set;
  * @SupportedAnnotationTypes("com.doth...")// 指定处理的注解类型为@Overload
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.doth.selector.annotation.Overload")
+@SupportedAnnotationTypes("com.doth.selector.anno.Overload")
 public class OverloadProcessor extends AbstractProcessor {
     private Types typeUtils;  // 类型操作工具（用于泛型擦除/继承关系判断）
     private Elements elementUtils; // 元素操作工具（用于获取包/类信息）
