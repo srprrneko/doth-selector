@@ -4,6 +4,7 @@ import com.doth.selector.anno.UseDTO;
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -13,6 +14,7 @@ public class DtoStackResolver {
 
     private static final Map<String, String> DTO_METHOD_CACHE = new ConcurrentHashMap<>();
     private static final ThreadLocal<String> CURRENT_DTO_ID = new ThreadLocal<>();
+    private static final Map<String, Set<String>> dtoFieldPathCache = new ConcurrentHashMap<>();
 
     /**
      * 应该由第一次进入时调用

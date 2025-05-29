@@ -12,7 +12,7 @@ public class EmployeeDAODctTest {
     //
     @Before
     public void setUp() {
-        dao = new EmployeeDAOImpl(); // 模拟service层注入
+        // dao = new EmployeeDAOImpl(); // 模拟service层注入
     }
 
     @Test

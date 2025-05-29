@@ -5,167 +5,176 @@ import com.doth.selector.anno.Join;
 import com.doth.selector.anno.OneToOne;
 import com.doth.selector.anno.DTOConstructor;
 import com.doth.selector.common.exception.NonPrimaryKeyException;
+import com.doth.selector.common.testbean.join3.User;
 import com.doth.selector.common.util.AnnoNamingConvertUtil;
 import com.doth.selector.common.util.CamelSnakeConvertUtil;
 import com.doth.selector.dto.DtoStackResolver;
+import com.doth.selector.executor.supports.builder.ConditionBuilder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.*;
 
 public class AutoQueryGenerator {
-    private static final String MAIN_ALIAS = "t0"; // 默认主表别名
-    private static int joinLevel = 1;  // join 层数, 主表固定为0, 从表从1开始
 
-    private static Set<String> dtoFieldSet = null; // 当前使用的DTO字段集合
+    private static final String MAIN_ALIAS = "t0";
+    public static final int MAX_JOIN_LENGTH = 5;
+
+    private final Class<?> mainEntity;
+    private final Set<String> dtoFieldSet;
+    private final Set<String> conditionPrefixes;
+    private final List<String> selectList = new ArrayList<>();
+    private final List<String> joinClauses = new ArrayList<>();
+    private final Set<Class<?>> processedEntities = new HashSet<>();
+    private int joinLevel = 1;
 
     public static String generated(Class<?> mainEntity) {
-        // 解析当前是否处于 DTO 模式
-        String dtoId = DtoStackResolver.resolveDTOIdFromStack();
-        if (dtoId != null) {
-            dtoFieldSet = extractDtoFieldNames(mainEntity, dtoId);
-        } else {
-            dtoFieldSet = null; // 表示不使用 DTO 筛选字段
-        }
-
-        List<String> selectList = new ArrayList<>();
-        List<String> joinClauses = new ArrayList<>();
-        joinLevel = 1;
-
-        parseEntity(mainEntity, MAIN_ALIAS, selectList, joinClauses, 0, mainEntity, null, null);
-
-        return new StringBuilder()
-                .append("select ").append(String.join(", ", selectList)).append("\n")
-                .append("from ").append(getTableName(mainEntity)).append(" ").append(MAIN_ALIAS).append("\n")
-                .append(String.join("\n", joinClauses))
-                .toString();
+        return new AutoQueryGenerator(mainEntity, null).generate();
     }
 
-    private static void parseEntity(Class<?> entity, String currentAlias,
-                                    List<String> selectList, List<String> joinClauses,
-                                    int depth, Class<?> mainEntity,
-                                    Set<Field> joinField, Set<Class<?>> processedEntities) {
-        if (processedEntities == null) {
-            processedEntities = new HashSet<>();
+    public static String generated(Class<?> mainEntity, ConditionBuilder<?> conditionBuilder) {
+        return new AutoQueryGenerator(mainEntity, conditionBuilder).generate();
+    }
+
+    /**
+     * 初始化, 三运表达式 适应旧代码
+     *  1.mainEntity 2.dtoFieldSet 3.conditionPrefixes
+     * @param mainEntity 主实体
+     * @param conditionBuilder cb
+     */
+    private AutoQueryGenerator(Class<?> mainEntity, ConditionBuilder<?> conditionBuilder) {
+        this.mainEntity = mainEntity;
+        String dtoId = DtoStackResolver.resolveDTOIdFromStack();
+        this.dtoFieldSet = dtoId != null
+                ? extractDtoFieldNames(mainEntity, dtoId)
+                : null;
+        this.conditionPrefixes = conditionBuilder != null
+                ? conditionBuilder.extractJoinTablePrefixes()
+                : Collections.emptySet();
+    }
+
+    /**
+     * 搭建sql脚手架 通过 parseEntity 补充搭建变量
+     * @return sql
+     */
+    private String generate() {
+        parseEntity(mainEntity, MAIN_ALIAS, new HashSet<>());
+        String select = "select " + String.join(", ", selectList);
+        String from = "from " + getTableName(mainEntity) + " " + MAIN_ALIAS;
+        return select + "\n" + from + "\n" + String.join("\n", joinClauses);
+    }
+
+    /**
+     * 解析实体, 核心是 (1层级拦截; (2循环检测; (3[字段, join, dto模式] 分流处理
+     * @param entity 实体
+     * @param alias 别名
+     * @param joinFields 关联字段集合
+     */
+    private void parseEntity(Class<?> entity, String alias, Set<Field> joinFields) {
+        if (joinFields.size() > MAX_JOIN_LENGTH) {
+            throw new RuntimeException("关联层级过深，建议检查实体设计是否合理: " + entity.getSimpleName());
         }
         if (processedEntities.contains(entity)) {
-            if (entity.equals(mainEntity) && depth > 0) {
-                boolean hasOneToOne = false;
-                for (Field f : entity.getDeclaredFields()) {
-                    if (f.getType() == mainEntity && f.isAnnotationPresent(OneToOne.class)) {
-                        hasOneToOne = true;
-                        break;
-                    }
-                }
-                if (!hasOneToOne) {
-                    throw new RuntimeException("检测到未标注 @OneToOne 的循环引用: " +
-                            entity.getSimpleName() + " ←→ " + mainEntity.getSimpleName());
-                }
-                return;
+            boolean breakable = joinFields.stream().anyMatch(f -> f.isAnnotationPresent(OneToOne.class));
+            if (!breakable) {
+                throw new RuntimeException("检测到未标注 @OneToOne 的循环引用: " + entity.getSimpleName());
             }
-            throw new RuntimeException("检测到循环引用: " + entity.getSimpleName());
+            return;
         }
-
         processedEntities.add(entity);
 
+        // 开始分流
         for (Field field : entity.getDeclaredFields()) {
-            field.setAccessible(true);
-            String fieldName = field.getName();
-
-            // 若使用DTO结构过滤字段，且该字段不在其中，跳过
-            if (dtoFieldSet != null && !dtoFieldSet.contains(fieldName) && depth == 0) {
-                continue;
-            }
+            field.setAccessible(true); // 很漂亮的一步, 下面全是分支, 结构清晰
 
             if (field.isAnnotationPresent(Join.class)) {
-                if (field.getType() == mainEntity && depth > 0) {
-                    if (!field.isAnnotationPresent(OneToOne.class)) {
-                        throw new RuntimeException("嵌套字段存在未声明@OneToOne关系: " + field.getName());
-                    }
+                String candidateAlias = "t" + joinLevel;
+                if (dtoFieldSet != null && !conditionPrefixes.contains(candidateAlias)) {
                     continue;
                 }
-
-                Set<Field> newJoinField = joinField == null ? new HashSet<>() : new HashSet<>(joinField);
-                if (newJoinField.add(field)) {
-                    handleJoinColumn(field, currentAlias, selectList, joinClauses,
-                            depth, mainEntity, newJoinField, processedEntities);
-                }
+                Set<Field> newJoinFields = new HashSet<>(joinFields);
+                newJoinFields.add(field);
+                handleJoin(field, alias, newJoinFields);
+            } else if (dtoFieldSet != null) {
+                handleField4Dto(field, alias);
             } else {
-                handleNormalField(field, currentAlias, selectList, depth);
+                handleField(field, alias);
             }
         }
-
         processedEntities.remove(entity);
     }
 
-    private static void handleJoinColumn(Field field, String currentAlias,
-                                         List<String> selectList, List<String> joinClauses,
-                                         int joinFloors, Class<?> mainEntity,
-                                         Set<Field> joinField, Set<Class<?>> processedEntities) {
-        Join jc = field.getAnnotation(Join.class);
-
-        // 如果当前是主表，且使用了 DTO 过滤字段，但 DTO 中不包含该关联字段，则跳过 JOIN
-        if (joinFloors == 0 && dtoFieldSet != null && !dtoFieldSet.contains(field.getName())) {
-            return;
+    private void handleJoin(Field field, String alias, Set<Field> joinFields) {
+        Join join = field.getAnnotation(Join.class);
+        // Only include FK in select when not in DTO mode
+        if (dtoFieldSet == null) {
+            selectList.add(alias + "." + join.fk());
         }
-
-        String fkColumn = currentAlias + "." + jc.fk();
-        selectList.add(fkColumn);
 
         Class<?> refEntity = field.getType();
         String nextAlias = "t" + joinLevel++;
-        String refTable = getTableName(refEntity);
-        String refColumn = getPKField(refEntity).getName();
+        Field pk = getPKField(refEntity);
 
-        joinClauses.add(
-                String.format("join %s %s ON %s.%s = %s.%s",
-                        refTable, nextAlias,
-                        currentAlias, jc.fk(),
-                        nextAlias, refColumn)
+        joinClauses.add(String.format(
+                "join %s %s ON %s.%s = %s.%s",
+                getTableName(refEntity), nextAlias,
+                alias, join.fk(),
+                nextAlias, pk.getName())
         );
 
-        parseEntity(refEntity, nextAlias, selectList, joinClauses,
-                joinFloors + 1, mainEntity, joinField, processedEntities);
+        parseEntity(refEntity, nextAlias, joinFields);
     }
 
-    private static Field getPKField(Class<?> entityClass) {
-        Field[] fields = entityClass.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(Id.class)) {
-                return field;
+    private void handleField(Field field, String alias) {
+        if (!MAIN_ALIAS.equals(alias) && field.isAnnotationPresent(Id.class)) {
+            return;
+        }
+        String column = CamelSnakeConvertUtil.camel2SnakeCase(field.getName());
+        selectList.add(alias + "." + column);
+    }
+
+    private void handleField4Dto(Field field, String alias) {
+        // Only include main entity fields present in DTO
+        if (!MAIN_ALIAS.equals(alias)) {
+            return;
+        }
+        String column = CamelSnakeConvertUtil.camel2SnakeCase(field.getName());
+        if (dtoFieldSet.contains(column)) {
+            selectList.add(alias + "." + column);
+        }
+    }
+
+    private Field getPKField(Class<?> entityClass) {
+        for (Field f : entityClass.getDeclaredFields()) {
+            if (f.isAnnotationPresent(Id.class)) {
+                return f;
             }
         }
         throw new NonPrimaryKeyException(entityClass.getSimpleName() + " 未找到主键字段, 请使用@Id注解标记主键");
     }
 
-    private static void handleNormalField(Field field, String alias,
-                                          List<String> selectList, int joinFloors) {
-        boolean isPrimaryKey = field.isAnnotationPresent(Id.class);
-        if (joinFloors > 0 && isPrimaryKey) return;
-
-        String columnName = CamelSnakeConvertUtil.camel2SnakeCase(field.getName());
-        selectList.add(alias + "." + columnName);
-    }
-
-    private static String getTableName(Class<?> entity) {
+    private String getTableName(Class<?> entity) {
         return AnnoNamingConvertUtil.camel2Snake(entity, entity.getSimpleName());
     }
 
     private static Set<String> extractDtoFieldNames(Class<?> entityClass, String dtoId) {
         Set<String> result = new HashSet<>();
-        Constructor<?>[] ctors = entityClass.getDeclaredConstructors();
-        for (Constructor<?> ctor : ctors) {
-            if (ctor.isAnnotationPresent(DTOConstructor.class)) {
-                DTOConstructor anno = ctor.getAnnotation(DTOConstructor.class);
-                if (anno.id().equals(dtoId)) {
-                    for (var param : ctor.getParameters()) {
-                        result.add(param.getName()); // ✅ 构造字段名作为字段名使用
-                    }
-                    break;
+        for (Constructor<?> ctor : entityClass.getDeclaredConstructors()) {
+            if (ctor.isAnnotationPresent(DTOConstructor.class)
+                    && ctor.getAnnotation(DTOConstructor.class).id().equals(dtoId)) {
+                for (var param : ctor.getParameters()) {
+                    result.add(param.getName());
                 }
+                break;
             }
         }
-        System.out.println("result = " + result);
         return result;
+    }
+
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        String sql = generated(User.class);
+        System.out.println("total = " + (System.currentTimeMillis() - start));
+        System.out.println("sql =\n " + sql);
     }
 }

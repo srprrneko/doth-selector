@@ -81,6 +81,10 @@ public class Employee {
         this.age = age;
     }
 
+    public static void main(String[] args) {
+
+    }
+
     /**
      * 获取
      * @return id

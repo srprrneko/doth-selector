@@ -23,9 +23,11 @@ public class ConditionBuilder<T> {
     // sql参数集合
     private final List<Object> params = new ArrayList<>();
 
-
-    // 分页处理器（组合模式） 隔离分页逻辑
+    // 分页处理器
     private final BuilderPage pagination = new BuilderPage();
+
+    private final Set<String> usedFieldPaths = new HashSet<>();
+
 
     /**
      * 实体类型
@@ -42,12 +44,41 @@ public class ConditionBuilder<T> {
         this.entityClz = entityClz;
     }
 
+
+
+    // 记录字段路径
+    private void recordFieldPath(String fieldPath) {
+        if (fieldPath != null && fieldPath.contains(".")) {
+            usedFieldPaths.add(fieldPath);
+        }
+    }
+
+    // 提取 join 表别名前缀集合，例如 t1, t2
+    public Set<String> extractJoinTablePrefixes() {
+        Set<String> result = new HashSet<>();
+        for (String path : usedFieldPaths) {
+            int dot = path.indexOf('.');
+            if (dot > 0) result.add(path.substring(0, dot));
+        }
+        return result;
+    }
+
+    // 获取所有字段 调试
+    public Set<String> getUsedFieldPaths() {
+        return usedFieldPaths;
+    }
+
+
+
+
     /**
      * 等于条件（eq = Equal）
      * @param field 字段名
      * @param value 比较值
      */
     public ConditionBuilder<T> eq(String field, Object value) {
+        recordFieldPath(field);
+
         appendCondition(field + " = ?", value);
         return this;
     }

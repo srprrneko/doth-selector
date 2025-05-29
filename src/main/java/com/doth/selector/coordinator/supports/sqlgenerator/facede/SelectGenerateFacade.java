@@ -88,6 +88,7 @@ public class SelectGenerateFacade {
         return buildWhereClause(finalSql, conditions, "");
     }
 
+    @Deprecated
     public static <T> String generateJoin4mapVzClause(Class<T> beanClass, LinkedHashMap<String, Object> condBean, String strClause) {
         String baseSql = AutoQueryGenerator.generated(beanClass);
         String finalSql = AliasConvertUtil.generateAliases(baseSql);
@@ -97,7 +98,7 @@ public class SelectGenerateFacade {
     public static <T> String generateJoin4builder(Class<T> beanClass, ConditionBuilder<T> builder) {
         // 生成联查sql
         long start = System.currentTimeMillis();
-        String baseSql = AutoQueryGenerator.generated(beanClass);
+        String baseSql = AutoQueryGenerator.generated(beanClass, builder);
         long end = System.currentTimeMillis();
         System.out.println("\"生成联查sql\" = " + (end - start));
 

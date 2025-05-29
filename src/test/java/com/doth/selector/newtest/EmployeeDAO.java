@@ -44,26 +44,28 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAOImpl();
         List<Employee> impl = dao.impl();
-        System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
+        // System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
         System.out.println("impl = " + impl);
 
     }
     @Test
     public void testNew() {
-        EmployeeDAO dao = new EmployeeDAOImpl();
 
-        List<Employee> impl = dao.impl();
+        List<Employee> impl = this.impl();
         System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
         System.out.println("impl = " + impl);
     }
 
     @UseDTO(id = "empSimple")
     public List<Employee> impl() {
+        // return bud$().query2Lst(builder ->
+        //         builder.eq(Employee::getName, "张三")
+        // );
         return bud$().query2Lst(builder ->
-                builder.eq(Employee::getName, "张三")
+                builder.eq(e -> e.getDepartment().getName(), "研发部")
         );
     }
-    
+
     /**
      * 根据员工姓名, 查询员工列表
      * @param name 员工姓名

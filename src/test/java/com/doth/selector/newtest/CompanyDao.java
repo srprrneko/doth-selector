@@ -20,10 +20,10 @@ public abstract class CompanyDao extends Selector<Company> {
 
 
     public static void main(String[] args) {
-        CompanyDao dao = new CompanyDaoImpl();
-        List<Company> res = dao.queryAllBasic();
-        System.out.println("dao.queryAllBasic() = " + res);
-        System.out.println("Type = " + res.get(0).getClass());
+        // CompanyDao dao = new CompanyDaoImpl();
+        // List<Company> res = dao.queryAllBasic();
+        // System.out.println("dao.queryAllBasic() = " + res);
+        // System.out.println("Type = " + res.get(0).getClass());
 
     }
     @UseDTO(id = "simple")
