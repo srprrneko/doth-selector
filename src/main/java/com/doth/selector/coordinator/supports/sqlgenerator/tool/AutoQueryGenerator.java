@@ -7,7 +7,7 @@ import com.doth.selector.anno.DTOConstructor;
 import com.doth.selector.common.exception.NonPrimaryKeyException;
 import com.doth.selector.common.testbean.join3.User;
 import com.doth.selector.common.util.AnnoNamingConvertUtil;
-import com.doth.selector.common.util.CamelSnakeConvertUtil;
+import com.doth.selector.common.util.NamingConvertUtil;
 import com.doth.selector.dto.DtoStackResolver;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
 
@@ -66,6 +66,7 @@ public class AutoQueryGenerator {
 
     /**
      * 解析实体, 核心是 (1层级拦截; (2循环检测; (3[字段, join, dto模式] 分流处理
+     *  joinFields + if (processedEntities.contains(entity)) { ... return } 组合完成循环依赖路径清理
      * @param entity 实体
      * @param alias 别名
      * @param joinFields 关联字段集合
@@ -74,7 +75,18 @@ public class AutoQueryGenerator {
         if (joinFields.size() > MAX_JOIN_LENGTH) {
             throw new RuntimeException("关联层级过深，建议检查实体设计是否合理: " + entity.getSimpleName());
         }
+        /*
+            首先
+                第一次进来, 直接add, 开始遍历处理字段, 这里我们忽略dto模式的处理
+            然后
+                遍历中遇到了join, 此时的 processedEntities 包含的是 t0, t0!=t1, 继续 add(entity);
+                又遇到了join: t0, t1, 是否包含t2? t0!=t1, 继续 add(entity);
+            假设 t1 包含了 t0,
+                遇到 join, processedEntities 包含 t0, t0!=t1, 继续 add(entity);
+                又遇到了 join: t0, t1, 此时t1持有t0, t0==t0, 开始检测 >>> ok
+         */
         if (processedEntities.contains(entity)) {
+            System.out.println("进来了..");
             boolean breakable = joinFields.stream().anyMatch(f -> f.isAnnotationPresent(OneToOne.class));
             if (!breakable) {
                 throw new RuntimeException("检测到未标注 @OneToOne 的循环引用: " + entity.getSimpleName());
@@ -85,9 +97,9 @@ public class AutoQueryGenerator {
 
         // 开始分流
         for (Field field : entity.getDeclaredFields()) {
-            field.setAccessible(true); // 很漂亮的一步, 下面全是分支, 结构清晰
+            field.setAccessible(true);
 
-            if (field.isAnnotationPresent(Join.class)) {
+            if (field.isAnnotationPresent(Join.class)) { // 处理join
                 String candidateAlias = "t" + joinLevel;
                 if (dtoFieldSet != null && !conditionPrefixes.contains(candidateAlias)) {
                     continue;
@@ -97,16 +109,25 @@ public class AutoQueryGenerator {
                 handleJoin(field, alias, newJoinFields);
             } else if (dtoFieldSet != null) {
                 handleField4Dto(field, alias);
-            } else {
+            } else { // 处理普通字段
                 handleField(field, alias);
             }
         }
         processedEntities.remove(entity);
     }
 
+    /**
+     * 最终将 join 字段 组装成 join 子句: [join t0.d_id = t1.id] 然后递归处理从表字段
+     *  获取 join 的外键 t0.d_id
+     *  获取从表的主键
+     * @param field 字段
+     * @param alias 别名 t0
+     * @param joinFields 后续可能优化
+     */
     private void handleJoin(Field field, String alias, Set<Field> joinFields) {
         Join join = field.getAnnotation(Join.class);
         // Only include FK in select when not in DTO mode
+        // 非DTO模式下才自动查询外键
         if (dtoFieldSet == null) {
             selectList.add(alias + "." + join.fk());
         }
@@ -125,20 +146,26 @@ public class AutoQueryGenerator {
         parseEntity(refEntity, nextAlias, joinFields);
     }
 
+    /**
+     * 处理普通字段
+     * @param field 字段
+     * @param alias 别名 t0
+     */
     private void handleField(Field field, String alias) {
+        // 不处理从表下的主键
         if (!MAIN_ALIAS.equals(alias) && field.isAnnotationPresent(Id.class)) {
             return;
         }
-        String column = CamelSnakeConvertUtil.camel2SnakeCase(field.getName());
+        String column = NamingConvertUtil.camel2SnakeCase(field.getName());
         selectList.add(alias + "." + column);
     }
 
     private void handleField4Dto(Field field, String alias) {
-        // Only include main entity fields present in DTO
+        // 不处理从表? 这里有问题, 为什么不处理从表? 还是说我没理解?
         if (!MAIN_ALIAS.equals(alias)) {
             return;
         }
-        String column = CamelSnakeConvertUtil.camel2SnakeCase(field.getName());
+        String column = NamingConvertUtil.camel2SnakeCase(field.getName());
         if (dtoFieldSet.contains(column)) {
             selectList.add(alias + "." + column);
         }

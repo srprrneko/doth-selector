@@ -74,12 +74,130 @@ public class Employee {
         this.getDepartment().setId(dId);
     }
 
+    /*
+        我想到一个方法:
+            被声明的 构造包含的字段 在生成的时候赋值为特殊默认值
+            这样就可以通过是否等于空, 获取查询列列表
+     */
     @DTOConstructor(id = "empSimple")
-    public Employee(Integer id, String name, Integer age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
+    public Employee(Integer id, String name, Integer age) {}
+    /*
+        构造方法构造查询列列表 方案:
+            难点:
+                1.动态层级
+                2.重名问题
+                3.冗余注解问题
+                    一个注解代表一个层级下的字段, 弊端是顺序难以控制, 好处是层级清晰, 方便阅读
+                    现在是 通过构造方法中的参数进行组装映射, 完全不关 DTO 的事, 现在的 DTO 完全就是 让返回的数据做一个命名
+            预想:
+                public Employee(Integer id, String name, Integer age,
+                    @JoinLevel(childTable = Department.class)
+                        Integer depId, String depName // -> dep前缀自动匹配 department.name, 如果撇皮失败则全前缀departmentName
+                    @JoinLevel(childTable = Company.class)
+                        @ColAlias(name = "companyName") String comName
+                ) {}
+
+
+
+
+            预想实体中声明的构造参数:
+                @DTOConstructor(id = "baseEmpInfo")
+                public Employee(
+                        @MainLevel // 可以省略
+                            Integer id, String name, Integer age,
+
+                            @JoinLevel(clz = Department.class) // -> 对应 t1
+                                Integer department_depId, String dep_depName, // -> 对应 this.department.name/id, 或者只输入 dep 自动对应 department; department_代表处于哪一个实体下, 后面才是字段名称
+                            @JoinLevel(childTable = Company.class)
+                                String com_name
+                ) {}
+
+            预想对应生成的DTO类:
+                @DependOn(clzPath = "com.doth.selector.common.testbean.join.Employee employee")
+                public class Employee$baseEmpInfoDTO >> 原来的DTO类命名
+                public class BaseEmpInfo >> 更改后
+                {
+                    List<String> selectList = new ArrayList<>();
+
+                    private com.doth.selector.common.testbean.join.Employee employee
+
+                    public BaseEmpInfo() {}
+                    public BaseEmpInfo(com.doth.selector.common.testbean.join.Employee employee) {
+                        this.id = employee.getId();
+                        this.name = employee.getName();
+                        this.age = employee.getAge();
+                        this.depId = employee.getDepartment().getDepId();
+                        this.depName = employee.getDepartment().getDepName();
+                        this.comName = employee.getDepartment().getCompany().getName();
+                    }
+                    // 主表信息
+                    private Integer id,
+                    private String name,
+                    private Integer age;
+
+                    // department 的信息
+                    private Integer depId;
+                    private Integer depName;
+
+                    // company 的信息
+                    // private String name; >> 错误! 当生成时发现字段名重复时, 替换为从表的 simpleName + fieldName
+                    private String comName; >> 正确! 默认使用从表的 simpleName 的 substring(0, 3) 作为最终字段名, 或者使用 @PfxAlias(name = "company") -> Pfx = Prefix, 最终: companyName, 反正最终字段名一定包含name, 只能自定义前缀, 算是该框架的规则
+
+
+
+                    static {
+                        DTOFactory.register(com.doth.selector.common.testbean.join.Employee.class, "baseEmpInfo", BaseEmpInfo.class 记得同类名.class);
+                        // 最后再将实际字段注册进一个 新的 [查询列列表] 工厂中, 你可以参考 DTOFactory 的做法进行创建
+                        selectList.add("t0.id"); // 按构造顺序一一赋值, tN 的生成规则可以参考 ColumnPathResolver
+                        selectList.add("t0.name");
+                        selectList.add("t0.age");
+                        selectList.add("t1.depId");
+                        selectList.add("t1.depName");
+                        selectList.add("t2.name"); // !!这里不是 t2.comName!! 字段写 comName 是为了防止重名
+                        DTOSelectFieldsListFactory.register("baseEmpInfo", selectList);
+                        !![这样的话, AutoQueryGenerator 中的 extractDtoFieldNames 方法需要修改, 返回的是查询列列表, 返回前做一层循环依赖判断]!!
+                    }
+                    // getter, setter, equal, toString... 我来写
+                }
+
+    实体信息:
+                @Entity
+                public class Employee {
+
+                    @Id
+                    private Integer id;
+
+                    private String name;
+
+                    private Integer age;
+
+                    @Join(fk = "d_id", refFK = "depId")
+                    private Department department;
+                    ...
+                }
+                @Entity
+                public class Department {
+
+                    @Id
+                    private Integer depId;
+
+                    private String depName; // 框架还内置了检查, 强制要求实体类的字段都必须使用 包装类
+
+                    @Join(fk = "com_id", refFK = "id")
+                    private Company company;
+                    ...
+                }
+                @Entity
+                public class Company {
+
+                    @Id
+                    private Integer id;
+
+                    private String name;
+                    ...
+                }
+
+     */
 
     public static void main(String[] args) {
 
@@ -152,4 +270,5 @@ public class Employee {
     public String toString() {
         return "Employee{id = " + id + ", name = " + name + ", age = " + age + ", department = " + department + "}";
     }
+
 }

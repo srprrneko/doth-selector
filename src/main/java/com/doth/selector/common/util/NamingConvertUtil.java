@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // 规范转换
-public class CamelSnakeConvertUtil {
+public class NamingConvertUtil {
 
     private static StringBuilder sb;
 
@@ -68,5 +68,34 @@ public class CamelSnakeConvertUtil {
     }
 
 
+    /**
+     * 将小写字母转换为大写，保留 $, _ 和数字字符
+     * @param input 字符串, 可能是类名
+     */
+    public static String toUpperCaseFirstLetter(String input, boolean checkStrict) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+
+        // 严格检查，则遍历所有字符
+        if (checkStrict) {
+            for (int i = 0; i < input.length(); i++) {
+                char c = input.charAt(i);
+                if (!(Character.isLetter(c) || c == '$' || c == '_' || Character.isDigit(c))) {
+                    throw new IllegalArgumentException(
+                            "非法字符: '" + c + "' 仅允许字母、数字、$ 和 _"
+                    );
+                }
+            }
+        }
+
+        // 转换首字母为大写
+        char firstChar = input.charAt(0);
+        if (Character.isLowerCase(firstChar)) {
+            firstChar = Character.toUpperCase(firstChar);
+        }
+
+        return firstChar + input.substring(1);
+    }
 
 }

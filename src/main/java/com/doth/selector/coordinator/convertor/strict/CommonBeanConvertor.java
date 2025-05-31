@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.doth.selector.common.util.CamelSnakeConvertUtil.camel2SnakeCase;
-import static com.doth.selector.common.util.CamelSnakeConvertUtil.snake2CamelCase;
+import static com.doth.selector.common.util.NamingConvertUtil.camel2SnakeCase;
+import static com.doth.selector.common.util.NamingConvertUtil.snake2CamelCase;
 
 /**
  * 严格模式Bean转换器 - 实现 BeanConvertor 接口

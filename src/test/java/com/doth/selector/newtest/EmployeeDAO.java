@@ -50,7 +50,6 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     }
     @Test
     public void testNew() {
-
         List<Employee> impl = this.impl();
         System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
         System.out.println("impl = " + impl);
@@ -58,9 +57,6 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     @UseDTO(id = "empSimple")
     public List<Employee> impl() {
-        // return bud$().query2Lst(builder ->
-        //         builder.eq(Employee::getName, "张三")
-        // );
         return bud$().query2Lst(builder ->
                 builder.eq(e -> e.getDepartment().getName(), "研发部")
         );

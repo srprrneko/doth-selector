@@ -114,7 +114,7 @@ public class JoinBeanConvertor implements BeanConvertor {
         // 2. 尝试使用 DTOFactory 获取子类，如果没有，则退回使用原类型
         Class<?> actualClass = DTOFactory.resolve(beanClass, dtoId);
         T bean = (T) actualClass.getDeclaredConstructor().newInstance();
-        System.out.println("actualClass = " + actualClass);
+        // System.out.println("actualClass = " + actualClass);
 
 
         for (Map.Entry<Field, String> entry : metaMap.getFieldMeta().entrySet()) {

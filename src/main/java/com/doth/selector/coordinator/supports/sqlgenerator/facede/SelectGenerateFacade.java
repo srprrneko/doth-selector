@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 
 import static com.doth.selector.common.util.adapeter.SqlNormalizer.replaceWildcard;
 import static com.doth.selector.coordinator.supports.sqlgenerator.builder.SqlBuilder.buildWhereClause;
-import static com.doth.selector.common.util.CamelSnakeConvertUtil.camel2SnakeCase;
+import static com.doth.selector.common.util.NamingConvertUtil.camel2SnakeCase;
 import static com.doth.selector.coordinator.supports.sqlgenerator.builder.SqlBuilder.buildFieldList;
 
 /**

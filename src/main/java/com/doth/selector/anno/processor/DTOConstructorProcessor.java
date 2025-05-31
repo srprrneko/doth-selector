@@ -1,12 +1,12 @@
 package com.doth.selector.anno.processor;
 
 import com.doth.selector.anno.DTOConstructor;
+import com.doth.selector.common.util.NamingConvertUtil;
 import com.google.auto.service.AutoService;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
@@ -44,7 +44,11 @@ public class DTOConstructorProcessor extends AbstractProcessor {
             TypeElement enclosingClass = (TypeElement) constructor.getEnclosingElement();
 
             String dtoId = constructor.getAnnotation(DTOConstructor.class).id();
+            boolean autoClzName = constructor.getAnnotation(DTOConstructor.class).isAutoClzName();
             String dtoClassName = enclosingClass.getSimpleName() + "$" + dtoId + "DTO";
+            if (!autoClzName) {
+                dtoClassName = NamingConvertUtil.toUpperCaseFirstLetter(dtoId, true);
+            }
             String pkg = elementUtils.getPackageOf(enclosingClass).getQualifiedName().toString();
 
             try {
