@@ -4,17 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="191546c3-4bb9-4ec1-89f0-58626937abab" name="Changes" comment="lambda 加强 builder 正式诞生">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="191546c3-4bb9-4ec1-89f0-58626937abab" name="Changes" comment="[extends dto] update to [dto] after version">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/JoinLevel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Next.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/PfxAlias.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DTOSelectFieldsListFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/DependOn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/DependOn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/DTOConstructorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/DTOConstructorProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join3/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join3/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/facede/SelectGenerateFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/facede/SelectGenerateFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DtoStackResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DtoStackResolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAODctTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAODctTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/CompanyDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/CompanyDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,110 +65,110 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.AliasConvertUtil.executor": "Run",
-    "Application.AutoQueryGenerator.executor": "Run",
-    "Application.BaseDruidUtil.executor": "Run",
-    "Application.BuilderSqlTest.executor": "Run",
-    "Application.CompanyDao.executor": "Run",
-    "Application.Department.executor": "Run",
-    "Application.DynamicQueryGenerator.executor": "Run",
-    "Application.DynamicSQLBuilder.executor": "Run",
-    "Application.Employee.executor": "Run",
-    "Application.EmployeeDAO.executor": "Run",
-    "Application.EmployeeDAO2.executor": "Run",
-    "Application.EntityAdapter.executor": "Run",
-    "Application.FixedMethodReferenceParser.executor": "Run",
-    "Application.JoinBeanConvertorV1.executor": "Run",
-    "Application.LambdaFieldPathResolver.executor": "Run",
-    "Application.LambdaParser.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.MethodReferenceParser.executor": "Run",
-    "Application.MethodReferenceParserFinal.executor": "Run",
-    "Application.MethodReferenceParserV1.executor": "Run",
-    "Application.MethodReferenceParserV2.executor": "Run",
-    "Application.MethodReferenceUtil.executor": "Run",
-    "Application.RawSqlTest.executor": "Run",
-    "Application.SelectorTest.executor": "Run",
-    "Application.SqlAliasGenerator.executor": "Run",
-    "Application.SqlAliasGenerator_v1.executor": "Run",
-    "Application.SqlGenerator_join.executor": "Run",
-    "Application.StableMethodReferenceParser.executor": "Run",
-    "Application.StudentDAO.executor": "Run",
-    "Application.StudentHandler.executor": "Run",
-    "Application.StudentSon.executor": "Run",
-    "Application.TempTest.executor": "Run",
-    "Application.Test.executor": "Run",
-    "Application.com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver.executor": "Run",
-    "Application.com.doth.stupidrefframe.selector.v1.core.EmployeeDAO.executor": "Run",
-    "Application.com.doth.stupidrefframe_v1.trygetgenericity.Main.executor": "Run",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "JUnit.CompanyDao.test.executor": "Run",
-    "JUnit.EmployeeDAO.testNew.executor": "Run",
-    "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds5.executor": "Run",
-    "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds6.executor": "Run",
-    "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds7.executor": "Run",
-    "JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds8.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryAll.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByDepartmentIdVzName.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByDepartmentName.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryById1.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryById2.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByName.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentId1.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentId2.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds3.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds5.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds6.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds7.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds9.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testAll.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testNew.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testQueryByDepartmentIdAndNameLike.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testQueryByDepartmentNameLikeAndAgeGt.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testQueryByName.executor": "Run",
-    "JUnit.EmployeeDAORawTest.testQueryByNameAndDepartmentIds9.executor": "Run",
-    "JUnit.EntityAdapter.testNormal.executor": "Run",
-    "JUnit.EntityAdapter.testRecursive.executor": "Run",
-    "JUnit.JoinBeanConvertorV1.main.executor": "Run",
-    "JUnit.JoinTest.test1.executor": "Run",
-    "JUnit.SelectorTest.test2.executor": "Run",
-    "JUnit.SelectorTest.test3.executor": "Run",
-    "JUnit.StudentDAO.queryDep.executor": "Run",
-    "Maven.selector [clean,compile].executor": "Run",
-    "Maven.selector [clean,install,--non-recursive].executor": "Run",
-    "Maven.selector [clean].executor": "Run",
-    "Maven.selector [compile].executor": "Run",
-    "Maven.selector [install,--non-recursive].executor": "Run",
-    "Maven.selector [install].executor": "Run",
-    "Maven.test02 [clean].executor": "Run",
-    "Maven.test02 [compile].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/贤/Desktop/temp/java-try/selector/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.3643678",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.AliasConvertUtil.executor&quot;: &quot;Run&quot;,
+    &quot;Application.AutoQueryGenerator.executor&quot;: &quot;Run&quot;,
+    &quot;Application.BaseDruidUtil.executor&quot;: &quot;Run&quot;,
+    &quot;Application.BuilderSqlTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.CompanyDao.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Department.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DynamicQueryGenerator.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DynamicSQLBuilder.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Employee.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EmployeeDAO.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EmployeeDAO2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EntityAdapter.executor&quot;: &quot;Run&quot;,
+    &quot;Application.FixedMethodReferenceParser.executor&quot;: &quot;Run&quot;,
+    &quot;Application.JoinBeanConvertorV1.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LambdaFieldPathResolver.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LambdaParser.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MethodReferenceParser.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MethodReferenceParserFinal.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MethodReferenceParserV1.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MethodReferenceParserV2.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MethodReferenceUtil.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RawSqlTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SelectorTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SqlAliasGenerator.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SqlAliasGenerator_v1.executor&quot;: &quot;Run&quot;,
+    &quot;Application.SqlGenerator_join.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StableMethodReferenceParser.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StudentDAO.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StudentHandler.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StudentSon.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TempTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Test.executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver.executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.doth.stupidrefframe.selector.v1.core.EmployeeDAO.executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.doth.stupidrefframe_v1.trygetgenericity.Main.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;JUnit.CompanyDao.test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAO.testNew.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds5.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds6.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds7.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOBuilderTest.testQueryByNameAndDepartmentIds8.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByDepartmentIdVzName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByDepartmentName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryById1.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryById2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentId1.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentId2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds3.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds5.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds6.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds7.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds9.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testNew.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentIdAndNameLike.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentNameLikeAndAgeGt.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAORawTest.testQueryByNameAndDepartmentIds9.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EntityAdapter.testNormal.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EntityAdapter.testRecursive.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JoinBeanConvertorV1.main.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.JoinTest.test1.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SelectorTest.test2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SelectorTest.test3.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StudentDAO.queryDep.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector [clean,compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector [clean,install,--non-recursive].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector [install,--non-recursive].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.test02 [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.test02 [compile].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/贤/Desktop/temp/java-try/selector/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.3643678&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.doth.stupidrefframe_v1.testbean" />
@@ -198,7 +195,7 @@
       <recent name="com.doth.stupidrefframe_v1.newtest" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.EmployeeDAO">
+  <component name="RunManager" selected="Application.Employee">
     <configuration name="AutoQueryGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.doth.selector.coordinator.supports.sqlgenerator.tool.AutoQueryGenerator" />
       <module name="selector" />
@@ -272,11 +269,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Employee" />
         <item itemvalue="Application.EmployeeDAO" />
+        <item itemvalue="JUnit.EmployeeDAO.testNew" />
         <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByName" />
         <item itemvalue="Application.AutoQueryGenerator" />
-        <item itemvalue="JUnit.EmployeeDAO.testNew" />
-        <item itemvalue="Application.Employee" />
       </list>
     </recent_temporary>
   </component>
@@ -362,7 +359,8 @@
       <workItem from="1748394078424" duration="15801000" />
       <workItem from="1748479637323" duration="845000" />
       <workItem from="1748481517218" duration="315000" />
-      <workItem from="1748481861816" duration="20664000" />
+      <workItem from="1748481861816" duration="28933000" />
+      <workItem from="1748586822035" duration="41205000" />
     </task>
     <task id="LOCAL-00001" summary="3/28 created in 5 days">
       <option name="closed" value="true" />
@@ -516,7 +514,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748083509758</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="[extends dto] update to [dto] after version">
+      <option name="closed" value="true" />
+      <created>1748700978649</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1748700978649</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -552,7 +558,8 @@
     <MESSAGE value="Merge remote-tracking branch 'origin/dev' into dev" />
     <MESSAGE value="enhance builder for lambda auto alias" />
     <MESSAGE value="lambda 加强 builder 正式诞生" />
-    <option name="LAST_COMMIT_MESSAGE" value="lambda 加强 builder 正式诞生" />
+    <MESSAGE value="[extends dto] update to [dto] after version" />
+    <option name="LAST_COMMIT_MESSAGE" value="[extends dto] update to [dto] after version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

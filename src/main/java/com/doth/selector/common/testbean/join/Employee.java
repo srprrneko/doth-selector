@@ -1,9 +1,6 @@
 package com.doth.selector.common.testbean.join;
 
-import com.doth.selector.anno.DTOConstructor;
-import com.doth.selector.anno.Entity;
-import com.doth.selector.anno.Id;
-import com.doth.selector.anno.Join;
+import com.doth.selector.anno.*;
 
 /**
  * @project: test02
@@ -29,6 +26,8 @@ public class Employee {
 
     @Join(fk = "d_id", refFK = "id")
     private Department department;
+
+
 
 
     public Employee() {
@@ -57,7 +56,7 @@ public class Employee {
         this.department = department;
     }
 
-    @DTOConstructor(id = "empDeptVzId")
+    // @DTOConstructor(id = "empDeptVzId")
     public Employee(Integer id, String name, Integer age, Department department, Integer d_id) {
         this.id = id;
         this.name = name;
@@ -66,7 +65,7 @@ public class Employee {
         this.getDepartment().setId(d_id);
     }
 
-    @DTOConstructor(id = "empWithDepId")
+    // @DTOConstructor(id = "empWithDepId")
     public Employee(Integer id, String name, Integer age, Integer dId) {
         this.id = id;
         this.name = name;
@@ -79,8 +78,17 @@ public class Employee {
             被声明的 构造包含的字段 在生成的时候赋值为特殊默认值
             这样就可以通过是否等于空, 获取查询列列表
      */
-    @DTOConstructor(id = "empSimple")
+    // @DTOConstructor(id = "empSimple")
     public Employee(Integer id, String name, Integer age) {}
+
+    @DTOConstructor(id = "baseEmpInfo")
+    public Employee(Integer id, String name,
+                    @JoinLevel(clz = Department.class) Integer department_id,
+                        String department_name,
+                    @Next(clz = Company.class) String company_name) {
+    }
+
+    
     /*
         构造方法构造查询列列表 方案:
             难点:
