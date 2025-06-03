@@ -2,6 +2,8 @@ package com.doth.selector.newtest;
 
 import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.anno.UseDTO;
+// import com.doth.selector.common.testbean.join.BaseEmpInfo;
+import com.doth.selector.common.testbean.join.BaseEmpInfo;
 import com.doth.selector.core.Selector;
 import com.doth.selector.common.testbean.join.Employee;
 import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
@@ -43,9 +45,24 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAOImpl();
-        List<Employee> impl = dao.impl();
+        // List<Employee> impl = dao.impl();
+
+        List<BaseEmpInfo> implDto = dao.dtoImpl();
+
         // System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
-        System.out.println("impl = " + impl);
+        // System.out.println("impl = " + impl);
+        implDto.forEach(e -> {
+            System.out.println("================================================================================");
+            System.out.println("e.getId() = " + e.getId());
+            System.out.println("e.getName() = " + e.getName());
+            System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
+            System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
+            System.out.println("e.getCompanyName() = " + e.getCompanyName());
+            System.out.println("================================================================================");
+        });
+
+        System.out.println("impl = " + implDto);
+
 
     }
     @Test
@@ -55,11 +72,28 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         System.out.println("impl = " + impl);
     }
 
-    @UseDTO(id = "empSimple")
+    // @UseDTO(id = "empSimple")
     public List<Employee> impl() {
         return bud$().query2Lst(builder ->
                 builder.eq(e -> e.getDepartment().getName(), "研发部")
         );
+    }
+
+    @UseDTO(id = "baseEmpInfo")
+    public List<BaseEmpInfo> dtoImpl() {
+        /*
+            现在有一个情况:
+            1.当使用了 dto 模式的时候, 泛型不再共享, lambda 表达式也不再生效
+
+            思路: 因为自动dto的缘故, dto始终只可能存在一层, 所以最终eq的重载只可能存在一个
+         */
+        // return Selector.bud$(BaseEmpInfo.class).query2Lst(builder ->
+        //             builder.eq("t1.name", "研发部")
+        // );
+        return queryDtoList(BaseEmpInfo.class, builder -> {
+            // 这时 builder 的泛型是 ConditionBuilder<Employee>，所以 e.getDepartment().getName() 可以提示
+            builder.eq(e -> e.getDepartment().getName(), "研究部");
+        });
     }
 
     /**

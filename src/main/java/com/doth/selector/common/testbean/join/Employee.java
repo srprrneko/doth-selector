@@ -82,13 +82,16 @@ public class Employee {
     public Employee(Integer id, String name, Integer age) {}
 
     @DTOConstructor(id = "baseEmpInfo")
-    public Employee(Integer id, String name,
-                    @JoinLevel(clz = Department.class) Integer department_id,
-                        String department_name,
-                    @Next(clz = Company.class) String company_name) {
-    }
+    public Employee(
+                @MainLevel
+                    Integer id, String name,
+                @JoinLevel(clz = Department.class)
+                    Integer department_id, String department_name,
+                    @Next(clz = Company.class)
+                        String company_name
+    ) {}
 
-    
+
     /*
         构造方法构造查询列列表 方案:
             难点:

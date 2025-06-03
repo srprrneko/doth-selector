@@ -9,10 +9,25 @@ import java.util.List;
 public class EmployeeDAODctTest {
     
     private EmployeeDAO dao;
+
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        // 总共20条
+        EmployeeDAO dao = new EmployeeDAOImpl() ;
+
+        List<Employee> employees = dao.dct$().query2Lst();
+
+        long end = System.currentTimeMillis();
+
+        System.out.println("queryAll result: " + employees);
+        System.out.println("总耗时" + (end - start));
+    }
     //
     @Before
     public void setUp() {
         // dao = new EmployeeDAOImpl(); // 模拟service层注入
+
+
     }
 
     @Test

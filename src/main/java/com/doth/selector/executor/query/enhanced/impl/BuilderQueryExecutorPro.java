@@ -23,6 +23,13 @@ public class BuilderQueryExecutorPro<T> extends JoinExecutor<T>  {
         setup.accept(builder);
         return coordinator.queryByBuilder(beanClass, builder);
     }
+    @Overload
+    public List<T> query2Lst(Consumer<ConditionBuilder<T>> setup, boolean dtoModel) {
+        ConditionBuilder<T> builder = new ConditionBuilder<>(beanClass); // beanClass = 实体类
+        setup.accept(builder);
+        return coordinator.queryByBuilder((Class<T>) dtoClass, builder); // 查询映射使用 dto
+    }
+
 
     @Overload
     @Deprecated

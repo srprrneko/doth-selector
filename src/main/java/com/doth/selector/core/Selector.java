@@ -10,6 +10,7 @@ import com.doth.selector.executor.query.basic.impl.RawQueryExecutor;
 import com.doth.selector.executor.query.enhanced.impl.BuilderQueryExecutorPro;
 import com.doth.selector.executor.query.enhanced.impl.DirectQueryExecutorPro;
 import com.doth.selector.executor.query.enhanced.impl.RawQueryExecutorPro;
+import com.doth.selector.executor.supports.builder.ConditionBuilder;
 import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
 import com.doth.selector.executor.supports.lambda.SFunction;
 
@@ -17,7 +18,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * 实体查询门面类 - 提供所有查询方法使用入口, 整合多种查询策略的执行器, 简化调用复杂度, 提高代码可读性
@@ -126,6 +129,17 @@ public class Selector<T> {
     public BuilderQueryExecutorPro<T> bud$() {
         return getExecutor(beanClass, ExecutorType.BUILDER_PRO, BuilderQueryExecutorPro.class);
     }
+
+    @SuppressWarnings("unchecked")
+    public <D> List<D> queryDtoList(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
+        // 1. 拿一个基于实体类型 T 的 BuilderQueryExecutorPro
+        BuilderQueryExecutorPro<T> executor = bud$();
+        // 2. 把 dtoClass 注入到执行器里，表示“最后要把结果映射成这个 DTO”
+        executor.setDtoClass(dtoClass);
+        // 3. 真正用实体类型 beanClass 构造 ConditionBuilder，并执行查询，把结果映射成 DTO
+        return (List<D>) executor.query2Lst(setup, true);
+    }
+
 
 
 

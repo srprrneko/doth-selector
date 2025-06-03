@@ -14,6 +14,9 @@ public abstract class BasicKindQueryExecutor<T> {
     // protected final Class<T> beanClass;
     protected Class<T> beanClass;
 
+    protected Class<?> dtoClass;
+
+
 
     // 强制子类必须传入实体类型
     protected BasicKindQueryExecutor() { // 开闭原则, 新增参数coordinator不需要selector门面类修改, 由子类自己重写setCoordinator方法即可
@@ -25,6 +28,13 @@ public abstract class BasicKindQueryExecutor<T> {
             throw new IllegalStateException("beanClass 已被初始化，禁止重复设置");
         }
         this.beanClass = beanClass;
+    }
+
+    public void setDtoClass(Class<?> dtoClass) {
+        if (this.dtoClass != null) { // 使用该判断
+            throw new IllegalStateException("dtoClass 已被初始化，禁止重复设置");
+        }
+        this.dtoClass = dtoClass;
     }
 
     protected void setCoordinator(ExecuteCoordinatorService coordinator) {
