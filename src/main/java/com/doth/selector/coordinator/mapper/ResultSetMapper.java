@@ -2,9 +2,9 @@ package com.doth.selector.coordinator.mapper;
 
 import com.doth.selector.common.exception.NoColumnExistException;
 import com.doth.selector.common.exception.NonUniqueResultException;
-import com.doth.selector.coordinator.convertor.BeanConvertor;
-import com.doth.selector.coordinator.convertor.BeanConvertorFactory;
-import com.doth.selector.coordinator.convertor.ConvertorType;
+import com.doth.selector.convertor.BeanConvertor;
+import com.doth.selector.convertor.BeanConvertorFactory;
+import com.doth.selector.convertor.ConvertorType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

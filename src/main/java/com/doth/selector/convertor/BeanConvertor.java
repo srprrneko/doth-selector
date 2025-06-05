@@ -1,4 +1,4 @@
-package com.doth.selector.coordinator.convertor;
+package com.doth.selector.convertor;
 
 
 import java.sql.ResultSet;

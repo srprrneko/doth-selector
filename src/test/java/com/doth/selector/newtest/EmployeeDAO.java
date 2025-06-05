@@ -55,7 +55,6 @@ public abstract class EmployeeDAO extends Selector<Employee> {
             System.out.println("================================================================================");
             System.out.println("e.getId() = " + e.getId());
             System.out.println("e.getName() = " + e.getName());
-            System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
             System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
             System.out.println("e.getCompanyName() = " + e.getCompanyName());
             System.out.println("================================================================================");
@@ -79,7 +78,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         );
     }
 
-    @UseDTO(id = "baseEmpInfo")
+    // @UseDTO(id = "baseEmpInfo")
     public List<BaseEmpInfo> dtoImpl() {
         /*
             现在有一个情况:
@@ -92,7 +91,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         // );
         return queryDtoList(BaseEmpInfo.class, builder -> {
             // 这时 builder 的泛型是 ConditionBuilder<Employee>，所以 e.getDepartment().getName() 可以提示
-            builder.eq(e -> e.getDepartment().getName(), "研究部");
+            builder.eq(e -> e.getDepartment().getName(), "研发部");
         });
     }
 

@@ -1,8 +1,8 @@
-package com.doth.selector.coordinator.convertor.strict;
+package com.doth.selector.convertor.strict;
 
 
 import com.doth.selector.common.exception.NoColumnExistException;
-import com.doth.selector.coordinator.convertor.BeanConvertor;
+import com.doth.selector.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;

@@ -25,11 +25,13 @@ public class DTOSelectFieldsListFactory {
      * @param selectList  该 DTO 的查询字段列表，必须是完整的字段路径，如 t0.id
      */
     public static void register(Class<?> entityClass, String dtoId, List<String> selectList) {
+        System.out.println("selectList = " + selectList);
         System.out.println("触发了哦");
         if (entityClass == null || dtoId == null || selectList == null) return;
-        SELECT_FIELD_REGISTRY
-            .computeIfAbsent(entityClass, k -> new ConcurrentHashMap<>())
-            .put(dtoId, Collections.unmodifiableList(new ArrayList<>(selectList))); // 防御性拷贝并保护不被修改
+        List<String> put = SELECT_FIELD_REGISTRY
+                .computeIfAbsent(entityClass, k -> new ConcurrentHashMap<>())
+                .put(dtoId, Collections.unmodifiableList(new ArrayList<>(selectList)));
+        System.out.println("put = " + put);
     }
 
     /**

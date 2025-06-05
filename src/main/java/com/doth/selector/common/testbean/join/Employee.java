@@ -86,7 +86,7 @@ public class Employee {
                 @MainLevel
                     Integer id, String name,
                 @JoinLevel(clz = Department.class)
-                    Integer department_id, String department_name,
+                    String department_name,
                     @Next(clz = Company.class)
                         String company_name
     ) {}

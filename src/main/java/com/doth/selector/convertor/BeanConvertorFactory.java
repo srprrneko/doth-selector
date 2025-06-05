@@ -1,8 +1,8 @@
-package com.doth.selector.coordinator.convertor;
+package com.doth.selector.convertor;
 
-import com.doth.selector.coordinator.convertor.join.JoinBeanConvertor;
-import com.doth.selector.coordinator.convertor.strict.CommonBeanConvertorLv;
-import com.doth.selector.coordinator.convertor.strict.CommonBeanConvertor;
+import com.doth.selector.convertor.join.JoinBeanConvertor;
+import com.doth.selector.convertor.strict.CommonBeanConvertorLv;
+import com.doth.selector.convertor.strict.CommonBeanConvertor;
 
 import java.util.EnumMap;
 import java.util.Map;

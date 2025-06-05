@@ -140,13 +140,17 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
         return raw$().query2Lst( // 对于不查询的列赋值为空
                 "SELECT " +
-                        "emp.id, emp.name, emp.d_id, " + // 查询从表主键使用主表外键替代
-                        "dep.name FROM employee emp " +
-                        "JOIN department dep ON emp.d_id = dep.id " +
-                        "WHERE emp.name LIKE ? AND dep.id IN (?, ?, ?) " +
+                        "emp.id, emp.name, " + // 查询从表主键使用主表外键替代
+                        // "dep.name, com.name" +
+                        " FROM employee emp " +
+                        // "JOIN department dep ON emp.d_id = dep.id " +
+                        // "JOIN company com ON dep.com_id = com.id " +
+                        "WHERE emp.name LIKE ? " +
+                        // "AND dep.id IN (?, ?, ?) " +
                         "ORDER BY emp.id DESC",
 
-                "张%", List.of(1,2,3) // 底层自动展开参数
+                "张%"
+                // , List.of(1,2,3) // 底层自动展开参数
         );
     }
 

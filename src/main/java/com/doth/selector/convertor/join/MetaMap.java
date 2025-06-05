@@ -1,4 +1,4 @@
-package com.doth.selector.coordinator.convertor.join;
+package com.doth.selector.convertor.join;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

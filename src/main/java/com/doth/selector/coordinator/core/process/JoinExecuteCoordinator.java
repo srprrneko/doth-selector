@@ -4,7 +4,7 @@ import com.doth.selector.coordinator.core.ExecuteCoordinator;
 import com.doth.selector.coordinator.mapper.ResultSetMapper;
 import com.doth.selector.common.util.adapeter.EntityAdapter;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
-import com.doth.selector.coordinator.convertor.ConvertorType;
+import com.doth.selector.convertor.ConvertorType;
 import com.doth.selector.coordinator.supports.sqlgenerator.facede.SelectGenerateFacade;
 
 import java.util.*;

@@ -11,16 +11,10 @@ public class EmployeeDAODctTest {
     private EmployeeDAO dao;
 
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        // 总共20条
-        EmployeeDAO dao = new EmployeeDAOImpl() ;
+        EmployeeDAO dao = new EmployeeDAOImpl();
 
-        List<Employee> employees = dao.dct$().query2Lst();
-
-        long end = System.currentTimeMillis();
-
-        System.out.println("queryAll result: " + employees);
-        System.out.println("总耗时" + (end - start));
+        List<Employee> result = dao.queryByNameAndDepartmentIds9();
+        System.out.println("queryByNameAndDepartmentIds9 result: " + result);
     }
     //
     @Before
