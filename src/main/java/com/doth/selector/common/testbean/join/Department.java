@@ -3,6 +3,7 @@ package com.doth.selector.common.testbean.join;
 import com.doth.selector.anno.Entity;
 import com.doth.selector.anno.Id;
 import com.doth.selector.anno.Join;
+import com.doth.selector.anno.OneToOne;
 
 /**
  * @project: test02
@@ -20,6 +21,7 @@ public class Department {
     private String name; // 框架还内置了检查, 强制要求实体类的字段都必须使用 包装类
 
     @Join(fk = "com_id")
+    @OneToOne
     private Company company;
 
 

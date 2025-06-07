@@ -48,6 +48,15 @@ public class Employee {
                 1.最终返回的 字段的就算子类没有声明, 父类包含了, 那么这个字段就会为空, 也就是说,
                 这个DTO自动生成的方式, 实际上只是方便用于控制 [懒加载], 所以不应该叫做DTO, 而是叫做[懒加载模型LazyModel=LM]
 
+
+        现在解决完了, 考虑新的方向:
+            1.考虑写插件 为当前 dto 自动编译生成, 而不需要为整个项目都全部重新生成一遍
+            2.将生成的 dto 持久化到目录当中
+            3.AutoQueryGenerator 应当支持从表主键的替换, 或是JoinBeanConvertor可以支持从表主键的映射 (现在仅支持主表外键的映射, 理由: 双方实际上一致, 可能导致冲突)
+            4.优化 AutoQueryGenerator 的设计问题
+            5.优化 DTOConstructor 的职责问题 ****
+            6.优化 JoinBeanConvertor 的职责问题
+
      */
     public Employee(Integer id, String name, Integer age, Department department) {
         this.id = id;
@@ -56,29 +65,12 @@ public class Employee {
         this.department = department;
     }
 
-    // @DTOConstructor(id = "empDeptVzId")
-    public Employee(Integer id, String name, Integer age, Department department, Integer d_id) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.department = department;
-        this.getDepartment().setId(d_id);
-    }
-
-    // @DTOConstructor(id = "empWithDepId")
-    public Employee(Integer id, String name, Integer age, Integer dId) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.getDepartment().setId(dId);
-    }
-
     /*
         我想到一个方法:
             被声明的 构造包含的字段 在生成的时候赋值为特殊默认值
             这样就可以通过是否等于空, 获取查询列列表
      */
-    // @DTOConstructor(id = "empSimple")
+    @DTOConstructor(id = "empSimple")
     public Employee(Integer id, String name, Integer age) {}
 
     @DTOConstructor(id = "baseEmpInfo")
@@ -89,6 +81,14 @@ public class Employee {
                     String department_name,
                     @Next(clz = Company.class)
                         String company_name
+    ) {}
+
+    @DTOConstructor(id = "baseEmpDep")
+    public Employee(
+                @MainLevel
+                    Integer id, String name,
+                @JoinLevel(clz = Department.class)
+                    String department_name
     ) {}
 
 

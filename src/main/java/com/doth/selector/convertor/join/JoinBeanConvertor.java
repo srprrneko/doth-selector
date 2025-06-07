@@ -5,6 +5,7 @@ import com.doth.selector.convertor.BeanConvertor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -58,7 +59,10 @@ public class JoinBeanConvertor implements BeanConvertor {
         // 如果是 DTO 模式，执行 DTO 构造逻辑
         if (!actualClass.equals(beanClass)) {
             try {
-                return beanClass.getConstructor(Object.class).newInstance(entity);
+                Constructor<T> constructor = beanClass.getConstructor(entity.getClass());
+                T t = constructor.newInstance(entity);
+                System.out.println("t.getClass() = " + t.getClass());
+                return t;
             } catch (Exception e) {
                 throw new RuntimeException("DTO 构造失败: " + beanClass.getName(), e);
             }
@@ -82,7 +86,7 @@ public class JoinBeanConvertor implements BeanConvertor {
                 boolean hasAnyNestedField = false;
                 for (Field subField : field.getType().getDeclaredFields()) {
                     subField.setAccessible(true);
-                    String columnName = field.getName() + "_" + subField.getName();
+                    String columnName = field.getName() + "_" + subField.getName(); // 合成: department_name
                     if (columnExists(meta, columnName)) {
                         hasAnyNestedField = true;
                         break;

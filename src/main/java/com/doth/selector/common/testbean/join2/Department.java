@@ -1,6 +1,8 @@
 package com.doth.selector.common.testbean.join2;
 import com.doth.selector.anno.Id;
 import com.doth.selector.anno.Join;
+import com.doth.selector.anno.OneToOne;
+
 // 部门实体
 public class Department {
     @Id
@@ -10,6 +12,11 @@ public class Department {
 
     @Join(fk = "office_code") // 关联到办公地点表的外键
     private Office departmentOffice; // 嵌套关联对象
+
+    @Join(fk = "manager_id")
+    // @OneToOne
+    private Employee manager;
+
 
     // 其他字段...
 }

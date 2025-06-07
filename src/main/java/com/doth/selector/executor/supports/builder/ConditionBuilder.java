@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 /**
  * SQL条件构建器，用于动态生成WHERE子句和分页查询
- * 使用示例：new EntityAdapter().eq("name", "Alice").page("id", 1000, 20).getFullSql()
  */
 public class ConditionBuilder<T> {
     // where子句构建器

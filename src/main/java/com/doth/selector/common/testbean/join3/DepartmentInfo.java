@@ -11,7 +11,7 @@ public class DepartmentInfo {
     private String departmentInfoName;
 
     @Join(fk = "manager_id", refFK = "id")
-    @OneToOne
+    // @OneToOne
     private User manager;
 
     public DepartmentInfo() {
