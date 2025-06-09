@@ -151,8 +151,25 @@ public class JoinBeanConvertor implements BeanConvertor {
 
             Field refField = getField(field.getType(), refColumn);
             if (refField != null) {
-                setFieldValue(refBean, refField, fkValue);
+                Object refValueFromRs = null;
+                try {
+                    refValueFromRs = rs.getObject(field.getName() + "_" + refField.getName()); // e.g. department_id
+                } catch (SQLException ignored) {
+                }
+
+                Object finalValue = null;
+                if (fkValue != null && refValueFromRs != null) {
+                    // 优先使用 refValue（即 t1.id），防止主键为 null
+                    finalValue = refValueFromRs;
+                } else if (fkValue != null || refValueFromRs != null) {
+                    finalValue = (fkValue != null) ? fkValue : refValueFromRs;
+                }
+
+                if (finalValue != null) {
+                    setFieldValue(refBean, refField, finalValue);
+                }
             }
+
 
             setFieldValue(bean, field, refBean);
         }

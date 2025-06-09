@@ -6,5 +6,4 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DTOConstructor {
     String id();
-    boolean isAutoClzName() default true;
 }

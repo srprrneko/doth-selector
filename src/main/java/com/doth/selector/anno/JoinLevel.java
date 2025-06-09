@@ -7,4 +7,12 @@ import java.lang.annotation.*;
 @Documented
 public @interface JoinLevel {
     Class<?> clz();
+
+    JoinStrategy JOIN_STRATEGY() default JoinStrategy.JOIN;
+
+    enum JoinStrategy {
+        JOIN,
+        LEFT,
+        RIGHT,
+    }
 }

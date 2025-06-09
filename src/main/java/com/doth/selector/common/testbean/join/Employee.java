@@ -57,6 +57,15 @@ public class Employee {
             5.优化 DTOConstructor 的职责问题 ****
             6.优化 JoinBeanConvertor 的职责问题
 
+            一点小小的 想法:
+                现在的 代码社区都是 gitee, github..
+                    它们本质上是做版本控制的, 却还提供了社区模块
+                        但这也导致大多数人将其作用与版本控制的工具, 没有太多人去关注别人写的代码, 只有当这个人出名的时候, 才会有人去看
+                        引起这一问题的主要还是查看并理解的成本太高, 这也是代码社区的通病
+                            如果我能找到解决这个通病的办法, 那么就能突破这一瓶颈, 比如说: "娱乐化"
+                            区别于一般的代码社区, 我的平台不包含"版本控制", 只有"最终的版本"
+                                我还需要提供类似与方便开发者操作的"剪辑视频控制", 理想在"最终版本下录制视频"实现自由缩放, 光标的跟踪, 特效, 字幕的添加等等
+                                这样的话似乎会引起一波新的文化啊...
      */
     public Employee(Integer id, String name, Integer age, Department department) {
         this.id = id;
@@ -69,6 +78,8 @@ public class Employee {
         我想到一个方法:
             被声明的 构造包含的字段 在生成的时候赋值为特殊默认值
             这样就可以通过是否等于空, 获取查询列列表
+
+            !!方案取消!!
      */
     @DTOConstructor(id = "empSimple")
     public Employee(Integer id, String name, Integer age) {}
@@ -78,7 +89,7 @@ public class Employee {
                 @MainLevel
                     Integer id, String name,
                 @JoinLevel(clz = Department.class)
-                    String department_name,
+                    Integer department_id, String department_name,
                     @Next(clz = Company.class)
                         String company_name
     ) {}
@@ -90,6 +101,10 @@ public class Employee {
                 @JoinLevel(clz = Department.class)
                     String department_name
     ) {}
+
+    /*
+        现在的需求是赶紧把第一版的写出来然后, 发布到maven 上面, 完成优化的部分, 这真的会很难
+     */
 
 
     /*
@@ -207,6 +222,9 @@ public class Employee {
                     private String name;
                     ...
                 }
+
+
+                现在的想法, 先优化至最佳, 然后再理解
 
      */
 

@@ -5,6 +5,7 @@ import com.doth.selector.anno.UseDTO;
 // import com.doth.selector.common.testbean.join.BaseEmpInfo;
 // import com.doth.selector.common.testbean.join.BaseEmpInfo;
 import com.doth.selector.common.testbean.join.BaseEmpDep;
+import com.doth.selector.common.testbean.join.BaseEmpInfo;
 import com.doth.selector.core.Selector;
 import com.doth.selector.common.testbean.join.Employee;
 import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
@@ -48,7 +49,8 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         EmployeeDAO dao = new EmployeeDAOImpl();
         // List<Employee> impl = dao.impl();
 
-        List<BaseEmpDep> implDto = dao.dtoImpl();
+        // List<BaseEmpDep> implDto = dao.dtoImpl();
+        List<BaseEmpInfo> implDto = dao.dtoImpl();
 
         // System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
         // System.out.println("impl = " + impl);
@@ -56,8 +58,10 @@ public abstract class EmployeeDAO extends Selector<Employee> {
             System.out.println("================================================================================");
             System.out.println("e.getId() = " + e.getId());
             System.out.println("e.getName() = " + e.getName());
+
+            System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
             System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
-            // System.out.println("e.getCompanyName() = " + e.getCompanyName());
+            System.out.println("e.getCompanyName() = " + e.getCompanyName());
             System.out.println("================================================================================");
         });
 
@@ -70,18 +74,17 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         System.out.println("impl = " + impl);
     }
 
-    // @UseDTO(id = "empSimple")
     public List<Employee> impl() {
         return bud$().query2Lst(builder ->
                 builder.eq(e -> e.getDepartment().getName(), "研发部")
         );
     }
 
-    // @UseDTO(id = "baseEmpInfo")
-    public List<BaseEmpDep> dtoImpl() {
-        return queryDtoList(BaseEmpDep.class, builder -> {
-            // 这时 builder 的泛型是 ConditionBuilder<Employee>，所以 e.getDepartment().getName() 可以提示
-            builder.eq(e -> e.getDepartment().getName(), "研发部");
+    public List<BaseEmpInfo> dtoImpl() {
+        return queryDtoList(BaseEmpInfo.class, builder -> {
+            builder.eq(e -> e.getDepartment().getName(),
+                    "研发部");
+
         });
     }
 
@@ -123,8 +126,8 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     public abstract List<Employee> queryByDepartmentName(String name);
     
     @Test
-    public void testQueryByDepartmentName() { // emp 包含 department,
-        long start = System.currentTimeMillis(); // 电脑有点卡
+    public void testQueryByDepartmentName() {
+        long start = System.currentTimeMillis();
         List<Employee> result = this.queryByDepartmentName("研发部");
         long cost = System.currentTimeMillis() - start;
         System.out.println("queryByDepartmentName 执行耗时: " + cost + "ms, 结果数量: " + (result != null ? result.size() : 0));

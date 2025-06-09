@@ -10,5 +10,4 @@ import java.lang.annotation.Target;
 public @interface Join {
     String fk(); // 外键列名（如d_id）
     String refFK() default "id"; // 目标表的主键列名（默认id）
-    String alias() default "";
 }

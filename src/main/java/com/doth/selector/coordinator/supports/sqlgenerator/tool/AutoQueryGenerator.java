@@ -109,7 +109,8 @@ public class AutoQueryGenerator {
                     Set<Field> newAncestors = new HashSet<>(ancestorJoins);
                     newAncestors.add(field);
                     Join join = field.getAnnotation(Join.class);
-                    selectList.add(alias + "." + NamingConvertUtil.camel2SnakeCase(join.fk()));
+                    if (!dtoMode)
+                        selectList.add(alias + "." + NamingConvertUtil.camel2SnakeCase(join.fk()));
 
                     Class<?> target = field.getType();
                     Field pk = Arrays.stream(target.getDeclaredFields())
