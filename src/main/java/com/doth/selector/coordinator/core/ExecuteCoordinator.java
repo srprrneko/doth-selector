@@ -27,13 +27,13 @@ public abstract class ExecuteCoordinator implements ExecuteCoordinatorService {
 
     // 执行并映射, 同事使用
     protected final <T> List<T> executeQuery(Class<T> beanClass, String sql, Object[] params) {
-        System.out.println("最终查询生成的sql: " + sql);
+        // System.out.println("最终查询生成的sql: " + sql);
         try (ResultSet rs = DruidUtil.executeQuery(sql, params)) {
-            long start = System.currentTimeMillis();
+            // long start = System.currentTimeMillis();
 
             List<T> map = rsMapper.map(rs, beanClass);
-            long end = System.currentTimeMillis();
-            System.out.println("嵌套结构映射耗时 = " + (end - start));
+            // long end = System.currentTimeMillis();
+            // System.out.println("嵌套结构映射耗时 = " + (end - start));
             return map;
         } catch (SQLException e) {
             throw new RuntimeException("数据库错误", e);

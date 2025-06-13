@@ -101,12 +101,14 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         //
 
         long start = System.currentTimeMillis();
-        List<Employee> result = this.queryByName("张三");
+        for (int i = 0; i < 10000; i++) {
+            List<Employee> result = this.queryByName("张三");
+        }
         long cost = System.currentTimeMillis() - start;
-        System.out.println("queryByName 执行耗时: " + cost + "ms, 结果数量: " + (result != null ? result.size() : 0));
-        System.out.println("result = " + result);
-
-        System.out.println("result.getClass() = " + result.get(0).getClass());
+        System.out.println("cost = " + cost);
+        // System.out.println("queryByName 执行耗时: " + cost + "ms, 结果数量: " + (result != null ? result.size() : 0));
+        //
+        // System.out.println("result.getClass() = " + result.get(0).getClass());
 
     }
 

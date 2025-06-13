@@ -97,16 +97,16 @@ public class SelectGenerateFacade {
 
     public static <T> String generateJoin4builder(Class<T> beanClass, ConditionBuilder<T> builder) {
         // 生成联查sql
-        long start = System.currentTimeMillis();
+        // long start = System.currentTimeMillis();
         String baseSql = AutoQueryGenerator.generated(beanClass, builder);
-        long end = System.currentTimeMillis();
-        System.out.println("\"生成联查sql\" = " + (end - start));
+        // long end = System.currentTimeMillis();
+        // System.out.println("\"生成联查sql\" = " + (end - start));
 
-        long start1 = System.currentTimeMillis();
+        // long start1 = System.currentTimeMillis();
         // 起别名耗时
         String finalSql = AliasConvertUtil.generateAliases(baseSql);
-        long end1 = System.currentTimeMillis();
-        System.out.println("\"起别名耗时\" = " + (end1 - start1));
+        // long end1 = System.currentTimeMillis();
+        // System.out.println("\"起别名耗时\" = " + (end1 - start1));
 
         return finalSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullCause());
     }

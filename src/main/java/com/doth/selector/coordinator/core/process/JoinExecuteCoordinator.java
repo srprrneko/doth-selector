@@ -39,7 +39,7 @@ public class JoinExecuteCoordinator extends ExecuteCoordinator {
 
         String sql = SelectGenerateFacade.generateJoin4builder(beanClass, builder);
         Object[] params = builder.getParams();
-        System.out.println("beanClass = " + beanClass);
+        // System.out.println("beanClass = " + beanClass);
         return executeQuery(beanClass, sql, params);
     }
 
