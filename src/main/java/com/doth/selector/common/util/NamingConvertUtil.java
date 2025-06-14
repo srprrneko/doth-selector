@@ -69,7 +69,7 @@ public class NamingConvertUtil {
 
 
     /**
-     * 将小写字母转换为大写，保留 $, _ 和数字字符
+     * 将小写字母转换为大写，保留 $, _ 和数字
      * @param input 字符串, 可能是类名
      */
     public static String toUpperCaseFirstLetter(String input, boolean checkStrict) {

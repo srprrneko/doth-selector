@@ -31,9 +31,9 @@ public abstract class BasicKindQueryExecutor<T> {
     }
 
     public void setDtoClass(Class<?> dtoClass) {
-        if (this.dtoClass != null) { // 使用该判断
-            throw new IllegalStateException("dtoClass 已被初始化，禁止重复设置");
-        }
+        // if (this.dtoClass != null) {
+        //     throw new IllegalStateException("dtoClass 已被初始化，禁止重复设置");
+        // }
         this.dtoClass = dtoClass;
     }
 

@@ -132,11 +132,8 @@ public class Selector<T> {
 
     @SuppressWarnings("unchecked")
     public <D> List<D> queryDtoList(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
-        // 1. 拿一个基于实体类型 T 的 BuilderQueryExecutorPro
         BuilderQueryExecutorPro<T> executor = bud$();
-        // 2. 把 dtoClass 注入到执行器里，表示“最后要把结果映射成这个 DTO”
         executor.setDtoClass(dtoClass);
-        // 3. 真正用实体类型 beanClass 构造 ConditionBuilder，并执行查询，把结果映射成 DTO
         return (List<D>) executor.query2Lst(setup, true);
     }
 

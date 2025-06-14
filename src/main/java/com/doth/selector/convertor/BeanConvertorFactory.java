@@ -1,6 +1,7 @@
 package com.doth.selector.convertor;
 
 import com.doth.selector.convertor.join.JoinBeanConvertor;
+// import com.doth.selector.convertor.join.newJoin.JoinBeanConvertor;
 import com.doth.selector.convertor.strict.CommonBeanConvertorLv;
 import com.doth.selector.convertor.strict.CommonBeanConvertor;
 
@@ -8,11 +9,11 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * 转换器工厂 - 采用工厂模式管理不同类型的Bean转换器
+ * 转换器工厂 管理不同类型的Bean转换器
  */
 public class BeanConvertorFactory {
     // 使用集合装在枚举, 一一对应转换器
-    // EnumMap<> : 用于处理枚举类型的键值映射，相比于其他常见的 Map ，EnumMap 在处理枚举键时提供了更好的性能和更少的内存占用
+    // EnumMap<> : 用于处理枚举类型的键值映射，相比之前的Map，EnumMap 在处理枚举键时减少性能和内存消耗
     private static final Map<ConvertorType, BeanConvertor> instances = new EnumMap<>(ConvertorType.class);
 
     static {
@@ -38,7 +39,6 @@ public class BeanConvertorFactory {
         return convertor;
     }
 
-    // 默认获取严格转换器
     // public static BeanConvertor getDefaultConvertor() {
     //     return getConvertor(ConvertorType.STRICT);
     // }

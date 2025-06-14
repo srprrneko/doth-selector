@@ -1,6 +1,7 @@
 package com.doth.selector.anno.processor;
 
 import com.doth.selector.anno.*;  // 导入自定义注解
+import com.doth.selector.common.util.NamingConvertUtil;
 import com.google.auto.service.AutoService;
 
 import javax.annotation.processing.*;
@@ -71,7 +72,7 @@ public class DTOConstructorProcessor extends AbstractProcessor {
         }
 
         // 根据 dtoId 确定 DTO 类名（首字母大写，处理下划线）
-        String dtoClassName = toCamelCase(dtoId, true);
+        String dtoClassName = NamingConvertUtil.toUpperCaseFirstLetter(dtoId, false);
 
         // 准备构建类内容的 StringBuilder
         StringBuilder classContent = new StringBuilder();

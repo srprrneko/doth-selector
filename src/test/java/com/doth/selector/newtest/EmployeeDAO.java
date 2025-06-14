@@ -2,7 +2,7 @@ package com.doth.selector.newtest;
 
 import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.anno.UseDTO;
-// import com.doth.selector.common.testbean.join.BaseEmpInfo;
+// import com.doth.selector.common.testbean.join.BaseEmpDep;
 // import com.doth.selector.common.testbean.join.BaseEmpInfo;
 import com.doth.selector.common.testbean.join.BaseEmpDep;
 import com.doth.selector.common.testbean.join.BaseEmpInfo;
@@ -50,11 +50,29 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         // List<Employee> impl = dao.impl();
 
         // List<BaseEmpDep> implDto = dao.dtoImpl();
-        List<BaseEmpInfo> implDto = dao.dtoImpl();
+
+        long start = System.currentTimeMillis();
+        // for (int i = 0; i < 10000; i++) {
+        List<BaseEmpDep> dtoImpl = dao.dtoImpl();
+        List<BaseEmpInfo> dtoImpl2 = dao.dtoImpl2();
+        // dao.testNew();
+        // }
+        long end = System.currentTimeMillis();
+        System.out.println("(end - start) = " + (end - start));
 
         // System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
         // System.out.println("impl = " + impl);
-        implDto.forEach(e -> {
+        dtoImpl.forEach(e -> {
+            System.out.println("================================================================================");
+            System.out.println("e.getId() = " + e.getId());
+            System.out.println("e.getName() = " + e.getName());
+
+            // System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
+            System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
+            // System.out.println("e.getCompanyName() = " + e.getCompanyName());
+            System.out.println("================================================================================");
+        });
+        dtoImpl2.forEach(e -> {
             System.out.println("================================================================================");
             System.out.println("e.getId() = " + e.getId());
             System.out.println("e.getName() = " + e.getName());
@@ -65,7 +83,34 @@ public abstract class EmployeeDAO extends Selector<Employee> {
             System.out.println("================================================================================");
         });
 
-        System.out.println("impl = " + implDto);
+        // System.out.println("impl = " + implDto);
+        /*
+
+        执行的方法:
+
+         List<BaseEmpInfo> dtoImpl2 = dao.dtoImpl2();
+
+        dtoImpl2.forEach(e -> {
+            System.out.println("================================================================================");
+            System.out.println("e.getId() = " + e.getId());
+            System.out.println("e.getName() = " + e.getName());
+
+            System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
+            System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
+            System.out.println("e.getCompanyName() = " + e.getCompanyName());
+            System.out.println("================================================================================");
+        });
+
+        输出:
+        旧版本
+        e.getId() = 15
+        e.getName() = 蒋十七
+        e.getDepartmentId() = 1
+        e.getDepartmentName() = 研发部
+        e.getCompanyName() = 公司A
+        新版本
+
+         */
     }
     @Test
     public void testNew() {
@@ -80,7 +125,14 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         );
     }
 
-    public List<BaseEmpInfo> dtoImpl() {
+    public List<BaseEmpDep> dtoImpl() {
+        return queryDtoList(BaseEmpDep.class, builder -> {
+            builder.eq(e -> e.getDepartment().getName(),
+                    "研发部");
+
+        });
+    }
+    public List<BaseEmpInfo> dtoImpl2() {
         return queryDtoList(BaseEmpInfo.class, builder -> {
             builder.eq(e -> e.getDepartment().getName(),
                     "研发部");
@@ -101,8 +153,8 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         //
 
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 10000; i++) {
-            List<Employee> result = this.queryByName("张三");
+        for (int i = 0; i < 50000; i++) {
+            this.queryByName("张三");
         }
         long cost = System.currentTimeMillis() - start;
         System.out.println("cost = " + cost);
@@ -130,10 +182,12 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     @Test
     public void testQueryByDepartmentName() {
         long start = System.currentTimeMillis();
-        List<Employee> result = this.queryByDepartmentName("研发部");
+        for (int i = 0; i < 50000; i++) {
+            this.queryByDepartmentName("研发部");
+        }
         long cost = System.currentTimeMillis() - start;
-        System.out.println("queryByDepartmentName 执行耗时: " + cost + "ms, 结果数量: " + (result != null ? result.size() : 0));
-        System.out.println(result);
+        System.out.println("queryByDepartmentName 执行耗时: " + cost);
+        // System.out.println(result);
     }
 
 
@@ -175,7 +229,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      * @param name 员工姓名
      * @return 员工列表
      */
-    public abstract List<Employee> queryByDepartmentIdAndNameLike(Integer id, String name); // 后续考虑使用注解解决方法名过长的问题
+    public abstract List<Employee> queryByDepartmentIdAndNameLike(Integer id, String name);
     
     @Test
     public void testQueryByDepartmentIdAndNameLike() { //

@@ -4,7 +4,7 @@ import com.doth.selector.anno.Id;
 import com.doth.selector.anno.Join;
 import com.doth.selector.anno.OneToOne;
 import com.doth.selector.common.exception.NonPrimaryKeyException;
-import com.doth.selector.common.testbean.join.BaseEmpDep;
+// import com.doth.selector.common.testbean.join.BaseEmpDep;
 // import com.doth.selector.common.testbean.join.BaseEmpInfo;
 import com.doth.selector.common.testbean.join.Employee;
 import com.doth.selector.common.testbean.join3.User;
@@ -130,10 +130,10 @@ public class AutoQueryGenerator {
     }
 
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        String generated = generated(BaseEmpDep.class);
-        long end = System.currentTimeMillis();
-        System.out.println("generated = " + generated);
-        System.out.println("generated = \n" + (end - start));
+        // long start = System.currentTimeMillis();
+        // String generated = generated(BaseEmpDep.class);
+        // long end = System.currentTimeMillis();
+        // System.out.println("generated = " + generated);
+        // System.out.println("generated = \n" + (end - start));
     }
 }

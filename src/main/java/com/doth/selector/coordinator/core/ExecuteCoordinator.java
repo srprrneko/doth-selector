@@ -1,8 +1,9 @@
 package com.doth.selector.coordinator.core;
 
+import com.doth.selector.common.poolsupports.PoolFactory;
+import com.doth.selector.common.util.DruidUtil;
 import com.doth.selector.coordinator.mapper.ResultSetMapper;
 import com.doth.selector.convertor.ConvertorType;
-import com.doth.selector.common.util.DruidUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public abstract class ExecuteCoordinator implements ExecuteCoordinatorService {
 
     // 执行并映射, 同事使用
     protected final <T> List<T> executeQuery(Class<T> beanClass, String sql, Object[] params) {
-        // System.out.println("最终查询生成的sql: " + sql);
+        System.out.println("最终查询生成的sql: " + sql);
         try (ResultSet rs = DruidUtil.executeQuery(sql, params)) {
             // long start = System.currentTimeMillis();
 

@@ -35,7 +35,7 @@ public abstract class MultiPathEmployeeDao extends Selector<Employee> {
     // 测试用例4: 混合条件段分割（With/Vz）
     // 分割后条件段: DepartmentId, Name
     // 预期生成的列键: t1.d_id (部门ID), t0.employee_name (员工姓名)
-    public abstract List<Employee> queryByDepartmentIdWithName(Integer id, String name);
+    public abstract List<Employee> queryByEmployeeDepartmentDeptIdWithEmployeeName(Integer id, String name);
 
     // 错误测试用例: 无效字段路径
     // 预期行为: 编译器报错"无法找到字段: InvalidField"

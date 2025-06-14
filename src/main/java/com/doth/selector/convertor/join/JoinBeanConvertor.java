@@ -1,34 +1,28 @@
 package com.doth.selector.convertor.join;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
+import com.doth.selector.anno.DependOn;
+import com.doth.selector.anno.Join;
+import com.doth.selector.convertor.BeanConvertor;
+import com.doth.selector.convertor.supports.JoinConvertContext;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.doth.selector.anno.Join;
-import com.doth.selector.convertor.BeanConvertor;
+import static com.doth.selector.convertor.supports.ResultSetUtils.extractColumnLabels;
 
 public class JoinBeanConvertor implements BeanConvertor {
-
-    // 弱引用缓存 + 同步包装，避免内存泄漏并保证线程安全
-    private static final Map<Class<?>, MetaMap> JOIN_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
-    private static final Map<Field, MethodHandle> SETTER_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
-
-    // 反射元数据缓存，提高字段列表和按名查找效率
-    private static final Map<Class<?>, Field[]> CLASS_FIELDS_CACHE = new ConcurrentHashMap<>();
-    private static final Map<Class<?>, Map<String, Field>> FIELD_NAME_CACHE = new ConcurrentHashMap<>();
 
     @Override
     public <T> T convert(ResultSet rs, Class<T> beanClass) throws Throwable {
         Class<?> actualClass = beanClass;
         // DTO 模式处理
-        if (beanClass.isAnnotationPresent(com.doth.selector.anno.DependOn.class)) {
-            com.doth.selector.anno.DependOn dependOn = beanClass.getAnnotation(com.doth.selector.anno.DependOn.class);
+        if (beanClass.isAnnotationPresent(DependOn.class)) {
+            DependOn dependOn = beanClass.getAnnotation(DependOn.class);
             String classPath = dependOn.clzPath();
             try {
                 actualClass = Class.forName(classPath);
@@ -37,19 +31,34 @@ public class JoinBeanConvertor implements BeanConvertor {
             }
         }
 
+        // 提取列名
         ResultSetMetaData meta = rs.getMetaData();
-        // 提取并缓存所有列名，避免多次遍历
         Set<String> columnSet = extractColumnLabels(meta);
 
-        // 构建或复用 MetaMap
-        MetaMap metaMap = JOIN_CACHE.computeIfAbsent(actualClass, clz -> {
+        // 生成 columnSet 指纹
+        // long start = System.currentTimeMillis();
+        String fingerprint = JoinConvertContext.fingerprint(columnSet);
+
+        // 一级缓存：按类分类
+        Map<String, JoinConvertContext.MetaMap> metaGroup = JoinConvertContext.JOIN_CACHE
+                .computeIfAbsent(actualClass, k -> new ConcurrentHashMap<>());
+
+        // 二级缓存：按列集合分类
+        JoinConvertContext.MetaMap metaMap = metaGroup.get(fingerprint);
+        if (metaMap == null) {
             try {
-                return analyzeClzStruct(clz, columnSet, "");
+                metaMap = analyzeClzStruct(actualClass, columnSet, "");
+                metaGroup.put(fingerprint, metaMap);
             } catch (Exception e) {
                 throw new RuntimeException("解析联表结构失败: " + e.getMessage(), e);
             }
-        });
+        }
 
+
+        // long end = System.currentTimeMillis();
+        // System.out.printf("\n计算指纹花费: %s", (end - start));
+
+        // 构造实体
         Object entity;
         try {
             entity = buildJoinBean(rs, actualClass, metaMap);
@@ -57,7 +66,7 @@ public class JoinBeanConvertor implements BeanConvertor {
             throw new RuntimeException("构造实体对象失败: " + e.getMessage(), e);
         }
 
-        // DTO 构造
+        // 如果是 DTO，调用对应构造函数
         if (!actualClass.equals(beanClass)) {
             try {
                 Constructor<T> constructor = beanClass.getConstructor(entity.getClass());
@@ -67,30 +76,29 @@ public class JoinBeanConvertor implements BeanConvertor {
             }
         }
 
-        return (T) entity;
+        return beanClass.cast(entity);
     }
 
-    private Set<String> extractColumnLabels(ResultSetMetaData meta) throws SQLException {
-        int count = meta.getColumnCount();
-        Set<String> labels = new HashSet<>(count);
-        for (int i = 1; i <= count; i++) {
-            labels.add(meta.getColumnLabel(i).toLowerCase());
-        }
-        return labels;
-    }
+    /**
+     * 分析类结构，生成 MetaMap（递归处理嵌套 Join）
+     * @param clz 实体类类对象
+     * @param columnSet
+     * @param prefix
+     * @return
+     * @throws Exception
+     */
+    private JoinConvertContext.MetaMap analyzeClzStruct(Class<?> clz, Set<String> columnSet, String prefix) throws Exception {
+        JoinConvertContext.MetaMap metaMap = new JoinConvertContext.MetaMap();
 
-    private MetaMap analyzeClzStruct(Class<?> clz, Set<String> columnSet, String prefix) throws Exception {
-        MetaMap metaMap = new MetaMap();
         // 缓存并复用字段列表
-        Field[] fields = CLASS_FIELDS_CACHE.computeIfAbsent(clz, c -> {
+        Field[] fields = JoinConvertContext.CLASS_FIELDS_CACHE.computeIfAbsent(clz, c -> {
             Field[] fs = c.getDeclaredFields();
-            for (Field f : fs) {
-                f.setAccessible(true);
-            }
+            for (Field f : fs) f.setAccessible(true);
             return fs;
         });
+
         // 构建按名查找缓存
-        FIELD_NAME_CACHE.computeIfAbsent(clz, c -> {
+        JoinConvertContext.FIELD_NAME_CACHE.computeIfAbsent(clz, c -> {
             Map<String, Field> map = new ConcurrentHashMap<>();
             for (Field f : fields) {
                 map.put(f.getName(), f);
@@ -101,25 +109,30 @@ public class JoinBeanConvertor implements BeanConvertor {
         for (Field field : fields) {
             if (field.isAnnotationPresent(Join.class)) {
                 Join join = field.getAnnotation(Join.class);
+
+                assert join != null;
                 String fkColumn = join.fk();
+
                 String refColumn = join.refFK();
 
-                Field[] subFields = CLASS_FIELDS_CACHE.computeIfAbsent(field.getType(), c -> {
-                    Field[] fs = c.getDeclaredFields();
-                    for (Field f : fs) f.setAccessible(true);
-                    return fs;
-                });
+                // 处理子对象字段
+                Field[] subFields = JoinConvertContext.CLASS_FIELDS_CACHE
+                        .computeIfAbsent(field.getType(), c -> {
+                            Field[] fs = c.getDeclaredFields();
+                            for (Field f : fs) f.setAccessible(true);
+                            return fs;
+                        });
                 String nestedPrefix = field.getName() + "_";
-                boolean hasAnyNestedField = false;
+                boolean hasAnyNested = false;
                 for (Field subField : subFields) {
                     if (columnSet.contains((nestedPrefix + subField.getName()).toLowerCase())) {
-                        hasAnyNestedField = true;
+                        hasAnyNested = true;
                         break;
                     }
                 }
-                if (hasAnyNestedField) {
-                    MetaMap refMapping = analyzeClzStruct(field.getType(), columnSet, nestedPrefix);
-                    metaMap.addNestedMeta(field, refMapping, fkColumn, refColumn);
+                if (hasAnyNested) {
+                    JoinConvertContext.MetaMap nestedMeta = analyzeClzStruct(field.getType(), columnSet, nestedPrefix);
+                    metaMap.addNestedMeta(field, nestedMeta, fkColumn, refColumn);
                 }
             } else {
                 String colName = (prefix + field.getName()).toLowerCase();
@@ -128,65 +141,60 @@ public class JoinBeanConvertor implements BeanConvertor {
                 }
             }
         }
+
         return metaMap;
     }
 
-    private <T> T buildJoinBean(ResultSet rs, Class<T> beanClass, MetaMap metaMap) throws Throwable {
+    /**
+     * 通过
+     * @param rs
+     * @param beanClass
+     * @param metaMap
+     * @return
+     * @param <T>
+     * @throws Throwable
+     */
+    private <T> T buildJoinBean(ResultSet rs,
+                                Class<T> beanClass,
+                                JoinConvertContext.MetaMap metaMap) throws Throwable {
         T bean = beanClass.getDeclaredConstructor().newInstance();
-        // 普通字段赋值
+
+        // 简单字段赋值
         for (Map.Entry<Field, String> entry : metaMap.getFieldMeta().entrySet()) {
-            setFieldValue(bean, entry.getKey(), rs.getObject(entry.getValue()));
+            JoinConvertContext.setFieldValue(bean, entry.getKey(), rs.getObject(entry.getValue()));
         }
+
         // 嵌套对象赋值
-        for (Map.Entry<Field, MetaMap> entry : metaMap.getNestedMeta().entrySet()) {
+        for (Map.Entry<Field, JoinConvertContext.MetaMap> entry : metaMap.getNestedMeta().entrySet()) {
             Field field = entry.getKey();
-            MetaMap nestedMeta = entry.getValue();
+            JoinConvertContext.MetaMap nestedMeta = entry.getValue();
             String fkCol = metaMap.getFkColumn(field);
             String refCol = metaMap.getRefColumn(field);
 
             Object fkValue = null;
-            try { fkValue = rs.getObject(fkCol); } catch (SQLException ignored) {}
+            try { fkValue = rs.getObject(fkCol); } catch (SQLException ignored) { }
 
             Object refBean = buildJoinBean(rs, field.getType(), nestedMeta);
-            if (isAllFieldsNull(refBean, nestedMeta)) continue;
+            if (JoinConvertContext.isAllFieldsNull(refBean, nestedMeta)) {
+                continue;
+            }
 
-            Field refField = getField(field.getType(), refCol);
+            Field refField = JoinConvertContext.getField(field.getType(), refCol);
             Object refValueFromRs = null;
             try {
                 refValueFromRs = rs.getObject(field.getName() + "_" + refField.getName());
-            } catch (SQLException ignored) {}
+            } catch (SQLException ignored) { }
+
             Object finalValue = fkValue != null && refValueFromRs != null
-                    ? refValueFromRs : (fkValue != null ? fkValue : refValueFromRs);
+                    ? refValueFromRs
+                    : (fkValue != null ? fkValue : refValueFromRs);
+
             if (finalValue != null) {
-                setFieldValue(refBean, refField, finalValue);
+                JoinConvertContext.setFieldValue(refBean, refField, finalValue);
             }
-            setFieldValue(bean, field, refBean);
+            JoinConvertContext.setFieldValue(bean, field, refBean);
         }
+
         return bean;
-    }
-
-    private boolean isAllFieldsNull(Object bean, MetaMap metaMap) {
-        try {
-            for (Field f : metaMap.getFieldMeta().keySet()) {
-                if (f.get(bean) != null) return false;
-            }
-        } catch (IllegalAccessException ignored) { }
-        return true;
-    }
-
-    private void setFieldValue(Object target, Field field, Object value) throws Throwable {
-        MethodHandle setter = SETTER_CACHE.computeIfAbsent(field, f -> {
-            try {
-                return MethodHandles.lookup().unreflectSetter(f);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("赋值失败: " + e.getMessage(), e);
-            }
-        });
-        setter.invoke(target, value);
-    }
-
-    private Field getField(Class<?> clz, String name) {
-        Map<String, Field> map = FIELD_NAME_CACHE.get(clz);
-        return map == null ? null : map.get(name);
     }
 }
