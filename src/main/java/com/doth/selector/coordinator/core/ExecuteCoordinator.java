@@ -28,8 +28,8 @@ public abstract class ExecuteCoordinator implements ExecuteCoordinatorService {
 
     // 执行并映射, 同事使用
     protected final <T> List<T> executeQuery(Class<T> beanClass, String sql, Object[] params) {
-        System.out.println("最终查询生成的sql: " + sql);
-        try (ResultSet rs = DruidUtil.executeQuery(sql, params)) {
+        // System.out.println("最终查询生成的sql: " + sql);
+        try (ResultSet rs = PoolFactory.getPool().executeQuery(sql, params)) {
             // long start = System.currentTimeMillis();
 
             List<T> map = rsMapper.map(rs, beanClass);

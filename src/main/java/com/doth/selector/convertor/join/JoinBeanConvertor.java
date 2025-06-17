@@ -1,10 +1,11 @@
 package com.doth.selector.convertor.join;
 
-import com.doth.selector.anno.DependOn;
 import com.doth.selector.anno.Join;
 import com.doth.selector.convertor.BeanConvertor;
+import com.doth.selector.convertor.supports.ConvertDtoContext;
 import com.doth.selector.convertor.supports.JoinConvertContext;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
@@ -13,37 +14,29 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.doth.selector.convertor.supports.JoinConvertContext.JOIN_CACHE;
 import static com.doth.selector.convertor.supports.ResultSetUtils.extractColumnLabels;
 
 public class JoinBeanConvertor implements BeanConvertor {
 
     @Override
     public <T> T convert(ResultSet rs, Class<T> beanClass) throws Throwable {
-        Class<?> actualClass = beanClass;
-        // DTO 模式处理
-        if (beanClass.isAnnotationPresent(DependOn.class)) {
-            DependOn dependOn = beanClass.getAnnotation(DependOn.class);
-            String classPath = dependOn.clzPath();
-            try {
-                actualClass = Class.forName(classPath);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException("无法加载 @DependOn 指定的类: " + classPath, e);
-            }
-        }
+        // 1. 解析实际类型 @DependOn
+        Class<?> actualClass = ConvertDtoContext.resolveActualClass(beanClass);
 
-        // 提取列名
+        // 2. 提取列名
         ResultSetMetaData meta = rs.getMetaData();
         Set<String> columnSet = extractColumnLabels(meta);
 
-        // 生成 columnSet 指纹
-        // long start = System.currentTimeMillis();
-        String fingerprint = JoinConvertContext.fingerprint(columnSet);
+        // 3. 生成 fingerprint（列集合指纹，用于分组缓存）
+        String fingerprint = ConvertDtoContext.getFingerprint(columnSet);
 
-        // 一级缓存：按类分类
-        Map<String, JoinConvertContext.MetaMap> metaGroup = JoinConvertContext.JOIN_CACHE
+        // 4. 一级缓存：按实际实体类分类
+        Map<String, JoinConvertContext.MetaMap> metaGroup = JOIN_CACHE
                 .computeIfAbsent(actualClass, k -> new ConcurrentHashMap<>());
 
-        // 二级缓存：按列集合分类
+        // 5. 二级缓存：按列集合指纹分类
         JoinConvertContext.MetaMap metaMap = metaGroup.get(fingerprint);
         if (metaMap == null) {
             try {
@@ -54,11 +47,7 @@ public class JoinBeanConvertor implements BeanConvertor {
             }
         }
 
-
-        // long end = System.currentTimeMillis();
-        // System.out.printf("\n计算指纹花费: %s", (end - start));
-
-        // 构造实体
+        // 6. 构造实体对象
         Object entity;
         try {
             entity = buildJoinBean(rs, actualClass, metaMap);
@@ -66,27 +55,23 @@ public class JoinBeanConvertor implements BeanConvertor {
             throw new RuntimeException("构造实体对象失败: " + e.getMessage(), e);
         }
 
-        // 如果是 DTO，调用对应构造函数
+        // 7. DTO 模式：通过 ConvertDtoContext 获取并缓存构造器 + MethodHandle，高性能实例化 DTO
         if (!actualClass.equals(beanClass)) {
             try {
-                Constructor<T> constructor = beanClass.getConstructor(entity.getClass());
-                return constructor.newInstance(entity);
-            } catch (Exception e) {
+                Constructor<T> ctor = ConvertDtoContext.getDtoConstructor(beanClass, actualClass);
+                MethodHandle mh = ConvertDtoContext.getConstructorHandle(ctor);
+                T dto = (T) mh.invoke(entity);
+                return dto;
+            } catch (Throwable e) {
                 throw new RuntimeException("DTO 构造失败: " + beanClass.getName(), e);
             }
         }
 
+        // 8. 普通模式，直接返回实体
         return beanClass.cast(entity);
     }
 
-    /**
-     * 分析类结构，生成 MetaMap（递归处理嵌套 Join）
-     * @param clz 实体类类对象
-     * @param columnSet
-     * @param prefix
-     * @return
-     * @throws Exception
-     */
+
     private JoinConvertContext.MetaMap analyzeClzStruct(Class<?> clz, Set<String> columnSet, String prefix) throws Exception {
         JoinConvertContext.MetaMap metaMap = new JoinConvertContext.MetaMap();
 
@@ -110,7 +95,6 @@ public class JoinBeanConvertor implements BeanConvertor {
             if (field.isAnnotationPresent(Join.class)) {
                 Join join = field.getAnnotation(Join.class);
 
-                assert join != null;
                 String fkColumn = join.fk();
 
                 String refColumn = join.refFK();
@@ -145,15 +129,6 @@ public class JoinBeanConvertor implements BeanConvertor {
         return metaMap;
     }
 
-    /**
-     * 通过
-     * @param rs
-     * @param beanClass
-     * @param metaMap
-     * @return
-     * @param <T>
-     * @throws Throwable
-     */
     private <T> T buildJoinBean(ResultSet rs,
                                 Class<T> beanClass,
                                 JoinConvertContext.MetaMap metaMap) throws Throwable {
@@ -172,7 +147,10 @@ public class JoinBeanConvertor implements BeanConvertor {
             String refCol = metaMap.getRefColumn(field);
 
             Object fkValue = null;
-            try { fkValue = rs.getObject(fkCol); } catch (SQLException ignored) { }
+            try {
+                fkValue = rs.getObject(fkCol);
+            } catch (SQLException ignored) {
+            }
 
             Object refBean = buildJoinBean(rs, field.getType(), nestedMeta);
             if (JoinConvertContext.isAllFieldsNull(refBean, nestedMeta)) {
@@ -183,7 +161,8 @@ public class JoinBeanConvertor implements BeanConvertor {
             Object refValueFromRs = null;
             try {
                 refValueFromRs = rs.getObject(field.getName() + "_" + refField.getName());
-            } catch (SQLException ignored) { }
+            } catch (SQLException ignored) {
+            }
 
             Object finalValue = fkValue != null && refValueFromRs != null
                     ? refValueFromRs

@@ -1,0 +1,4 @@
+<configuration>
+    <!-- 禁用 Hikari 日志 -->
+    <logger name="com.zaxxer.hikari" level="WARN"/>
+</configuration>

@@ -4,6 +4,9 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.io.InputStream;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.*;
 import java.util.Properties;
@@ -45,15 +48,31 @@ public class HikariPool implements ConnectionPool {
         return (ResultSet) Proxy.newProxyInstance(
                 HikariPool.class.getClassLoader(),
                 new Class<?>[]{ResultSet.class},
-                (proxy, method, args) -> {
-                    if ("close".equals(method.getName())) {
-                        try (conn; stmt; rs) { /* auto-close resources */ }
-                        return null;
+                new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        if ("close".equals(method.getName())) {
+                            try {
+                                rs.close();
+                            } finally {
+                                try {
+                                    stmt.close();
+                                } finally {
+                                    conn.close(); // 归还连接池
+                                }
+                            }
+                            return null;
+                        }
+                        try {
+                            return method.invoke(rs, args);
+                        } catch (InvocationTargetException e) {
+                            throw e.getTargetException(); // 保留真实异常
+                        }
                     }
-                    return method.invoke(rs, args);
                 }
         );
     }
+
 
     @Override
     public int executeUpdate(String sql, Object[] params) throws SQLException {

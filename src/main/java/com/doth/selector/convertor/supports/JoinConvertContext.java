@@ -18,18 +18,7 @@ public class JoinConvertContext {
     // 每个类的元结构, 对应的 查询的 信息
     public static final Map<Class<?>, Map<String, MetaMap>> JOIN_CACHE = new ConcurrentHashMap<>();
 
-    /**
-     * 生成 columnSet 的唯一指纹（按字母顺序排序 + 拼接）
-     * @param columnSet 列集合
-     * @return 唯一指纹
-     */
-    public static String fingerprint(Set<String> columnSet) {
-        return columnSet.stream()
-                .map(String::toLowerCase) // 防止大小写不一致影响缓存
-                .sorted()
-                .reduce((a, b) -> a + "," + b)
-                .orElse("");
-    }
+
 
     // 缓存：字段 setter
     static final Map<Field, MethodHandle> SETTER_CACHE = Collections.synchronizedMap(new WeakHashMap<>());
@@ -78,20 +67,27 @@ public class JoinConvertContext {
 
 
     public static class MetaMap {
+
         private final Map<Field, String> fieldMeta = new ConcurrentHashMap<>();
+
         private final Map<Field, MetaMap> nestedMeta = new ConcurrentHashMap<>();
+
         private final Map<Field, String> fkColumns = new ConcurrentHashMap<>();
+
         private final Map<Field, String> refColumns = new ConcurrentHashMap<>();
 
         public void addFieldMeta(Field field, String column) {
             fieldMeta.put(field, column);
         }
+
         public void addNestedMeta(Field field, MetaMap metaMap, String fkColumn, String refColumn) {
             nestedMeta.put(field, metaMap);
             fkColumns.put(field, fkColumn);
             refColumns.put(field, refColumn);
         }
+
         public Map<Field, String> getFieldMeta() { return fieldMeta; }
+
         public Map<Field, MetaMap> getNestedMeta() { return nestedMeta; }
         public String getFkColumn(Field field) { return fkColumns.get(field); }
         public String getRefColumn(Field field) { return refColumns.get(field); }

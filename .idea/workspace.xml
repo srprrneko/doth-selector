@@ -5,40 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9bf4862-7341-40e6-b1da-e4f2a9b71e85" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/ConnectionPool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/DruidPool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/HikariPool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/PoolFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/BaseAnnotationProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/CreateDaoImplProcessorV2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/DaoImplGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/DaoImplGeneratorHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/ProcessingContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/ProcessorContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/ResultSetUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/hikari.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/ConvertDtoContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/ColumnName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/ColumnName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/TableName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/TableName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/DTOConstructorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/DTOConstructorProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/AnnoNamingConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/AnnoNamingConvertUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/NamingConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/NamingConvertUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/BeanConvertorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/BeanConvertorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/HikariPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/HikariPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/PoolFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/PoolFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/MetaMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/MetaMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/AutoQueryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/Selector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/Selector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/BasicKindQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/BasicKindQueryExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DTOSelectFieldsListFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DTOSelectFieldsListFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,37 +58,55 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.AutoQueryGenerator.executor": "Run",
-    "Application.Employee.executor": "Run",
-    "Application.EmployeeDAO.executor": "Run",
-    "Application.EmployeeDAODctTest.executor": "Run",
-    "Application.com.doth.selector.coordinator.supports.sqlgenerator.tool.temp.AutoQueryGenerator.executor": "Run",
-    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds9.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testNew.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor": "Run",
-    "JUnit.EmployeeDAOImpl.testQueryByName.executor": "Run",
-    "Maven.selector [clean].executor": "Run",
-    "Maven.selector [compile].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.AutoQueryGenerator.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Employee.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EmployeeDAO.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EmployeeDAODctTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.doth.selector.coordinator.supports.sqlgenerator.tool.temp.AutoQueryGenerator.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds9.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testNew.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByName.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector [compile].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected="Application.EmployeeDAO">
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.doth.selector.convertor.supports" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.EmployeeDAOImpl.testQueryByDepartmentName">
+    <configuration name="Employee" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.common.testbean.join.Employee" />
+      <module name="selector" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.common.testbean.join.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="EmployeeDAO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.EmployeeDAO" />
       <module name="selector" />
@@ -108,22 +116,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EmployeeDAOImpl.testNew" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="selector" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.doth.selector.newtest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.doth.selector.newtest" />
-      <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.EmployeeDAOImpl" />
-      <option name="METHOD_NAME" value="testNew" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -156,7 +148,6 @@
       <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.EmployeeDAOImpl" />
       <option name="METHOD_NAME" value="testQueryByDepartmentName" />
       <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="java -ea -Dorm.pool=druid" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -178,18 +169,18 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Employee" />
       <item itemvalue="Application.EmployeeDAO" />
-      <item itemvalue="JUnit.EmployeeDAOImpl.testNew" />
       <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName" />
       <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByDepartmentName" />
       <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByName" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByDepartmentName" />
         <item itemvalue="Application.EmployeeDAO" />
-        <item itemvalue="JUnit.EmployeeDAOImpl.testNew" />
-        <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByDepartmentName" />
-        <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByDepartmentName" />
+        <item itemvalue="Application.Employee" />
+        <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByName" />
         <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByName" />
       </list>
     </recent_temporary>
@@ -217,7 +208,9 @@
       <workItem from="1749601542677" duration="125000" />
       <workItem from="1749690405441" duration="928000" />
       <workItem from="1749809051880" duration="565000" />
-      <workItem from="1749809855987" duration="43270000" />
+      <workItem from="1749809855987" duration="51055000" />
+      <workItem from="1750088753471" duration="2622000" />
+      <workItem from="1750136540027" duration="2626000" />
     </task>
     <servers />
   </component>

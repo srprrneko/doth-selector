@@ -47,41 +47,41 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAOImpl();
-        // List<Employee> impl = dao.impl();
 
         // List<BaseEmpDep> implDto = dao.dtoImpl();
 
         long start = System.currentTimeMillis();
-        // for (int i = 0; i < 10000; i++) {
-        List<BaseEmpDep> dtoImpl = dao.dtoImpl();
-        List<BaseEmpInfo> dtoImpl2 = dao.dtoImpl2();
+        for (int i = 0; i < 50000; i++) {
+        List<Employee> impl = dao.impl();
+            // List<BaseEmpDep> dtoImpl = dao.dtoImpl();
+        // List<BaseEmpInfo> dtoImpl2 = dao.dtoImpl2();
         // dao.testNew();
-        // }
+        }
         long end = System.currentTimeMillis();
         System.out.println("(end - start) = " + (end - start));
 
         // System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
         // System.out.println("impl = " + impl);
-        dtoImpl.forEach(e -> {
-            System.out.println("================================================================================");
-            System.out.println("e.getId() = " + e.getId());
-            System.out.println("e.getName() = " + e.getName());
-
-            // System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
-            System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
-            // System.out.println("e.getCompanyName() = " + e.getCompanyName());
-            System.out.println("================================================================================");
-        });
-        dtoImpl2.forEach(e -> {
-            System.out.println("================================================================================");
-            System.out.println("e.getId() = " + e.getId());
-            System.out.println("e.getName() = " + e.getName());
-
-            System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
-            System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
-            System.out.println("e.getCompanyName() = " + e.getCompanyName());
-            System.out.println("================================================================================");
-        });
+        // dtoImpl.forEach(e -> {
+        //     System.out.println("================================================================================");
+        //     System.out.println("e.getId() = " + e.getId());
+        //     System.out.println("e.getName() = " + e.getName());
+        //
+        //     // System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
+        //     System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
+        //     // System.out.println("e.getCompanyName() = " + e.getCompanyName());
+        //     System.out.println("================================================================================");
+        // });
+        // dtoImpl2.forEach(e -> {
+        //     System.out.println("================================================================================");
+        //     System.out.println("e.getId() = " + e.getId());
+        //     System.out.println("e.getName() = " + e.getName());
+        //
+        //     System.out.println("e.getDepartmentId() = " + e.getDepartmentId());
+        //     System.out.println("e.getDepartmentName() = " + e.getDepartmentName());
+        //     System.out.println("e.getCompanyName() = " + e.getCompanyName());
+        //     System.out.println("================================================================================");
+        // });
 
         // System.out.println("impl = " + implDto);
         /*
@@ -127,7 +127,8 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     public List<BaseEmpDep> dtoImpl() {
         return queryDtoList(BaseEmpDep.class, builder -> {
-            builder.eq(e -> e.getDepartment().getName(),
+            // builder.eq(e -> e.getDepartment().getName(),
+            builder.eq("t1.name",
                     "研发部");
 
         });
@@ -135,7 +136,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     public List<BaseEmpInfo> dtoImpl2() {
         return queryDtoList(BaseEmpInfo.class, builder -> {
             builder.eq(e -> e.getDepartment().getName(),
-                    "研发部");
+                    "市场部");
 
         });
     }
@@ -178,7 +179,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      * @return 员列表
      */
     public abstract List<Employee> queryByDepartmentName(String name);
-    
+
     @Test
     public void testQueryByDepartmentName() {
         long start = System.currentTimeMillis();
@@ -205,7 +206,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      * @return 员工列表
      */
     public abstract List<Employee> queryByDepartmentIdVzName(Integer id, String name); // 完全不需要写东西, 一个方法名搞定
-    
+
     @Test
     public void testQueryByDepartmentIdVzName() { // Vz = with
         long start = System.currentTimeMillis();
@@ -230,7 +231,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      * @return 员工列表
      */
     public abstract List<Employee> queryByDepartmentIdAndNameLike(Integer id, String name);
-    
+
     @Test
     public void testQueryByDepartmentIdAndNameLike() { //
         long start = System.currentTimeMillis();

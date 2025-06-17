@@ -49,6 +49,7 @@ public class AutoQueryGenerator {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("加载类失败: " + e.getMessage(), e);
             }
+
             String decap = Introspector.decapitalize(entityClass.getSimpleName());
             dtoSelectPaths = resolveDtoSelectPaths(originalEntity, decap, entityClass.getSimpleName());
             dtoPrefixes = dtoSelectPaths.stream()
