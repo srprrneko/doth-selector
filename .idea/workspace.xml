@@ -5,18 +5,143 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9bf4862-7341-40e6-b1da-e4f2a9b71e85" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/ConvertDtoContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/HikariPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/HikariPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/PoolFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/PoolFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DTOSelectFieldsListFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DTOSelectFieldsListFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/selector-parent/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/selector-parent/selector-core/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/selector-parent/selector-processor/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/ColumnName.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/ColumnName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/CreateDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/CreateDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/DTOConstructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/DTOConstructor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/DependOn.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/DependOn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Id.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/Id.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Join.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/Join.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/JoinLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/JoinLevel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/MainLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/MainLevel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Next.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/Next.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/OneToOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/OneToOne.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/Overload.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/Overload.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/PfxAlias.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/PfxAlias.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/TableName.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/TableName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/UseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/anno/UseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/CreateDaoImplProcessorV2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/DTOConstructorProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/EntityProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/FieldTypeProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/OverloadProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/codegena/ColumnPathResolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/codegena/MethodBodyGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/core/ImplClassWriter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/anno/processor/model/ConditionStructure.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/ValueConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/convertor/ValueConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/ValueConverterFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/convertor/ValueConverterFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/impl/DateToLocalDateConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/convertor/impl/DateToLocalDateConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/impl/DateToLocalDateTimeConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/convertor/impl/DateToLocalDateTimeConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/convertor/impl/TimestampToLocalDateTimeConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/convertor/impl/TimestampToLocalDateTimeConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/exception/DataAccessException.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/exception/DataAccessException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/exception/NoColumnExistException.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/exception/NoColumnExistException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/exception/NonPrimaryKeyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/exception/NonPrimaryKeyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/exception/NonUniqueResultException.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/exception/NonUniqueResultException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/ConnectionPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/poolsupports/ConnectionPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/DruidPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/poolsupports/DruidPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/HikariPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/poolsupports/HikariPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/poolsupports/PoolFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/poolsupports/PoolFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/LambdaFieldPathResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/temp/LambdaFieldPathResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/LbdMeta.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/temp/LbdMeta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/MethodReferenceParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/temp/MethodReferenceParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/BaseAnnotationProcessor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/CreateDaoImplProcessorV2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/DaoImplGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/DaoImplGeneratorHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/ProcessingContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/temp/annoprocessor/ProcessorContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Classes.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/Classes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Courses.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/Courses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/StatDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/StatDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/Students.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/Students.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join/Department.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join/StudentCourseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join/StudentCourseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join2/Department.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join2/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join2/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Office.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join2/Office.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join2/Profile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join2/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join2/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join3/DepartmentInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join3/DepartmentInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/testbean/join3/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/testbean/join3/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/AnnoNamingConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/util/AnnoNamingConvertUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/DruidUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/util/DruidUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/NamingConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/util/NamingConvertUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/TypeResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/util/TypeResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/adapeter/EntityAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/util/adapeter/EntityAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/common/util/adapeter/SqlNormalizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/common/util/adapeter/SqlNormalizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/BeanConvertor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/BeanConvertor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/BeanConvertorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/BeanConvertorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/ConvertorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/ConvertorType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/MetaMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/join/MetaMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/strict/CommonBeanConvertor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/strict/CommonBeanConvertor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/strict/CommonBeanConvertorLv.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/strict/CommonBeanConvertorLv.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/ConvertDtoContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/supports/ConvertDtoContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/ResultSetUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/convertor/supports/ResultSetUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/core/ExecuteCoordinatorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/process/BasicExecuteCoordinator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/core/process/BasicExecuteCoordinator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/core/process/JoinExecuteCoordinator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/core/process/JoinExecuteCoordinator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/mapper/ResultSetMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/mapper/ResultSetMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/builder/ConditionResolverUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/builder/ConditionResolverUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/builder/SqlBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/builder/SqlBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/facede/SelectGenerateFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/facede/SelectGenerateFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AliasConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AliasConvertUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/AutoQueryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/DtoInitializationStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/DtoInitializationStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/GeneralInitializationStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/GeneralInitializationStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryInitializationStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryInitializationStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryStrategyFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryStrategyFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/Selector.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/core/Selector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/CreateExecutorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/core/factory/CreateExecutorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/factory/impl/DefaultCreateExecutorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/core/factory/impl/DefaultCreateExecutorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/core/model/ExecutorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/core/model/ExecutorType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DTOFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/dto/DTOFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DTOSelectFieldsListFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/dto/DTOSelectFieldsListFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/dto/DtoStackResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/dto/DtoStackResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/BasicKindQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/query/BasicKindQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/basic/impl/BuilderQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/query/basic/impl/BuilderQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/basic/impl/DirectQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/query/basic/impl/DirectQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/basic/impl/RawQueryExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/query/basic/impl/RawQueryExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/JoinExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/query/enhanced/JoinExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/BuilderQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/query/enhanced/impl/BuilderQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/DirectQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/query/enhanced/impl/DirectQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/RawQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/query/enhanced/impl/RawQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/builder/BuilderPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/supports/builder/BuilderPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/lambda/LambdaFieldPathResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/supports/lambda/LambdaFieldPathResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/lambda/LambdaPathRecorder.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/supports/lambda/LambdaPathRecorder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/lambda/SFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/java/com/doth/selector/executor/supports/lambda/SFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/druid.properties" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/resources/druid.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hikari.properties" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/resources/hikari.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jdbc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/resources/jdbc.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/main/resources/logback.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAOBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/EmployeeDAOBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAODctTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/EmployeeDAODctTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAORawTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/EmployeeDAORawTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/CompanyDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/newtest/CompanyDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/old/newtest/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/EmployeeDAO2.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/old/newtest/EmployeeDAO2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/EmployeeDAO3.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/old/newtest/EmployeeDAO3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/JoinTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/old/newtest/JoinTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/StudentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/old/newtest/StudentDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/temp/EmpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-parent/selector-core/src/test/java/com/doth/selector/temp/EmpTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,39 +183,52 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.AutoQueryGenerator.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Employee.executor&quot;: &quot;Run&quot;,
-    &quot;Application.EmployeeDAO.executor&quot;: &quot;Run&quot;,
-    &quot;Application.EmployeeDAODctTest.executor&quot;: &quot;Run&quot;,
-    &quot;Application.com.doth.selector.coordinator.supports.sqlgenerator.tool.temp.AutoQueryGenerator.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds9.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmployeeDAOImpl.testNew.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EmployeeDAOImpl.testQueryByName.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.selector [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.selector [compile].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AutoQueryGenerator.executor": "Run",
+    "Application.Employee.executor": "Run",
+    "Application.EmployeeDAO.executor": "Run",
+    "Application.EmployeeDAODctTest.executor": "Run",
+    "Application.com.doth.selector.coordinator.supports.sqlgenerator.tool.temp.AutoQueryGenerator.executor": "Run",
+    "JUnit.EmployeeDAODctTest.testQueryByNameAndDepartmentIds9.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testNew.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor": "Run",
+    "JUnit.EmployeeDAOImpl.testQueryByName.executor": "Run",
+    "Maven.selector [clean].executor": "Run",
+    "Maven.selector [compile].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev",
+    "last_opened_file_path": "C:/Users/贤/Desktop/temp/java-try/selector/selector-parent/selector-processor/src/main/java/com/doth/selector/anno/processor",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/贤/Desktop/temp/java-try/selector/selector-parent/src/main/java/com/doth/Main.java",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.doth.selector.convertor.supports" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\贤\Desktop\temp\java-try\selector\selector-parent\selector-processor\src\main\java\com\doth\selector\anno\processor" />
+      <recent name="C:\Users\贤\Desktop\temp\java-try\selector\selector-parent\selector-processor\src\main\java" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\贤\Desktop\temp\java-try\selector\selector-parent\selector-core" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.doth.selector.anno.processor" />
     </key>
   </component>
   <component name="RunManager" selected="JUnit.EmployeeDAOImpl.testQueryByDepartmentName">
@@ -210,7 +348,8 @@
       <workItem from="1749809051880" duration="565000" />
       <workItem from="1749809855987" duration="51055000" />
       <workItem from="1750088753471" duration="2622000" />
-      <workItem from="1750136540027" duration="2626000" />
+      <workItem from="1750136540027" duration="17744000" />
+      <workItem from="1750180615050" duration="328000" />
     </task>
     <servers />
   </component>
@@ -252,5 +391,21 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/selector-parent/src/main/java/com/itheima/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/selector-parent/src/main/java/com/doth/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
