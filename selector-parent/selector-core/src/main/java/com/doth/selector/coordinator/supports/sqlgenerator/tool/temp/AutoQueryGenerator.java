@@ -69,7 +69,7 @@ public class AutoQueryGenerator {
             sql.append("\n").append(joinClause);
         }
 
-        return sql.toString() + "\n";
+        return sql + "\n";
     }
 
     private void parseEntity(Class<?> entity, String alias, Set<Field> ancestorJoins) {
@@ -132,9 +132,11 @@ public class AutoQueryGenerator {
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        String generated = generated(StudentInfo.class);
+        for (int i = 0; i < 50000; i++) {
+            String generated = generated(StudentInfo.class);
+        }
         long end = System.currentTimeMillis();
-        System.out.println("generated = " + generated);
-        System.out.println("generated = \n" + (end - start));
+        // System.out.println("generated = \xn" + generated);
+        System.out.println("(end - start) = " + (end - start));
     }
 }

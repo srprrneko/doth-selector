@@ -103,6 +103,12 @@ public class AliasConvertUtil {
                 "join department t1 ON t0.d_id = t1.id\n" +
                 "join company t2 ON t1.com_id = t2.id";
 
-        System.out.println(generateAliases(originalSql));
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 50000; i++) {
+            String s = generateAliases(originalSql);
+        }
+        long end = System.currentTimeMillis();
+
+        System.out.println("(end - start) = " + (end - start));
     }
 }

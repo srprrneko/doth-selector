@@ -7,4 +7,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface Next {
     Class<?> clz();
+    String attrName() default "";
+
 }

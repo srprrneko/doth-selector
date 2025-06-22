@@ -7,6 +7,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface JoinLevel {
     Class<?> clz();
+    String attrName() default "";
 
     JoinStrategy JOIN_STRATEGY() default JoinStrategy.JOIN;
 

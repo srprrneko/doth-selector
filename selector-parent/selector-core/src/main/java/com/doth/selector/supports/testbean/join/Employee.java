@@ -83,11 +83,13 @@ public class Employee {
     @DTOConstructor(id = "baseEmpInfo")
     public Employee(
                 @MainLevel
-                    Integer id, String name,
-                @JoinLevel(clz = Department.class)
-                    Integer department_id, String department_name,
-                    @Next(clz = Company.class)
-                        String company_name
+                    Integer id,
+                    String name,
+                @JoinLevel(clz = Department.class, attrName = "department")
+                    Integer d_id,
+                    String d_name,
+                @Next(clz = Company.class, attrName = "company")
+                    String company_name
     ) {}
 
     @DTOConstructor(id = "baseEmpDep")
@@ -95,7 +97,7 @@ public class Employee {
                 @MainLevel
                     Integer id, String name,
                 @JoinLevel(clz = Department.class)
-                    String department_name
+                    String _name
     ) {}
 
     /*

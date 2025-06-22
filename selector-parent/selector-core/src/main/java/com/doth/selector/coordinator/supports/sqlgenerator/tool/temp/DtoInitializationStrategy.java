@@ -1,7 +1,7 @@
 package com.doth.selector.coordinator.supports.sqlgenerator.tool.temp;
 
 import com.doth.selector.anno.DependOn;
-import com.doth.selector.dto.DTOSelectFieldsListFactory;
+import com.doth.selector.common.dto.DTOSelectFieldsListFactory;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
 
 import java.beans.Introspector;

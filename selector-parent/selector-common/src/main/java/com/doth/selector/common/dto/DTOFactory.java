@@ -1,4 +1,4 @@
-package com.doth.selector.dto;
+package com.doth.selector.common.dto;
 
 import java.util.*;
 

@@ -1,6 +1,8 @@
-package com.doth.selector.anno.processor;
+package com.doth.selector.anno.processor.core;
 
 import com.doth.selector.anno.CreateDaoImpl;
+import com.doth.selector.anno.processor.BaseAnnotationProcessor;
+import com.doth.selector.anno.processor.DaoImplGenerator;
 import com.google.auto.service.AutoService;
 
 import javax.annotation.processing.*;

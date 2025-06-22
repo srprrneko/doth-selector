@@ -104,4 +104,9 @@ public class NamingConvertUtil {
         }
         return sb.toString();
     }
+
+    public static void main(String[] args) {
+        String s = NamingConvertUtil.camel2SnakeCase("majorId");
+        System.out.println("s = " + s);
+    }
 }

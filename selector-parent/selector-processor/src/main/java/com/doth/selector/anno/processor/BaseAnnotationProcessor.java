@@ -14,15 +14,6 @@ public abstract class BaseAnnotationProcessor extends AbstractProcessor {
     /** 上下文，包含 filer/messager/typeUtils/elementUtils */
     protected ProcessingContext context;
 
-    /*
-        [
-            {
-                id:
-                name:
-            }
-
-        ]
-     */
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);

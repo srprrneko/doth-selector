@@ -1,11 +1,11 @@
 package com.doth.selector.supports.testbean.join2;
 
-import com.doth.selector.anno.Id;
-import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneToOne;
+import com.doth.selector.anno.*;
 import com.doth.selector.supports.testbean.join.Company;
+import lombok.Data;
 
 // 员工实体（包含复杂关联关系）
+@Data
 public class Employee {
     @Id
     private Integer employeeId; // 数据库字段: e_id
@@ -19,6 +19,26 @@ public class Employee {
 
     @Join(fk = "c_id")
     private Company company;
+
+    @DTOConstructor(id = "baseEmpInfo")
+    public Employee(
+            @MainLevel
+            Integer employeeId,
+            String employeeName,
+
+            // @JoinLevel(clz = Department.class, attrName = "employeeDepartment")
+            // Integer _deptId,
+            // String _deptName,
+            //
+            // @Next(clz = Office.class, attrName = "departmentOffice")
+            // String _officeCode,
+            //
+            // @Next(clz = Location.class, attrName = "officeLocation")
+            // String _locCity,
+
+            @JoinLevel(clz = Company.class, attrName = "company")
+            String _name
+    ) {}
 
 }
 

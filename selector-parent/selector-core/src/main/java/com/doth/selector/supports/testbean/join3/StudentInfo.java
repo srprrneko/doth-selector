@@ -1,8 +1,6 @@
 package com.doth.selector.supports.testbean.join3;
 
-import com.doth.selector.anno.Entity;
-import com.doth.selector.anno.Id;
-import com.doth.selector.anno.Join;
+import com.doth.selector.anno.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,5 +43,22 @@ public class StudentInfo {
 
     @Join(fk = "major_id", refFK = "major_id")
     private MajorInfo majorInfo;
+
+    @DTOConstructor(id = "baseStudentInfo")
+    public StudentInfo(
+            @MainLevel
+            Integer studentId,
+            String studentName,
+            String gender,
+            String idCard,
+            String phone,
+            Double gpa,
+
+            @JoinLevel(clz = MajorInfo.class, attrName = "majorInfo")
+            Integer _majorId,
+            String _majorName,
+            String _director
+    ) {}
+
 
 }

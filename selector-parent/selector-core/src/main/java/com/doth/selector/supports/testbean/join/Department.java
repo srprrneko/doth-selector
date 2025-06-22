@@ -17,7 +17,7 @@ import com.doth.selector.anno.OneToOne;
 public class Department {
 
     @Id
-    private Integer  id;
+    private Integer id;
     private String name; // 框架还内置了检查, 强制要求实体类的字段都必须使用 包装类
 
     @Join(fk = "com_id")

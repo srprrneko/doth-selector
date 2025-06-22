@@ -1,4 +1,4 @@
-package com.doth.selector.dto;
+package com.doth.selector.common.dto;
 
 import com.doth.selector.anno.UseDTO;
 
