@@ -138,16 +138,21 @@ public class AutoQueryGenerator {
         if (joinInfo != null) {
             // DTO 模式 & 已注册：直接用预定义的 JoinDef 列表
             for (JoinDef jd : joinInfo.getJoinDefs()) {
+                log.info("joinDef info: {}", jd);
+
+                // String correctAlias = "";
+                // if (jd.get)
                 joinClauses.add(String.format(
                         "join %s %s ON %s.%s = %s.%s",
                         jd.getRelationTable(),
                         jd.getAlias(),
-                        MAIN_ALIAS,
+                        jd.getParentId(),
                         jd.getForeignKeyColumn(),
 
                         jd.getAlias(),
                         jd.getPrimaryKeyColumn()
                 ));
+
             }
         } else {
             // 普通模式或 DTO 模式下未注册：走原有的反射遍历逻辑

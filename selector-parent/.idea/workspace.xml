@@ -5,22 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d964a61f-105a-4dbd-b68f-6670417f7989" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/dto/DTOJoinInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/dto/DTOJoinInfoFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/dto/JoinDef.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/BaseEmpInfo1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/selector-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/convertor/ValueConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/convertor/ValueConverterFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/convertor/impl/DateToLocalDateConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/convertor/impl/DateToLocalDateTimeConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/convertor/impl/TimestampToLocalDateTimeConverter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/JoinLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/JoinLevel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/dto/JoinDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/dto/JoinDef.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/BaseEmpInfo1.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/DTOConstructorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/DTOConstructorProcessor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,6 +53,7 @@
     "JUnit.EmployeeDAOImpl.testDtoImpl2.executor": "Run",
     "JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor": "Run",
     "Maven.selector-annotation [install].executor": "Run",
+    "Maven.selector-common [clean,install].executor": "Run",
     "Maven.selector-core [clean,install].executor": "Run",
     "Maven.selector-core [clean].executor": "Run",
     "Maven.selector-core [compile].executor": "Run",
@@ -213,7 +202,7 @@
       <workItem from="1750644183197" duration="13211000" />
       <workItem from="1750747332574" duration="3351000" />
       <workItem from="1750755856762" duration="921000" />
-      <workItem from="1750764221799" duration="934000" />
+      <workItem from="1750764221799" duration="9518000" />
     </task>
     <servers />
   </component>
