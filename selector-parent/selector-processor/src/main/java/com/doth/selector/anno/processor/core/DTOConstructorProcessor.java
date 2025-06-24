@@ -1,12 +1,8 @@
 package com.doth.selector.anno.processor.core;
 
-import com.doth.selector.anno.DTOConstructor;
-import com.doth.selector.anno.DependOn;
-import com.doth.selector.anno.JoinLevel;
-import com.doth.selector.anno.Next;
+import com.doth.selector.anno.*;
 import com.doth.selector.anno.processor.BaseAnnotationProcessor;
-import com.doth.selector.common.dto.DTOFactory;
-import com.doth.selector.common.dto.DTOSelectFieldsListFactory;
+import com.doth.selector.common.dto.*;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.*;
@@ -24,6 +20,7 @@ import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 自动为被 @DTOConstructor 标注的构造方法生成对应的 DTO 类，
@@ -56,7 +53,7 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         String dtoClassName = NamingConvertUtil.toUpperCaseFirstLetter(dtoId, false);
         ClassName entityType = ClassName.get(packageName, entityClass.getSimpleName().toString());
 
-        // 准备 DTO 类构建器，添加 @DependOn、@Data、@NoArgsConstructor
+        // 准备 DTO 类构建器，添加 @DependOn、@Data、@NoArgsConstructor、@AllArgsConstructor
         TypeSpec.Builder classB = TypeSpec.classBuilder(dtoClassName)
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(AnnotationSpec.builder(DependOn.class)
@@ -69,48 +66,41 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 .addAnnotation(NoArgsConstructor.class)
                 .addAnnotation(AllArgsConstructor.class);
 
-        // 收集构造方法参数及主表字段名
+        // 收集构造方法参数及字段元信息
         List<? extends VariableElement> params = ctorElem.getParameters();
+        List<FieldMeta> fields = new ArrayList<>();
         Set<String> mainNames = new HashSet<>();
+        Map<String, Long> baseCount = new HashMap<>();
+        boolean inJoinChain = false;
+        String chainAttrName = "";
+
+        // 1) 先统计主表字段、冲突计数
         for (VariableElement p : params) {
             String n = p.getSimpleName().toString();
             if (!n.contains("_")) {
                 mainNames.add(n);
-            }
-        }
-
-        // 统计每个下划线后面 base 出现次数，用于冲突判断
-        Map<String, Long> baseCount = new HashMap<>();
-        for (VariableElement p : params) {
-            String n = p.getSimpleName().toString();
-            if (n.contains("_")) {
+            } else {
                 String base = n.substring(n.indexOf('_') + 1);
                 baseCount.put(base, baseCount.getOrDefault(base, 0L) + 1);
             }
         }
 
-        List<FieldMeta> fields = new ArrayList<>();
-        boolean inJoinChain = false;
-        String chainAttrName = "";
+        // 2) 按原逻辑生成 DTO 字段声明
         for (VariableElement p : params) {
             String n = p.getSimpleName().toString();
             String fieldName;
-
             if (!n.contains("_")) {
-                // 主表字段：直接用参数名
+                // 主表字段
                 fieldName = n;
-                // 重置 join 链状态
                 inJoinChain = false;
                 chainAttrName = "";
-
             } else {
-                // 下划线分隔 prefix / base
+                // join 链字段
                 String prefix = n.substring(0, n.indexOf('_'));
                 String base = n.substring(n.indexOf('_') + 1);
-
-                // 检测 @JoinLevel / @Next 注解，开始或继续 join 链，并记录 attrName
                 JoinLevel jl = p.getAnnotation(JoinLevel.class);
                 Next nx = p.getAnnotation(Next.class);
+
                 if (jl != null) {
                     inJoinChain = true;
                     chainAttrName = getPropNameFromJoinLevel(jl);
@@ -118,7 +108,7 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                     inJoinChain = true;
                     chainAttrName = getPropNameFromNext(nx);
                 } else if (!inJoinChain) {
-                    // 既没有下划线前注解，也不在 join 链中：当作普通字段
+                    // 非 join 链中的下划线字段，当普通字段处理
                     fieldName = n;
                     TypeName t = TypeName.get(p.asType());
                     classB.addField(FieldSpec.builder(t, fieldName, Modifier.PRIVATE).build());
@@ -126,23 +116,14 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                     continue;
                 }
 
-                // 当 prefix 为空时，使用 attrName 的前三个小写字母作为默认前缀
-                if (prefix.isEmpty()) {
-                    String attr = chainAttrName != null ? chainAttrName : "";
-                    prefix = attr.length() >= 3
-                            ? attr.substring(0, 3).toLowerCase()
-                            : attr.toLowerCase();
-                }
-
+                // 冲突检测
                 boolean conflict = mainNames.contains(base)
                         || baseCount.getOrDefault(base, 0L) > 1;
-                // 冲突则 prefix + Base 驼峰，否则直接 base
                 fieldName = conflict
                         ? prefix + capitalize(base)
                         : base;
             }
 
-            // 添加字段
             TypeName t = TypeName.get(p.asType());
             classB.addField(FieldSpec.builder(t, fieldName, Modifier.PRIVATE).build());
             fields.add(new FieldMeta(p, fieldName));
@@ -154,11 +135,10 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(entityType, varEntity);
 
-        // 构造方法体：主表字段 & 关联链
+        // 构造体中赋值（保持原有逻辑）
         boolean chain = false;
         String currentPath = null;
         Map<String, String> prefixPath = new HashMap<>();
-
         for (FieldMeta fm : fields) {
             VariableElement p = fm.param;
             String fn = fm.name;
@@ -171,14 +151,12 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 String getter = "get" + capitalize(pn);
                 ctorB.addStatement("this.$L = $L.$L()", fn, varEntity, getter);
             } else {
-                // 关联字段：根据 @JoinLevel / @Next 的 attrName 或 clz 推断属性名
+                // join 链中字段
                 String prefix = pn.substring(0, pn.indexOf('_'));
                 String base = pn.substring(pn.indexOf('_') + 1);
-
                 JoinLevel jl = p.getAnnotation(JoinLevel.class);
                 Next nx = p.getAnnotation(Next.class);
 
-                // 决定用哪个属性名来生成 getXxx()
                 String prop;
                 if (jl != null) {
                     prop = getPropNameFromJoinLevel(jl);
@@ -189,23 +167,19 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 }
 
                 if (jl != null || !chain) {
-                    // 新的关联链开始
                     chain = true;
                     prefixPath.clear();
                     currentPath = varEntity + ".get" + capitalize(prop) + "()";
                     prefixPath.put(prefix, currentPath);
                 } else if (nx != null) {
-                    // 嵌套 next
                     String prev = currentPath;
                     currentPath = prev + ".get" + capitalize(prop) + "()";
                     prefixPath.put(prefix, currentPath);
                 }
 
-                // 赋值
                 if (prefixPath.containsKey(prefix)) {
                     String getter = "get" + capitalize(base);
-                    ctorB.addStatement("this.$L = $L.$L()",
-                            fn, prefixPath.get(prefix), getter);
+                    ctorB.addStatement("this.$L = $L.$L()", fn, prefixPath.get(prefix), getter);
                 } else {
                     ctorB.addComment("未定义的关联前缀 '$L' 对应字段 $L", prefix, fn);
                 }
@@ -213,25 +187,68 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         }
         classB.addMethod(ctorB.build());
 
-        // 静态注册块保持不变……
+        // —— 新增：收集所有 join 链的信息，用于生成 JoinDef ——
+        class JoinInfo {
+            final String attrName, alias;
+
+            JoinInfo(String a, String b) {
+                this.attrName = a;
+                this.alias = b;
+            }
+        }
+        List<JoinInfo> joinInfos = new ArrayList<>();
+        int aliasIdx2 = 1;
+        boolean chainFlag = false;
+        Map<String, String> prefixAlias2 = new HashMap<>();
+
+        for (VariableElement p : params) {
+            String pn = p.getSimpleName().toString();
+            if (!pn.contains("_")) continue;
+
+            String prefix = pn.substring(0, pn.indexOf('_'));
+            JoinLevel jl = p.getAnnotation(JoinLevel.class);
+            Next nx = p.getAnnotation(Next.class);
+            String alias, attrName;
+
+            if (jl != null || !chainFlag) {
+                alias = "t" + aliasIdx2++;
+                prefixAlias2.clear();
+                prefixAlias2.put(prefix, alias);
+                chainFlag = true;
+                // 第一次，path 就是 department 这一级
+                currentPath = (jl != null)
+                        ? getPropNameFromJoinLevel(jl)
+                        : prefix;
+                joinInfos.add(new JoinInfo(currentPath, alias));
+            } else if (nx != null) {
+                alias = "t" + aliasIdx2++;
+                prefixAlias2.put(prefix, alias);
+                // 关键：path 要在上一个 path 后面加上 .company
+                String nextName = getPropNameFromNext(nx);
+                currentPath = currentPath + "." + nextName;
+                joinInfos.add(new JoinInfo(currentPath, alias));
+            }
+        }
+
+        // 静态注册块：注册 DTO 类、select 字段，以及 join 信息
         CodeBlock.Builder staticB = CodeBlock.builder()
+                // 注册 DTOFactory
                 .addStatement("$T.register($T.class, $S, $T.class)",
                         DTOFactory.class, entityType, dtoId,
                         ClassName.get(packageName, dtoClassName))
-                .addStatement("$T __selectFields = new $T<>()",
-                        ParameterizedTypeName.get(List.class, String.class),
-                        ArrayList.class);
 
+                // 构造并注册 select fields 列表
+                .addStatement("$T __selectFields = new $T<>()",
+                        ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(String.class)),
+                        ClassName.get(ArrayList.class));
+        // （原有 __selectFields.add(...) 生成逻辑，不做任何改动）
         int aliasIdx = 1;
         boolean chain2 = false;
         Map<String, String> prefixAlias = new HashMap<>();
-
         for (VariableElement p : params) {
             String pn = p.getSimpleName().toString();
             if (!pn.contains("_")) {
                 staticB.addStatement("__selectFields.add($S)", "t0." + pn);
-                chain2 = false;
-                prefixAlias.clear();
             } else {
                 String prefix = pn.substring(0, pn.indexOf('_'));
                 String base = pn.substring(pn.indexOf('_') + 1);
@@ -261,6 +278,43 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         staticB.addStatement("$T.register($T.class, $S, __selectFields)",
                 DTOSelectFieldsListFactory.class,
                 entityType, dtoId);
+
+
+        List<JoinInfo> validJoinInfos = joinInfos.stream()
+                .filter(ji -> resolveJoinField(entityClass, ji.attrName) != null)
+                .collect(Collectors.toList());
+
+        // —— 新增：注册 JoinDef 列表 到 DTOJoinInfoFactory ——
+        // staticB.add("$T.register($T.class, $S, new $T(\n",
+        //         DTOJoinInfoFactory.class, entityType, dtoId,
+        //         DTOJoinInfo.class);
+        // staticB.add("$T.of(\n", List.class);
+        List<CodeBlock> blocks = new ArrayList<>();
+        for (JoinInfo ji : validJoinInfos) {
+            VariableElement joinField = resolveJoinField(entityClass, ji.attrName);
+            Join joinAnn = joinField.getAnnotation(Join.class);
+            String fk = joinAnn.fk();
+            String refFK = joinAnn.refFK();
+            DeclaredType dt = (DeclaredType) joinField.asType();
+            TypeElement te = (TypeElement) dt.asElement();
+            String tableName = NamingConvertUtil.camel2SnakeCase(te.getSimpleName().toString());
+
+            blocks.add(CodeBlock.of(
+                    "new $T($S, $S, $S, $S)",
+                    JoinDef.class, tableName, fk, refFK, ji.alias
+            ));
+        }
+        CodeBlock joined = CodeBlock.join(blocks, ",\n");
+
+        // 3. 把它塞进 static 初始化块
+        staticB.add(
+                "$T.register($T.class, $S, new $T(\n",
+                DTOJoinInfoFactory.class, entityType, dtoId, DTOJoinInfo.class
+        );
+        staticB.add("    $T.of(\n", List.class);
+        staticB.add("      $L\n", joined);
+        staticB.add("    )\n");
+        staticB.add("));\n");
         classB.addStaticBlock(staticB.build());
 
         // 写文件
@@ -329,6 +383,36 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         TypeElement te = (TypeElement) dt.asElement();
         return decapitalize(te.getSimpleName().toString());
     }
+
+
+    /**
+     * 解析类似 "department.company.location" 的任意深度链路，
+     * 在每一级 TypeElement 里去找字段，最后返回最末级的 VariableElement。
+     */
+    private VariableElement resolveJoinField(TypeElement rootType, String attrPath) {
+        String[] segments = attrPath.split("\\.");
+        TypeElement currentType = rootType;
+        VariableElement found = null;
+        for (int i = 0; i < segments.length; i++) {
+            String name = segments[i];
+            found = null;
+            for (Element e : currentType.getEnclosedElements()) {
+                if (e.getKind() == ElementKind.FIELD
+                        && e.getSimpleName().toString().equals(name)) {
+                    found = (VariableElement) e;
+                    break;
+                }
+            }
+            if (found == null) return null;
+            // 如果还有下一级，就往下 drill
+            if (i < segments.length - 1) {
+                DeclaredType dt = (DeclaredType) found.asType();
+                currentType = (TypeElement) dt.asElement();
+            }
+        }
+        return found;
+    }
+
 
 
     /**

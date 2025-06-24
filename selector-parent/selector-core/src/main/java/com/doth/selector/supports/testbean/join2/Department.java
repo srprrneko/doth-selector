@@ -16,7 +16,7 @@ public class Department {
     private Office departmentOffice; // 嵌套关联对象
 
     @Join(fk = "manager_id")
-    @OneToOne
+    // @OneToOne
     private Employee manager;
 
 

@@ -42,6 +42,7 @@
           <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0.jar" />
           <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar" />
           <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/com/squareup/javapoet/1.13.0/javapoet-1.13.0.jar" />
+          <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
           <entry name="$PROJECT_DIR$/selector-processor/target/classes" />
           <entry name="$PROJECT_DIR$/selector-common/target/classes" />
           <entry name="$PROJECT_DIR$/selector-annotation/target/classes" />
@@ -67,6 +68,7 @@
           <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/org/checkerframework/checker-qual/3.33.0/checker-qual-3.33.0.jar" />
           <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar" />
           <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/com/squareup/javapoet/1.13.0/javapoet-1.13.0.jar" />
+          <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
         <module name="selector-core" />
       </profile>

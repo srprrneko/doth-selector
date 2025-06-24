@@ -4,7 +4,10 @@ import com.doth.selector.anno.CreateDaoImpl;
 // import com.doth.selector.supports.testbean.join.BaseEmpDep;
 // import com.doth.selector.supports.testbean.join.BaseEmpInfo;
 import com.doth.selector.core.Selector;
+import com.doth.selector.supports.testbean.join.BaseEmpDep;
+import com.doth.selector.supports.testbean.join.BaseEmpInfo;
 import com.doth.selector.supports.testbean.join.Employee;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.List;
@@ -38,6 +41,7 @@ import java.util.List;
  *
  */
 @CreateDaoImpl
+@Slf4j
 public abstract class EmployeeDAO extends Selector<Employee> {
 
     public static void main(String[] args) {
@@ -119,22 +123,29 @@ public abstract class EmployeeDAO extends Selector<Employee> {
                 builder.eq(e -> e.getDepartment().getName(), "研发部")
         );
     }
-    //
-    // public List<BaseEmpDep> dtoImpl() {
-    //     return queryDtoList(BaseEmpDep.class, builder -> {
-    //         // builder.eq(e -> e.getDepartment().getName(),
-    //         builder.eq("t1.name",
-    //                 "研发部");
-    //
-    //     });
-    // }
-    // public List<BaseEmpInfo> dtoImpl2() {
-    //     return queryDtoList(BaseEmpInfo.class, builder -> {
-    //         builder.eq(e -> e.getDepartment().getName(),
-    //                 "市场部");
-    //
-    //     });
-    // }
+
+    public List<BaseEmpDep> dtoImpl() {
+        return queryDtoList(BaseEmpDep.class, builder -> {
+            // builder.eq(e -> e.getDepartment().getName(),
+            builder.eq("t1.name",
+                    "研发部");
+
+        });
+    }
+    public List<BaseEmpInfo> dtoImpl2() {
+        return queryDtoList(BaseEmpInfo.class, builder -> {
+            builder.eq(e -> e.getDepartment().getName(),
+                    "市场部");
+
+        });
+    }
+
+    @Test
+    public void testDtoImpl2() {
+        EmployeeDAO dao = new EmployeeDAOImpl();
+        List<BaseEmpInfo> list = dao.dtoImpl2();
+        log.info("data: {}", list);
+    }
 
     /**
      * 根据员工姓名, 查询员工列表
@@ -177,12 +188,12 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     @Test
     public void testQueryByDepartmentName() {
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 50000; i++) {
-            this.queryByDepartmentName("研发部");
-        }
+        // for (int i = 0; i < 50000; i++) {
+        List<Employee> result = this.queryByDepartmentName("研发部");
+        // }
         long cost = System.currentTimeMillis() - start;
         System.out.println("queryByDepartmentName 执行耗时: " + cost);
-        // System.out.println(result);
+        System.out.println(result);
     }
 
 

@@ -4,40 +4,42 @@ import com.doth.selector.anno.DependOn;
 import com.doth.selector.anno.Id;
 import com.doth.selector.anno.Join;
 import com.doth.selector.anno.OneToOne;
+import com.doth.selector.common.dto.DTOJoinInfo;
+import com.doth.selector.common.dto.DTOJoinInfoFactory;
+import com.doth.selector.common.dto.DTOSelectFieldsListFactory;
+import com.doth.selector.common.dto.JoinDef;
 import com.doth.selector.common.exception.NonPrimaryKeyException;
 import com.doth.selector.common.util.AnnoNamingConvertUtil;
 import com.doth.selector.common.util.NamingConvertUtil;
-import com.doth.selector.common.dto.DTOSelectFieldsListFactory;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
-// import com.doth.selector.supports.testbean.join.BaseEmpInfo;
-// import com.doth.selector.supports.testbean.join.Employee;
-import com.doth.selector.supports.testbean.join2.BaseEmpInfo;
 import com.doth.selector.supports.testbean.join2.Employee;
-import com.doth.selector.supports.testbean.join3.StudentInfo;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import lombok.extern.slf4j.Slf4j;
 
 import java.beans.Introspector;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class AutoQueryGenerator {
+
     private static final String MAIN_ALIAS = "t0";
     public static final int MAX_JOIN_LENGTH = 10;
 
-    private static Cache<Class<?>, Field[]> FIELD_CACHE = null;
+    private static final Cache<Class<?>, Field[]> FIELD_CACHE;
 
     static {
         FIELD_CACHE = Caffeine.newBuilder()
-                .maximumSize(200) // 根据实体数量设置 200 够用了
+                .maximumSize(200)               // 缓存上限
                 .expireAfterAccess(1, TimeUnit.HOURS)
                 .build();
-
     }
 
     private final Class<?> originalEntity;
     private final boolean dtoMode;
+    private final String dtoName;                     // 新增：存储 DTO 名称（decap）
     private final List<String> dtoSelectPaths;
     private final Set<String> dtoPrefixes;
     private final Set<String> conditionPrefixes;
@@ -57,29 +59,55 @@ public class AutoQueryGenerator {
     private AutoQueryGenerator(Class<?> entityClass, ConditionBuilder<?> conditionBuilder) {
         DependOn dep = entityClass.getAnnotation(DependOn.class);
         if (dep != null) {
+            // DTO 模式
             dtoMode = true;
             try {
                 originalEntity = Class.forName(dep.clzPath());
+                log.info("dto model-origin entity: {}", originalEntity);
+                // 确保 DTO 类能被加载
                 Class.forName(entityClass.getName(), true, entityClass.getClassLoader());
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("加载类失败: " + e.getMessage(), e);
             }
-
+            // decap 形式即 Factory 注册时使用的 key
             String decap = Introspector.decapitalize(entityClass.getSimpleName());
+            this.dtoName = decap;
             dtoSelectPaths = resolveDtoSelectPaths(originalEntity, decap, entityClass.getSimpleName());
             dtoPrefixes = extractPrefixes(dtoSelectPaths);
         } else {
+            // 普通模式
             dtoMode = false;
             originalEntity = entityClass;
+            this.dtoName = null;
             dtoSelectPaths = Collections.emptyList();
             dtoPrefixes = Collections.emptySet();
         }
-
         conditionPrefixes = conditionBuilder != null
                 ? conditionBuilder.extractJoinTablePrefixes()
                 : Collections.emptySet();
     }
 
+    /**
+     * 从已注册的 DTOSelectFieldsListFactory 中解析 select 列。
+     */
+    private List<String> resolveDtoSelectPaths(Class<?> origin, String decap, String simpleName) {
+        List<String> paths = DTOSelectFieldsListFactory.resolveSelectList(origin, decap);
+        if (paths.isEmpty()) {
+            paths = DTOSelectFieldsListFactory.resolveSelectList(origin, simpleName);
+            if (!paths.isEmpty()) {
+                System.err.println("仅找到大写首字母形式的注册列: " + origin.getName() + "#" + simpleName);
+            }
+        }
+        if (paths.isEmpty()) {
+            throw new RuntimeException("未找到 DTO 查询列: "
+                    + origin.getName() + "#" + decap + " 或 " + simpleName);
+        }
+        return paths;
+    }
+
+    /**
+     * 从 select 列中提取所有 tN 前缀，用于控制哪些关联要被遍历（DTO 模式下）。
+     */
     private Set<String> extractPrefixes(List<String> paths) {
         Set<String> set = new LinkedHashSet<>();
         for (String path : paths) {
@@ -91,27 +119,42 @@ public class AutoQueryGenerator {
         return set;
     }
 
-    private List<String> resolveDtoSelectPaths(Class<?> origin, String decap, String simpleName) {
-        List<String> paths = DTOSelectFieldsListFactory.resolveSelectList(origin, decap);
-        if (paths.isEmpty()) {
-            paths = DTOSelectFieldsListFactory.resolveSelectList(origin, simpleName);
-            if (!paths.isEmpty()) {
-                System.err.println("仅找到大写首字母形式的注册列: " + origin.getName() + "#" + simpleName);
-            }
-        }
-        if (paths.isEmpty()) {
-            throw new RuntimeException("未找到 DTO 查询列: " + origin.getName() + "#" + decap + " 或 " + simpleName);
-        }
-        return paths;
-    }
-
+    /**
+     * 核心：根据模式分支，生成 SELECT + FROM + JOIN 语句。
+     */
     private String generate() {
+        // DTO 模式下先把 selectList 填好
         if (dtoMode) {
             selectList.addAll(dtoSelectPaths);
         }
-        parseEntity(originalEntity, MAIN_ALIAS, Collections.emptySet());
 
-        // 构造 SQL 字符串，使用 StringBuilder 替代 + 拼接（但此处影响不大）
+        // 尝试获取预注册的 JoinInfo（只有 DTO 模式才会注册）
+        DTOJoinInfo joinInfo = (dtoMode && dtoName != null)
+                ? DTOJoinInfoFactory.getJoinInfo(originalEntity, dtoName)
+                : null;
+        log.info("dto join-info: {}", joinInfo);
+
+
+        if (joinInfo != null) {
+            // DTO 模式 & 已注册：直接用预定义的 JoinDef 列表
+            for (JoinDef jd : joinInfo.getJoinDefs()) {
+                joinClauses.add(String.format(
+                        "join %s %s ON %s.%s = %s.%s",
+                        jd.getRelationTable(),
+                        jd.getAlias(),
+                        MAIN_ALIAS,
+                        jd.getForeignKeyColumn(),
+
+                        jd.getAlias(),
+                        jd.getPrimaryKeyColumn()
+                ));
+            }
+        } else {
+            // 普通模式或 DTO 模式下未注册：走原有的反射遍历逻辑
+            parseEntity(originalEntity, MAIN_ALIAS, Collections.emptySet());
+        }
+
+        // 拼接最终 SQL
         StringBuilder sb = new StringBuilder("select ");
         for (int i = 0; i < selectList.size(); i++) {
             if (i > 0) sb.append(", ");
@@ -124,15 +167,16 @@ public class AutoQueryGenerator {
         return sb.append("\n").toString();
     }
 
+    /**
+     * 原有递归反射逻辑，不做任何修改。
+     */
     private void parseEntity(Class<?> entity, String alias, Set<Field> ancestorJoins) {
         if (joinLevel > MAX_JOIN_LENGTH) {
             throw new RuntimeException("关联层级过深: " + entity.getSimpleName());
         }
-        // cycle 检测：如果重新遇到同一个 entity，且在祖先字段里有 @OneToOne，就直接返回
         if (!processedEntities.add(entity)) {
             for (Field f : ancestorJoins) {
                 if (f.isAnnotationPresent(OneToOne.class)) {
-                    // OneToOne 循环，跳过后续所有处理
                     return;
                 }
             }
@@ -144,8 +188,6 @@ public class AutoQueryGenerator {
             if (field.isAnnotationPresent(Join.class)) {
                 Class<?> target = field.getType();
                 boolean isOneToOne = field.isAnnotationPresent(OneToOne.class);
-
-                // **新加**：如果目标类已处理过，且本字段标注了 @OneToOne，则跳过
                 if (processedEntities.contains(target) && isOneToOne) {
                     continue;
                 }
@@ -154,17 +196,14 @@ public class AutoQueryGenerator {
                 boolean usedInDtoOrCond = dtoPrefixes.contains(nextAlias)
                         || conditionPrefixes.contains(nextAlias);
                 if (!dtoMode || usedInDtoOrCond) {
-                    // 把本 field 也当成祖先，传递给子层级用于循环检测
                     Set<Field> newAncestors = new HashSet<>(ancestorJoins);
                     newAncestors.add(field);
 
-                    // select 外键列
                     if (!dtoMode) {
                         Join join = field.getAnnotation(Join.class);
                         selectList.add(alias + "." + NamingConvertUtil.camel2SnakeCase(join.fk()));
                     }
 
-                    // join 子表
                     Field pk = findPrimaryKey(target);
                     joinClauses.add(String.format(
                             "join %s %s ON %s.%s = %s.%s",
@@ -177,15 +216,11 @@ public class AutoQueryGenerator {
                     parseEntity(target, nextAlias, newAncestors);
                 }
             } else if (!dtoMode) {
-                // 普通字段直接 select
                 selectList.add(alias + "." + NamingConvertUtil.camel2SnakeCase(field.getName()));
             }
         }
-
-        // 本层遍历完成，移除标记
         processedEntities.remove(entity);
     }
-
 
     private Field findPrimaryKey(Class<?> clazz) {
         Field[] fields = getCachedFields(clazz);
@@ -199,9 +234,11 @@ public class AutoQueryGenerator {
 
     private Field[] getCachedFields(Class<?> clazz) {
         return FIELD_CACHE.get(clazz, clz -> {
-            Field[] fields = clz.getDeclaredFields();
-            for (Field field : fields) field.setAccessible(true);
-            return fields;
+            Field[] fs = clz.getDeclaredFields();
+            for (Field f : fs) {
+                f.setAccessible(true);
+            }
+            return fs;
         });
     }
 
@@ -211,10 +248,8 @@ public class AutoQueryGenerator {
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        // for (int i = 0; i < 50000; i++) {
-            String generated = generated(BaseEmpInfo.class);
-        // }
-        System.out.println("generated = " + generated);
+        String generatedSql = generated(Employee.class);
+        System.out.println("generated = " + generatedSql);
         long end = System.currentTimeMillis();
         System.out.println("(耗时 ms): " + (end - start));
     }
