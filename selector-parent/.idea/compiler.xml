@@ -12,7 +12,7 @@
         <module name="selector-annotation" />
       </profile>
       <profile name="Annotation profile for selector-parent" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceOutputDir name="target/selector-generated" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">

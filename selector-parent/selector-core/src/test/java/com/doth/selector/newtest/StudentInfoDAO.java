@@ -20,16 +20,16 @@ public abstract class StudentInfoDAO extends Selector<StudentInfo> {
 
     public abstract List<StudentInfo> queryByStudentId(Integer id);
 
-    @Test
-    public void testListFull() {
-        StudentInfoDAO dao = new StudentInfoDAOImpl();
-        long start = System.currentTimeMillis();
-        // for (int i = 0; i < 50000; i++) {
-             dao.queryByStudentId(1);
-        // }
-        long end = System.currentTimeMillis();
-        log.info("(end - start) : {}", (end - start));
-    }
+    // @Test
+    // public void testListFull() {
+    //     StudentInfoDAO dao = new StudentInfoDAOImpl();
+    //     long start = System.currentTimeMillis();
+    //     // for (int i = 0; i < 50000; i++) {
+    //          dao.queryByStudentId(1);
+    //     // }
+    //     long end = System.currentTimeMillis();
+    //     log.info("(end - start) : {}", (end - start));
+    // }
 
     public static void main(String[] args) {
 

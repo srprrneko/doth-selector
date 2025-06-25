@@ -1232,7 +1232,7 @@
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>4</Position>
-      <StoredType>timestamp|0s</StoredType>
+      <StoredType>datetime|0s</StoredType>
     </column>
     <index id="332" parent="248" name="PRIMARY">
       <ColNames>student_id</ColNames>

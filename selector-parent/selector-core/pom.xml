@@ -62,6 +62,8 @@
                             <version>${project.version}</version> <!-- 关键修复 -->
                         </path>
                     </annotationProcessorPaths>
+                    <generatedSourcesDirectory>${project.build.directory}/selector-generated</generatedSourcesDirectory>
+
                 </configuration>
             </plugin>
         </plugins>

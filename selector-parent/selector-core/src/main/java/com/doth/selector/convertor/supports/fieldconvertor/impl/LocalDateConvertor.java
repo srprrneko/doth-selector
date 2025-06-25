@@ -11,13 +11,7 @@ import java.sql.SQLException;
 public class LocalDateConvertor implements FieldConvertor {
     @Override
     public Object convert(ResultSet rs, String columnLabel) throws SQLException {
-        Date date = null;
-        try {
-            date = rs.getDate(columnLabel);
-            return date != null ? date.toLocalDate() : null;
-        } catch (SQLException e) {
-            log.error("类型转换出现异常! {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
+        Date date = rs.getDate(columnLabel);
+        return (date != null) ? date.toLocalDate() : null;
     }
 }

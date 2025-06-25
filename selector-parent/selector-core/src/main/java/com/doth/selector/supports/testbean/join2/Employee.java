@@ -26,15 +26,15 @@ public class Employee {
             Integer employeeId,
             String employeeName,
 
-            @JoinLevel(clz = Department.class, attrName = "employeeDepartment")
-            Integer _deptId,
-            String _deptName,
-
-            @Next(clz = Office.class, attrName = "departmentOffice")
-            String _officeCode,
-
-            @Next(clz = Location.class, attrName = "officeLocation")
-            String _locCity,
+            // @JoinLevel(clz = Department.class, attrName = "employeeDepartment")
+            // Integer _deptId,
+            // String _deptName,
+            //
+            // @Next(clz = Office.class, attrName = "departmentOffice")
+            // String _officeCode,
+            //
+            // @Next(clz = Location.class, attrName = "officeLocation")
+            // String _locCity,
 
             @JoinLevel(clz = Company.class, attrName = "company")
             String _name

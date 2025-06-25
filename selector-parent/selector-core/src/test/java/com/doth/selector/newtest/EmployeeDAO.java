@@ -4,8 +4,8 @@ import com.doth.selector.anno.CreateDaoImpl;
 // import com.doth.selector.supports.testbean.join.BaseEmpDep;
 // import com.doth.selector.supports.testbean.join.BaseEmpInfo;
 import com.doth.selector.core.Selector;
-import com.doth.selector.supports.testbean.join.BaseEmpDep;
-import com.doth.selector.supports.testbean.join.BaseEmpInfo;
+// import com.doth.selector.supports.testbean.join.BaseEmpDep;
+// import com.doth.selector.supports.testbean.join.BaseEmpInfo;
 import com.doth.selector.supports.testbean.join.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -45,19 +45,19 @@ import java.util.List;
 public abstract class EmployeeDAO extends Selector<Employee> {
 
     public static void main(String[] args) {
-        EmployeeDAO dao = new EmployeeDAOImpl();
-
-        // List<BaseEmpDep> implDto = dao.dtoImpl();
-
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < 50000; i++) {
-            dao.impl();
-            // dao.dtoImpl();
-            // dao.dtoImpl2();
-            // dao.testNew();
-        }
-        long end = System.currentTimeMillis();
-        System.out.println("(end - start) = " + (end - start));
+        // EmployeeDAO dao = new EmployeeDAOImpl();
+        //
+        // // List<BaseEmpDep> implDto = dao.dtoImpl();
+        //
+        // long start = System.currentTimeMillis();
+        // for (int i = 0; i < 50000; i++) {
+        //     dao.impl();
+        //     // dao.dtoImpl();
+        //     // dao.dtoImpl2();
+        //     // dao.testNew();
+        // }
+        // long end = System.currentTimeMillis();
+        // System.out.println("(end - start) = " + (end - start));
 
         // System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
         // System.out.println("impl = " + impl);
@@ -124,28 +124,28 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         );
     }
 
-    public List<BaseEmpDep> dtoImpl() {
-        return queryDtoList(BaseEmpDep.class, builder -> {
-            // builder.eq(e -> e.getDepartment().getName(),
-            builder.eq("t1.name",
-                    "研发部");
-
-        });
-    }
-    public List<BaseEmpInfo> dtoImpl2() {
-        return queryDtoList(BaseEmpInfo.class, builder -> {
-            builder.eq(e -> e.getDepartment().getName(),
-                    "市场部");
-
-        });
-    }
-
-    @Test
-    public void testDtoImpl2() {
-        EmployeeDAO dao = new EmployeeDAOImpl();
-        List<BaseEmpInfo> list = dao.dtoImpl2();
-        log.info("data: {}", list);
-    }
+    // public List<BaseEmpDep> dtoImpl() {
+    //     return queryDtoList(BaseEmpDep.class, builder -> {
+    //         // builder.eq(e -> e.getDepartment().getName(),
+    //         builder.eq("t1.name",
+    //                 "研发部");
+    //
+    //     });
+    // }
+    // public List<BaseEmpInfo> dtoImpl2() {
+    //     return queryDtoList(BaseEmpInfo.class, builder -> {
+    //         builder.eq(e -> e.getDepartment().getName(),
+    //                 "市场部");
+    //
+    //     });
+    // }
+    //
+    // @Test
+    // public void testDtoImpl2() {
+    //     EmployeeDAO dao = new EmployeeDAOImpl();
+    //     List<BaseEmpInfo> list = dao.dtoImpl2();
+    //     log.info("data: {}", list);
+    // }
 
     /**
      * 根据员工姓名, 查询员工列表

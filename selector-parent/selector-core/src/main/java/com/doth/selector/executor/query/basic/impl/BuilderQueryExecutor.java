@@ -12,14 +12,12 @@ public class BuilderQueryExecutor<T> extends BasicKindQueryExecutor<T> {
 
 
 
-    @Overload
     public List<T> query2Lst(Consumer<ConditionBuilder> setup) {
         ConditionBuilder builder = new ConditionBuilder();
         setup.accept(builder);
         return coordinator.queryByBuilder(beanClass, builder);
     }
 
-    @Overload
     public List<T> query2Lst(String sql, Consumer<ConditionBuilder> conditionSetup) {
         ConditionBuilder builder = new ConditionBuilder();
         conditionSetup.accept(builder);
@@ -28,12 +26,12 @@ public class BuilderQueryExecutor<T> extends BasicKindQueryExecutor<T> {
 
 
 
-    @Overload
+    @Deprecated
     public T query2T(Consumer<ConditionBuilder> setup) {
         return ResultSetMapper.getSingleResult(query2Lst(setup));
     }
 
-    @Overload
+    @Deprecated
     public T query2T(String sql, Consumer<ConditionBuilder> conditionSetup) {
         return ResultSetMapper.getSingleResult(query2Lst(sql, conditionSetup));
     }

@@ -1,16 +1,8 @@
 package com.doth.selector.anno.processor.core;
 
-import com.doth.selector.anno.DTOConstructor;
-import com.doth.selector.anno.DependOn;
-import com.doth.selector.anno.Join;
-import com.doth.selector.anno.JoinLevel;
-import com.doth.selector.anno.Next;
+import com.doth.selector.anno.*;
 import com.doth.selector.anno.processor.BaseAnnotationProcessor;
-import com.doth.selector.common.dto.DTOFactory;
-import com.doth.selector.common.dto.DTOJoinInfo;
-import com.doth.selector.common.dto.DTOJoinInfoFactory;
-import com.doth.selector.common.dto.DTOSelectFieldsListFactory;
-import com.doth.selector.common.dto.JoinDef;
+import com.doth.selector.common.dto.*;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.*;
@@ -25,7 +17,6 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.element.*;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.MirroredTypeException;
-import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
 import java.io.IOException;
 import java.util.*;
@@ -39,22 +30,25 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (Element elem : roundEnv.getElementsAnnotatedWith(DTOConstructor.class)) {
             if (!(elem instanceof ExecutableElement)) continue;
+
             ExecutableElement ctor = (ExecutableElement) elem;
             TypeElement entity = (TypeElement) ctor.getEnclosingElement();
             String dtoId = ctor.getAnnotation(DTOConstructor.class).id();
+
             generateDto(entity, ctor, dtoId);
         }
         return true;
     }
 
     private void generateDto(TypeElement entityClass, ExecutableElement ctorElem, String dtoId) {
-        String packageName = context.getElementUtils().getPackageOf(entityClass).getQualifiedName().toString();
-        String dtoClassName = NamingConvertUtil.toUpperCaseFirstLetter(dtoId, false);
-        ClassName entityType = ClassName.get(packageName, entityClass.getSimpleName().toString());
+        String pkg = context.getElementUtils()
+                .getPackageOf(entityClass)
+                .getQualifiedName().toString();
 
+        String dtoName = NamingConvertUtil.toUpperCaseFirstLetter(dtoId, false);
+        ClassName entityType = ClassName.get(pkg, entityClass.getSimpleName().toString());
 
-        // 1.创建dto 先建类, 所以字段在下面
-        TypeSpec.Builder classBuilder = TypeSpec.classBuilder(dtoClassName)
+        TypeSpec.Builder cls = TypeSpec.classBuilder(dtoName)
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(AnnotationSpec.builder(DependOn.class)
                         .addMember("clzPath", "$S", context.getElementUtils().getBinaryName(entityClass).toString())
@@ -62,72 +56,54 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 .addAnnotation(Data.class)
                 .addAnnotation(NoArgsConstructor.class)
                 .addAnnotation(AllArgsConstructor.class);
-        // 2.创建字段
-        List<ParamInfo> params = parseParams(ctorElem); // 解析参数
 
-        // 从内部类 ParamInfo 里面添加完整的字段信息
+        List<ParamInfo> params = parseParams(ctorElem);
         for (ParamInfo info : params) {
-            classBuilder.addField(FieldSpec.builder(
-                    TypeName.get(info.param.asType()),
-                    info.fieldName,
-                    Modifier.PRIVATE).build()
-            );
+            cls.addField(FieldSpec.builder(
+                            TypeName.get(info.param.asType()),
+                            info.fieldName,
+                            Modifier.PRIVATE
+                    ).build());
         }
 
-        // 3.创建构造 (记忆点: 构造方法也是方法)
-        MethodSpec constructor = buildConstructor(entityClass, params);
-        classBuilder.addMethod(constructor);
+        cls.addMethod(buildConstructor(entityClass, params));
 
-        // 4.提取join子句, 查询列列表, 为构建静态代码块逻辑做准备
-        List<JoinInfo> joinInfos = collectJoinInfos(entityClass, params);
-        List<String> selectFields = collectSelectFields(params);
+        JoinChainResult chain = processJoinChains(params, entityClass);
 
-        // 5.静态代码块
-        CodeBlock staticBlock = buildStaticInitBlock(entityType, packageName, dtoId, selectFields, joinInfos, entityClass);
-        classBuilder.addStaticBlock(staticBlock);
+        cls.addStaticBlock(buildStaticInitBlock(entityType, pkg, dtoId, chain.selectFields, chain.joinInfos, entityClass));
 
-        // 收尾
-        JavaFile javaFile = JavaFile.builder(packageName, classBuilder.build()).build();
         try {
-            javaFile.writeTo(context.getFiler());
+            JavaFile.builder(pkg, cls.build()).build().writeTo(context.getFiler());
         } catch (IOException e) {
             context.getMessager().printMessage(Diagnostic.Kind.ERROR, "生成 DTO 类失败: " + e.getMessage(), entityClass);
         }
     }
 
-    // 通过被标注的构造参数解析成 参数信息元
     private List<ParamInfo> parseParams(ExecutableElement ctor) {
         List<? extends VariableElement> parameters = ctor.getParameters();
         Set<String> mainNames = new HashSet<>();
         Map<String, Long> baseCount = new HashMap<>();
-
-        // first pass: count main vs base
         for (VariableElement p : parameters) {
-            String name = p.getSimpleName().toString();
-            if (!name.contains("_")) {
-                mainNames.add(name);
-            } else {
-                String base = name.substring(name.indexOf('_') + 1);
+            String raw = p.getSimpleName().toString();
+            if (!raw.contains("_")) mainNames.add(raw);
+            else {
+                String base = raw.substring(raw.indexOf('_') + 1);
                 baseCount.put(base, baseCount.getOrDefault(base, 0L) + 1);
             }
         }
-
         List<ParamInfo> result = new ArrayList<>();
-        boolean inJoinChain = false;
+        boolean inChain = false;
         String chainAttr = null;
-
         for (VariableElement p : parameters) {
             String raw = p.getSimpleName().toString();
             ParamInfo info = new ParamInfo();
             info.param = p;
             info.jl = p.getAnnotation(JoinLevel.class);
             info.nx = p.getAnnotation(Next.class);
-
             if (!raw.contains("_")) {
-                // main field
                 info.isJoin = false;
                 info.fieldName = raw;
-                inJoinChain = false;
+                inChain = false;
                 chainAttr = null;
             } else {
                 info.isJoin = true;
@@ -135,19 +111,16 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 String base = raw.substring(raw.indexOf('_') + 1);
                 info.prefix = prefix;
                 info.base = base;
-
                 if (info.jl != null) {
-                    inJoinChain = true;
+                    inChain = true;
                     chainAttr = getPropNameFromJoinLevel(info.jl);
                 } else if (info.nx != null) {
-                    inJoinChain = true;
+                    inChain = true;
                     chainAttr = getPropNameFromNext(info.nx);
-                } else if (!inJoinChain) {
-                    // treat as normal
+                } else if (!inChain) {
                     info.isJoin = false;
                     info.fieldName = raw;
                 }
-
                 if (info.isJoin) {
                     boolean conflict = mainNames.contains(base) || baseCount.getOrDefault(base, 0L) > 1;
                     info.fieldName = conflict ? prefix + capitalize(base) : base;
@@ -158,105 +131,74 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         return result;
     }
 
-    private MethodSpec buildConstructor(TypeElement entityClass, List<ParamInfo> params) {
-        String varEntity = decapitalize(entityClass.getSimpleName().toString());
+    private MethodSpec buildConstructor(TypeElement entity, List<ParamInfo> params) {
+        String var = decapitalize(entity.getSimpleName().toString());
         MethodSpec.Builder mb = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(ClassName.get(entityClass), varEntity);
-
+                .addParameter(ClassName.get(entity), var);
         Map<String, String> prefixPath = new HashMap<>();
         boolean chain = false;
         String currentPath = null;
-
         for (ParamInfo info : params) {
-            String fn = info.fieldName;
-            String raw = info.param.getSimpleName().toString();
+            String fn = info.fieldName, raw = info.param.getSimpleName().toString();
             if (!info.isJoin) {
-                String getter = "get" + capitalize(raw);
-                mb.addStatement("this.$L = $L.$L()", fn, varEntity, getter);
+                mb.addStatement("this.$L = $L.get$L()", fn, var, capitalize(raw));
             } else {
-                // join chain
-                String prefix = info.prefix;
-                String base = info.base;
-
                 if (info.jl != null || !chain) {
                     chain = true;
                     prefixPath.clear();
-                    currentPath = varEntity + ".get" + capitalize(getPropNameFromJoinLevel(info.jl)) + "()";
-                    prefixPath.put(prefix, currentPath);
+                    currentPath = var + ".get" + capitalize(getPropNameFromJoinLevel(info.jl)) + "()";
+                    prefixPath.put(info.prefix, currentPath);
                 } else if (info.nx != null) {
                     String prev = currentPath;
                     currentPath = prev + ".get" + capitalize(getPropNameFromNext(info.nx)) + "()";
-                    prefixPath.put(prefix, currentPath);
+                    prefixPath.put(info.prefix, currentPath);
                 }
-
-                String path = prefixPath.get(prefix);
-                if (path != null) {
-                    mb.addStatement("this.$L = $L.get" + capitalize(base) + "()", fn, path);
-                } else {
-                    mb.addComment("未定义关联前缀 '$L' 对应字段 $L", prefix, fn);
-                }
+                String path = prefixPath.get(info.prefix);
+                if (path != null) mb.addStatement("this.$L = $L.get$L()", fn, path, capitalize(info.base));
+                else mb.addComment("未定义关联前缀 '$L' 对应字段 $L", info.prefix, fn);
             }
         }
         return mb.build();
     }
 
-    private List<String> collectSelectFields(List<ParamInfo> params) {
-        List<String> fields = new ArrayList<>();
+    private JoinChainResult processJoinChains(List<ParamInfo> params, TypeElement entityClass) {
+        List<String> selects = new ArrayList<>();
+        List<JoinInfo> joins = new ArrayList<>();
         Map<String, String> prefixAlias = new HashMap<>();
-        int aliasIdx = 1;
+        int idx = 1;
         boolean chain = false;
+        String currentAttr = null;
         for (ParamInfo info : params) {
-            String raw = info.param.getSimpleName().toString();
             if (!info.isJoin) {
-                fields.add("t0." + raw);
+                selects.add("t0." + info.param.getSimpleName());
             } else {
                 if (info.jl != null || !chain) {
                     chain = true;
-                    String al = "t" + aliasIdx++;
-                    prefixAlias.clear(); prefixAlias.put(info.prefix, al);
-                    fields.add(al + "." + info.base);
+                    prefixAlias.clear();
+                    String alias = "t" + idx++;
+                    prefixAlias.put(info.prefix, alias);
+                    currentAttr = info.jl != null ? getPropNameFromJoinLevel(info.jl) : info.prefix;
+                    joins.add(new JoinInfo(currentAttr, alias));
+                    selects.add(alias + "." + info.base);
                 } else if (info.nx != null) {
-                    String al = "t" + aliasIdx++;
-                    prefixAlias.put(info.prefix, al);
-                    fields.add(al + "." + info.base);
+                    String alias = "t" + idx++;
+                    prefixAlias.put(info.prefix, alias);
+                    currentAttr = currentAttr + "." + getPropNameFromNext(info.nx);
+                    joins.add(new JoinInfo(currentAttr, alias));
+                    selects.add(alias + "." + info.base);
                 } else if (prefixAlias.containsKey(info.prefix)) {
-                    fields.add(prefixAlias.get(info.prefix) + "." + info.base);
+                    selects.add(prefixAlias.get(info.prefix) + "." + info.base);
                 } else {
-                    fields.add("t?." + info.base);
+                    selects.add("t?." + info.base);
                 }
             }
         }
-        return fields;
-    }
-
-    private List<JoinInfo> collectJoinInfos(TypeElement entityClass, List<ParamInfo> params) {
-        List<JoinInfo> infos = new ArrayList<>();
-        int aliasIdx = 1;
-        boolean chain = false;
-        Map<String, String> prefixAlias = new HashMap<>();
-        String currentAttr = null;
-
-        for (ParamInfo info : params) {
-            if (!info.isJoin) continue;
-            if (info.jl != null || !chain) {
-                chain = true;
-                String alias = "t" + aliasIdx++;
-                prefixAlias.clear(); prefixAlias.put(info.prefix, alias);
-                currentAttr = info.jl != null ? getPropNameFromJoinLevel(info.jl) : info.prefix;
-                infos.add(new JoinInfo(currentAttr, alias));
-            } else if (info.nx != null) {
-                String alias = "t" + aliasIdx++;
-                prefixAlias.put(info.prefix, alias);
-                String nextAttr = getPropNameFromNext(info.nx);
-                currentAttr = currentAttr + "." + nextAttr;
-                infos.add(new JoinInfo(currentAttr, alias));
-            }
-        }
-        // filter invalid paths
-        return infos.stream()
-                .filter(ji -> resolveJoinField(entityClass, ji.attrPath) != null)
+        // filter invalid join paths
+        List<JoinInfo> valid = joins.stream()
+                .filter(j -> resolveJoinField(entityClass, j.getAttrPath()) != null)
                 .collect(Collectors.toList());
+        return new JoinChainResult(selects, valid);
     }
 
     private CodeBlock buildStaticInitBlock(ClassName entityType, String pkg, String dtoId,
@@ -266,80 +208,67 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 .addStatement("$T.register($T.class, $S, $T.class)",
                         DTOFactory.class, entityType, dtoId,
                         ClassName.get(pkg, NamingConvertUtil.toUpperCaseFirstLetter(dtoId, false)))
-                .addStatement("$T __select = new $T<>()",
-                        ParameterizedTypeName.get(List.class, String.class), ArrayList.class);
-
-        for (String expr : selectFields) {
-            cb.addStatement("__select.add($S)", expr);
-        }
+                .addStatement("$T __select = new $T<>()", ParameterizedTypeName.get(List.class, String.class), ArrayList.class);
+        for (String f : selectFields) cb.addStatement("__select.add($S)", f);
         cb.addStatement("$T.register($T.class, $S, __select)",
                 DTOSelectFieldsListFactory.class, entityType, dtoId);
 
         Map<String, String> pathAlias = new LinkedHashMap<>();
-        for (JoinInfo ji : joinInfos) {
-            pathAlias.put(ji.attrPath, ji.alias);
-        }
+        for (JoinInfo ji : joinInfos) pathAlias.put(ji.getAttrPath(), ji.getAlias());
 
         List<CodeBlock> defs = new ArrayList<>();
         for (JoinInfo ji : joinInfos) {
-            VariableElement field = resolveJoinField(entityClass, ji.attrPath);
-            Join joinAnn = field.getAnnotation(Join.class);
-            String fk = joinAnn.fk();
-            String refFK = joinAnn.refFK();
-            DeclaredType dt = (DeclaredType) field.asType();
-            TypeElement te = (TypeElement) dt.asElement();
-            String table = NamingConvertUtil.camel2SnakeCase(te.getSimpleName().toString());
-            String parentAlias;
-            int idx = ji.attrPath.lastIndexOf('.');
-            if (idx > 0) parentAlias = pathAlias.get(ji.attrPath.substring(0, idx));
-            else parentAlias = "t0";
-            defs.add(CodeBlock.of("new $T($S, $S, $S, $S, $S)",
-                    JoinDef.class,
-                    table, fk, refFK, ji.alias, parentAlias)
-            );
+            VariableElement field = resolveJoinField(entityClass, ji.getAttrPath());
+            Join ann = field.getAnnotation(Join.class);
+            String table = NamingConvertUtil.camel2SnakeCase(((TypeElement) ((DeclaredType) field.asType()).asElement()).getSimpleName().toString());
+            int idxDot = ji.getAttrPath().lastIndexOf('.');
+            String parent = idxDot > 0 ? pathAlias.get(ji.getAttrPath().substring(0, idxDot)) : "t0";
+            defs.add(CodeBlock.of("new $T($S,$S,$S,$S,$S)", JoinDef.class,
+                    table, ann.fk(), ann.refFK(), ji.getAlias(), parent));
         }
-
-        cb.addStatement("$T.register($T.class, $S, new $T( $T.of( $L ) ))",
+        cb.addStatement("$T.register($T.class, $S, new $T($T.of($L)))",
                 DTOJoinInfoFactory.class, entityType, dtoId,
                 DTOJoinInfo.class, List.class,
                 CodeBlock.join(defs, ", "));
-
         return cb.build();
     }
 
     private String getPropNameFromJoinLevel(JoinLevel jl) {
         if (!jl.attrName().isEmpty()) return jl.attrName();
-        TypeMirror tm;
-        try { jl.clz(); return ""; }
-        catch (MirroredTypeException mte) { tm = mte.getTypeMirror(); }
-        DeclaredType dt = (DeclaredType) tm;
-        TypeElement te = (TypeElement) dt.asElement();
-        return decapitalize(te.getSimpleName().toString());
+        try {
+            jl.clz();
+        } catch (MirroredTypeException m) {
+            TypeElement te = (TypeElement) ((DeclaredType) m.getTypeMirror()).asElement();
+            return decapitalize(te.getSimpleName().toString());
+        }
+        return "";
     }
 
     private String getPropNameFromNext(Next nx) {
         if (!nx.attrName().isEmpty()) return nx.attrName();
-        TypeMirror tm;
-        try { nx.clz(); return ""; }
-        catch (MirroredTypeException mte) { tm = mte.getTypeMirror(); }
-        DeclaredType dt = (DeclaredType) tm;
-        TypeElement te = (TypeElement) dt.asElement();
-        return decapitalize(te.getSimpleName().toString());
+        try {
+            nx.clz();
+        } catch (MirroredTypeException m) {
+            TypeElement te = (TypeElement) ((DeclaredType) m.getTypeMirror()).asElement();
+            return decapitalize(te.getSimpleName().toString());
+        }
+        return "";
     }
 
     private VariableElement resolveJoinField(TypeElement root, String path) {
         String[] segs = path.split("\\.");
-        TypeElement current = root;
+        TypeElement cur = root;
         VariableElement found = null;
         for (int i = 0; i < segs.length; i++) {
             found = null;
-            for (Element e : current.getEnclosedElements()) {
+            for (Element e : cur.getEnclosedElements()) {
                 if (e.getKind() == ElementKind.FIELD && e.getSimpleName().contentEquals(segs[i])) {
-                    found = (VariableElement) e; break;
+                    found = (VariableElement) e;
+                    break;
                 }
             }
             if (found == null) return null;
-            if (i < segs.length - 1) current = (TypeElement) ((DeclaredType) found.asType()).asElement();
+            if (i < segs.length - 1) cur = (TypeElement) ((DeclaredType) found.asType()).asElement();
         }
         return found;
     }
@@ -351,23 +280,25 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
 
     private String decapitalize(String s) {
         if (s == null || s.isEmpty()) return s;
-        if (s.length() > 1 && Character.isUpperCase(s.charAt(0)) && Character.isUpperCase(s.charAt(1)))
-            return s;
+        if (s.length() > 1 && Character.isUpperCase(s.charAt(0)) && Character.isUpperCase(s.charAt(1))) return s;
         return Character.toLowerCase(s.charAt(0)) + s.substring(1);
     }
 
-    // 参数信息
     private static class ParamInfo {
         VariableElement param;
         boolean isJoin;
-        String prefix;
-        String base;
-        String fieldName;
+        String prefix, base, fieldName;
         JoinLevel jl;
         Next nx;
     }
 
-    // join子句的信息
+    @Value
+    @AllArgsConstructor
+    private static class JoinChainResult {
+        List<String> selectFields;
+        List<JoinInfo> joinInfos;
+    }
+
     @Value
     @AllArgsConstructor
     private static class JoinInfo {

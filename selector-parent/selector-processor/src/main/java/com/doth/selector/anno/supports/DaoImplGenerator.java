@@ -1,5 +1,6 @@
-package com.doth.selector.anno.processor;
+package com.doth.selector.anno.supports;
 
+import com.doth.selector.anno.processor.ProcessingContext;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.squareup.javapoet.*;
 import javax.lang.model.element.*;
@@ -23,23 +24,35 @@ public class DaoImplGenerator {
     }
 
     public void generate(TypeElement abstractClass) {
-        String pkg = ctx.getElementUtils().getPackageOf(abstractClass)
-                .getQualifiedName().toString();
+        String pkg = ctx.getElementUtils()
+                .getPackageOf(abstractClass)
+                .getQualifiedName()
+                .toString();
+
+        // 写类结构
+        // 1.类名 默认生成的 实现类类名: daoClzName + impl
         String implName = abstractClass.getSimpleName() + "Impl";
 
+        // 2.继承关系 
         TypeSpec.Builder clsB = TypeSpec.classBuilder(implName)
                 .addModifiers(Modifier.PUBLIC)
                 .superclass(TypeName.get(abstractClass.asType()));
 
+        // 3.添加无参构造
         clsB.addMethod(MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
                 .addStatement("super()")
                 .build());
 
+        // 获取实体泛型
+        // 用于为方法生成做准备
         TypeElement entityType = helper.extractGenericEntityType(abstractClass);
 
+        // 遍历dao中的所有抽象方法
         for (Element e : abstractClass.getEnclosedElements()) {
-            if (e.getKind() == ElementKind.METHOD && e.getModifiers().contains(Modifier.ABSTRACT)) {
+            if (e.getKind() == ElementKind.METHOD
+                    && e.getModifiers().contains(Modifier.ABSTRACT)) {
+
                 clsB.addMethod(buildMethod((ExecutableElement) e, entityType));
             }
         }
@@ -53,20 +66,27 @@ public class DaoImplGenerator {
         }
     }
 
+    // 构建方法
     private MethodSpec buildMethod(ExecutableElement method, TypeElement entityType) {
+        // 构建方法签名
+        // 1.方法名
         String name = method.getSimpleName().toString();
+        // 2.照搬方法修饰符, 方法名, 返回值
         MethodSpec.Builder mb = MethodSpec.methodBuilder(name)
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC)
                 .returns(TypeName.get(method.getReturnType()));
 
-        // 添加所有参数
+        // 2.1 添加参数
         method.getParameters().forEach(p ->
                 mb.addParameter(TypeName.get(p.asType()), p.getSimpleName().toString())
         );
 
+
         CodeBlock.Builder code = CodeBlock.builder();
         String matchedPrefix = null;
+
+        // 识别查询约定前缀
         for (String prefix : QUERY_PREFIXES) {
             if (name.startsWith(prefix)) {
                 matchedPrefix = prefix;
@@ -75,6 +95,7 @@ public class DaoImplGenerator {
         }
 
         if (matchedPrefix != null) {
+
             String suffix = name.substring(matchedPrefix.length());
             List<DaoImplGeneratorHelper.ConditionStructure> conds = helper.parseMethodConditions(suffix);
             if (conds.size() != method.getParameters().size()) {

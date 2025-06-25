@@ -2,11 +2,17 @@ package com.doth.selector.anno.processor.core;
 
 import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.anno.processor.BaseAnnotationProcessor;
-import com.doth.selector.anno.processor.DaoImplGenerator;
+import com.doth.selector.anno.supports.DaoImplGenerator;
 import com.google.auto.service.AutoService;
 
-import javax.annotation.processing.*;
-import javax.lang.model.element.*;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.Processor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import java.util.Set;
 
@@ -15,14 +21,14 @@ import java.util.Set;
  */
 @AutoService(Processor.class)
 @SupportedAnnotationTypes("com.doth.selector.anno.CreateDaoImpl")
-public class CreateDaoImplProcessorV2 extends BaseAnnotationProcessor {
+public class CreateDaoImplProcessor extends BaseAnnotationProcessor {
 
     private DaoImplGenerator generator;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        // 复用同一份 context
+        // 复用 context
         this.generator = new DaoImplGenerator(context);
     }
 
@@ -30,10 +36,11 @@ public class CreateDaoImplProcessorV2 extends BaseAnnotationProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (Element element : roundEnv.getElementsAnnotatedWith(CreateDaoImpl.class)) {
             if (!(element instanceof TypeElement)
-             || element.getKind() != ElementKind.CLASS
-             || !element.getModifiers().contains(Modifier.ABSTRACT)) {
+                    || element.getKind() != ElementKind.CLASS
+                    || !element.getModifiers().contains(Modifier.ABSTRACT)) {
+
                 context.getMessager().printMessage(Diagnostic.Kind.ERROR,
-                    "继承 Selector 请使用抽象类!!", element);
+                        "继承 Selector 请使用抽象类!!", element);
                 continue;
             }
             generator.generate((TypeElement) element);

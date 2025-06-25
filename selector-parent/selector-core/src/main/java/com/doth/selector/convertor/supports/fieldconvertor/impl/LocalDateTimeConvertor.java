@@ -11,12 +11,7 @@ import java.sql.Timestamp;
 public class LocalDateTimeConvertor implements FieldConvertor {
     @Override
     public Object convert(ResultSet rs, String columnLabel) throws SQLException {
-        try {
-            Timestamp ts = rs.getTimestamp(columnLabel);
-            return ts != null ? ts.toLocalDateTime() : null;
-        } catch (SQLException e) {
-            log.error("类型转换出现异常! {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
+        Timestamp ts = rs.getTimestamp(columnLabel);
+        return (ts != null) ? ts.toLocalDateTime() : null;
     }
 }

@@ -19,7 +19,6 @@ public class FieldConvertorFactory {
         convertors.put(LocalDate.class, new LocalDateConvertor());
         convertors.put(LocalDateTime.class, new LocalDateTimeConvertor());
         convertors.put(LocalTime.class, new LocalTimeConvertor());
-        convertors.put(Date.class, new UtilDateConvertor());
         convertors.put(Year.class, new YearConvertor());
 
         convertors.put(BigDecimal.class, new BigDecimalConvertor());

@@ -1,6 +1,7 @@
-package com.doth.selector.anno.processor;
+package com.doth.selector.anno.supports;
 
 import com.doth.selector.anno.Join;
+import com.doth.selector.anno.processor.ProcessingContext;
 
 import javax.lang.model.element.*;
 import javax.lang.model.type.*;
@@ -11,16 +12,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 提供 DaoImplGenerator 所需的辅助方法
+ * 职责: 辅助 DaoImplGenerator,
+ * 提供所需的辅助方法
  */
 public class DaoImplGeneratorHelper {
     private final ProcessingContext ctx;
-    private static final Pattern CONDITION_PATTERN = Pattern.compile("^(.*?)(Like|In|Gt|Lt|Eq|Le|Ge|Ne)?$");
+    private static final Pattern CONDITION_PATTERN = Pattern.compile("^(.*?)(Like|In|Gt|Lt|Eq|Le|Ge|Ne)?$"); // 支持的比较条件
+
 
     public DaoImplGeneratorHelper(ProcessingContext ctx) {
         this.ctx = ctx;
     }
 
+    // 提取dao像父类指定的泛型类型
     public TypeElement extractGenericEntityType(TypeElement cls) {
         TypeMirror sup = cls.getSuperclass();
         if (sup instanceof DeclaredType) {
