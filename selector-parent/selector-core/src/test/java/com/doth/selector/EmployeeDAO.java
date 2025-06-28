@@ -27,7 +27,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         LinkedHashMap<String, Object> params = new LinkedHashMap<>();
         params.put("t0.id", 1);
 
-        return dct$().query2Lst(params); // map为参数
+        return dct$().query(params); // map为参数
     }
 
 
@@ -48,7 +48,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         Employee employee = new Employee();
         employee.setId(1);
 
-        return dct$().query2Lst(employee); // 这是带实体参数的 ,重载 表示前端需要传递一个 实体条件, 解决了map字符串繁琐手写键值对的问题
+        return dct$().query(employee); // 这是带实体参数的 ,重载 表示前端需要传递一个 实体条件, 解决了map字符串繁琐手写键值对的问题
     }
 
 
@@ -63,7 +63,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         params.put("t0.name", "张三%"); // 自动对应 like 张三% 条件为识别到 '%'
         params.put("t1.id", Arrays.asList(1, 2, 3)); // 自动对应 and t1.id in(1,2,3) 条件是识别到 Collection
 
-        return dct$().query2Lst(params);
+        return dct$().query(params);
     }
 
 
@@ -78,7 +78,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         params.put("t0.name", "张三"); // >> t0 代表主表 todo: 可能考虑后续通过注解标注别名替换的方式, 增加自由度提高阅读性, 但底层执行的还是t0., 修改这个缺点: emp.id -> t0.id
         params.put("t1.id", 1); // >> t1 代表第一张从表 // tN 方式太过于难看, 所以第二版进行了优化 ↓
 
-        return dct$().query2Lst(params);
+        return dct$().query(params);
     }
 
 
@@ -89,14 +89,14 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      * @return 员工列表
      */
     public List<Employee> queryByNameAndDepartmentId2(Employee employee) {
-        return dct$().query2Lst(employee);
+        return dct$().query(employee);
     }
 
 
 
     // builder演示比较, 不等于空..
     public List<Employee> queryByNameAndDepartmentIds5() {
-        return bud$().query2Lst(builder ->
+        return bud$().query(builder ->
                 builder.like("t0.name", "张三")
                         .in("t1.id", 1, 2, 3)
                         .isNotNull("t0.name") // 这样就有数据了 IsNull 是没有的
@@ -107,7 +107,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     // builder 演示大于, 小于, 大于等于...
     public List<Employee> queryByNameAndDepartmentIds6() {
-        return bud$().query2Lst(builder -> // 复杂条件也没有问题, 十分灵活
+        return bud$().query(builder -> // 复杂条件也没有问题, 十分灵活
                 builder.
                     like("t0.name", "张%")
                     .in("t1.id", Arrays.asList(1, 2, 3))
@@ -123,7 +123,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     // builder 演示分页
     public List<Employee> queryByNameAndDepartmentIds7() {
-        return bud$().query2Lst(builder ->
+        return bud$().query(builder ->
                 builder
                     .page("t0.id", 1, 5) // 游标分页, todo: 传统分页
         );
@@ -138,7 +138,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     // 演示raw 查询
     public List<Employee> queryByNameAndDepartmentIds9() {
 
-        return raw$().query2Lst( // 对于不查询的列赋值为空
+        return raw$().query( // 对于不查询的列赋值为空
                    "SELECT t0.id, t0.name, t0.age, t0.d_id, t1.name, t2.id, t2.name FROM employee t0 " +
                    "join department t1 ON t0.d_id = t1.id " +
                    "join company t2 ON t1.com_id = t2.id where t1.id = ? and t0.name = ?",

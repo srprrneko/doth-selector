@@ -1,15 +1,14 @@
 package com.doth.selector.executor.query.enhanced.impl;
 
 import com.doth.selector.anno.Overload;
-import com.doth.selector.coordinator.mapper.ResultSetMapper;
+import com.doth.selector.executor.query.QueryExecutorTag;
 import com.doth.selector.executor.query.enhanced.JoinExecutor;
+import com.doth.selector.executor.supports.QueryList;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
-import com.doth.selector.executor.supports.lambda.SFunction;
 
-import java.util.List;
 import java.util.function.Consumer;
 
-public class BuilderQueryExecutorPro<T> extends JoinExecutor<T>  {
+public class BuilderQueryExecutorPro<T> extends JoinExecutor<T> implements QueryExecutorTag<T> {
 
     // protected BuilderQueryExecutorPro(Class<T> beanClass) {
     //     super(beanClass);
@@ -18,37 +17,40 @@ public class BuilderQueryExecutorPro<T> extends JoinExecutor<T>  {
 
 
     @Overload
-    public List<T> query2Lst(Consumer<ConditionBuilder<T>> setup) {
+    public QueryList<T> query(Consumer<ConditionBuilder<T>> setup) {
         ConditionBuilder<T> builder = new ConditionBuilder<>(beanClass);
         setup.accept(builder);
-        return coordinator.queryByBuilder(beanClass, builder);
+        return new QueryList<>(coordinator.queryByBuilder(beanClass, builder));
     }
+
     @Overload
-    public List<T> query2Lst(Consumer<ConditionBuilder<T>> setup, boolean dtoModel) {
+    @SuppressWarnings(value = "unchecked")
+    public QueryList<T> query(Consumer<ConditionBuilder<T>> setup, boolean dtoModel) {
         ConditionBuilder<T> builder = new ConditionBuilder<>(beanClass); // beanClass = 实体类
         setup.accept(builder);
-        return coordinator.queryByBuilder((Class<T>) dtoClass, builder); // 查询映射使用 dto
+
+        return new QueryList<>(coordinator.queryByBuilder((Class<T>) dtoClass, builder)); // 查询映射使用 dto
     }
 
 
     @Overload
     @Deprecated
-    public List<T> query2Lst(String sql, Consumer<ConditionBuilder<T>> conditionSetup) {
+    public QueryList<T> query(String sql, Consumer<ConditionBuilder<T>> conditionSetup) {
         ConditionBuilder<T> builder = new ConditionBuilder<T>();
         conditionSetup.accept(builder);
-        return coordinator.queryByBuilderVzRaw(beanClass, sql, (ConditionBuilder<T>) builder);
+        return new QueryList<>(coordinator.queryByBuilderVzRaw(beanClass, sql, (ConditionBuilder<T>) builder));
     }
 
 
-
-    @Overload
-    public T query2T(Consumer<ConditionBuilder<T>> setup) {
-        return ResultSetMapper.getSingleResult(query2Lst(setup));
-    }
-
-    @Overload
-    public T query2T(String sql, Consumer<ConditionBuilder<T>> conditionSetup) {
-        return ResultSetMapper.getSingleResult(query2Lst(sql, conditionSetup));
-    }
+    //
+    // @Overload
+    // public T query2T(Consumer<ConditionBuilder<T>> setup) {
+    //     return ResultSetMapper.getSingleResult(query2Lst(setup));
+    // }
+    //
+    // @Overload
+    // public T query2T(String sql, Consumer<ConditionBuilder<T>> conditionSetup) {
+    //     return ResultSetMapper.getSingleResult(query2Lst(sql, conditionSetup));
+    // }
 
 }

@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@Deprecated // 当前映射影响要求实体名必须以 [表名+驼峰] todo:等待改进
+@Deprecated // 当前映射影响要求实体名必须以 [表名+驼峰] 暂时不支持别名 todo:等待改进
 public @interface TableName {
     String value(); // 存储表名
 }

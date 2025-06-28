@@ -1,4 +1,4 @@
-package com.doth.selector.coordinator.supports.sqlgenerator.facede;
+package com.doth.selector.coordinator.supports;
 
 import com.doth.selector.coordinator.supports.sqlgenerator.tool.AliasConvertUtil;
 import com.doth.selector.coordinator.supports.sqlgenerator.tool.AutoQueryGenerator;

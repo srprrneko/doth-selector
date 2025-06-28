@@ -1,5 +1,6 @@
 package com.doth.selector.supports.adapter;
 
+import com.doth.selector.supports.exception.ExtractFieldsFailedException;
 import com.doth.selector.supports.testbean.join.Company;
 import com.doth.selector.supports.testbean.join.Department;
 import com.doth.selector.supports.testbean.join.Employee;
@@ -11,10 +12,18 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-// 新类：专注字段提取和参数处理
+/**
+ * <p>实体到sql的适配器 用于字段提取和参数处理</p>
+ */
 public class EntityAdapter {
-    // ------------------ 通过实体对应着数据库列名的特点, 让实体属性自动为键, 免去map频繁指定键的繁琐操作 ------------------
-    public static <T> LinkedHashMap<String, Object> extractNonNullFields(T entity) {
+
+    /**
+     * 通过实体对应着数据库列名的特点, 让实体属性自动为键, 免去map频繁指定键的繁琐操作
+     * @param entity 实体
+     * @return 保证顺序的字段与值
+     * @param <T> 具体实体泛型
+     */
+    public static <T> LinkedHashMap<String, Object> extractType2FieldsMap(T entity) {
         // 定义一个map用于准备返回最终准备好的键值, 键为字段名, 值为字段值
         LinkedHashMap<String, Object> condMap = new LinkedHashMap<>();
         if (entity == null) return condMap;
@@ -27,14 +36,18 @@ public class EntityAdapter {
                     condMap.put(field.getName(), value);
                 }
             } catch (IllegalAccessException e) {
-                throw new RuntimeException("字段提取失败: " + field.getName(), e);
+                throw new ExtractFieldsFailedException("字段提取失败: " + field.getName(), e);
             }
         }
         return condMap;
     }
 
-    // ------------------ 将map键的值转换为object数组, 用于在执行前填充参数  ------------------
-    public static Object[] buildParams(LinkedHashMap<String, Object> condBean) {
+    /**
+     * 将map键的值转换为object数组, 用于在执行前填充参数
+     * @param condBean 数组
+     * @return 参数数组
+     */
+    public static Object[] buildParams4CondMap(LinkedHashMap<String, Object> condBean) {
         List<Object> params = new ArrayList<>(); // 创建list保证顺序用于存储参数
         if (condBean != null) {
             for (Map.Entry<String, Object> entry : condBean.entrySet()) {
@@ -52,12 +65,17 @@ public class EntityAdapter {
     }
 
 
-    // ------------------ 同extractNonNullFields, 解决嵌套实体下别名对应不上的问题 ------------------
-    public static <T> LinkedHashMap<String, Object> extractNestedFields(T entity) {
+    /**
+     * 同 extractNonNullFields, 解决嵌套实体下别名对应不上的问题
+     * @param entity 实体
+     * @return 嵌套识别后的 字段map
+     * @param <T> 具体实体类型
+     */
+    public static <T> LinkedHashMap<String, Object> extractNestedFields2Map(T entity) {
         return extractRecursive(entity, "t0", new AtomicInteger(1)); // new AtomicInteger(1) 自动处理i++; 忽略主表, 直接从一开始
     }
 
-    private static LinkedHashMap<String, Object> extractRecursive(Object entity, String currentAlias, AtomicInteger counter) {
+    private static LinkedHashMap<String, Object> extractRecursive(Object entity, String currentAlias, AtomicInteger counter)  {
         LinkedHashMap<String, Object> condMap = new LinkedHashMap<>(); // 最终用于返回的map, 键为字段名, 值为字段值
         if (entity == null) return condMap;
 
@@ -77,8 +95,8 @@ public class EntityAdapter {
                 } else { // 无论如何添加完当前实体的全部字段
                     condMap.put(currentAlias + "." + field.getName(), value); // 别名+字段名处理
                 }
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("字段提取失败: " + field.getName(), e);
+            } catch (Exception e) {
+                throw new ExtractFieldsFailedException("字段提取失败: " + field.getName(), e);
             }
         }
         return condMap;
@@ -86,29 +104,29 @@ public class EntityAdapter {
 
     @Test
     public void testNormal() {
-        // LinkedHashMap<String, Object> condMap = extractNonNullFields(new Employee(1, "John", 25, null));
-        // condMap.forEach((k,v) -> System.out.println("Key: " + k + ", Value: " + v));
+        LinkedHashMap<String, Object> condMap = extractType2FieldsMap(new Employee(1, "John", 25, null));
+        condMap.forEach((k,v) -> System.out.println("Key: " + k + ", Value: " + v));
     }
 
-    // @Test
-    // public void testRecursive() {
-    //     Employee employee = new Employee();
-    //     employee.setId(1);
-    //     employee.setName("John");
-    //
-    //     Department department = new Department();
-    //     department.setId(2);
-    //     department.setName("HR");
-    //     Company company = new Company();
-    //     company.setId(3);
-    //     company.setName("ABC");
-    //
-    //
-    //     department.setCompany(company);
-    //     employee.setDepartment(department);
-    //
-    //     LinkedHashMap<String, Object> map = extractNestedFields(employee);
-    //     map.forEach((key, value) -> System.out.println("Key: " + key + ", Value: " + value));
-    // }
+    @Test
+    public void testRecursive() {
+        Employee employee = new Employee();
+        employee.setId(1);
+        employee.setName("John");
+
+        Department department = new Department();
+        department.setId(2);
+        department.setName("HR");
+        Company company = new Company();
+        company.setId(3);
+        company.setName("ABC");
+
+
+        department.setCompany(company);
+        employee.setDepartment(department);
+
+        LinkedHashMap<String, Object> map = extractNestedFields2Map(employee);
+        map.forEach((key, value) -> System.out.println("Key: " + key + ", Value: " + value));
+    }
 
 }

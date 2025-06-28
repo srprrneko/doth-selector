@@ -52,7 +52,7 @@ public abstract class EmployeeDAO3 extends Selector<Employee> {
 
 
     public List<Employee> queryAll() {
-        return dct$().query2Lst();
+        return dct$().query();
     }
 
 

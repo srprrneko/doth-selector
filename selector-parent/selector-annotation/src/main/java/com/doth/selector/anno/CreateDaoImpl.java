@@ -6,9 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 用于生成dao实现类的注解, 标注在门面类上
+ * <p>标注在dao上的注解</p>
+ * <p>增加spring支持</p>
+ * <p>主要用于生成dao对应的实现类子类</p>
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
 public @interface CreateDaoImpl {
+    boolean springSupport() default false;
 }

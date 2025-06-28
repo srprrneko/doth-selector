@@ -33,6 +33,7 @@
         <jackson.version>2.15.3</jackson.version>
         <lombok.version>1.18.30</lombok.version>
         <caffeine.version>3.2.0</caffeine.version>
+        <spring-context-version>5.3.33</spring-context-version>
 
         <!-- 插件版本 -->
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
@@ -115,6 +116,13 @@
                 <groupId>com.squareup</groupId>
                 <artifactId>javapoet</artifactId>
                 <version>${javapoet.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring-context-version}</version>
+<!--                <scope>test</scope>  &lt;!&ndash; 测试 classpath 中要有 Spring &ndash;&gt;-->
             </dependency>
 
             <!-- json 等 -->

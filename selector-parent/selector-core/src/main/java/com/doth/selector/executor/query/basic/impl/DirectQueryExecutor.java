@@ -1,6 +1,6 @@
 package com.doth.selector.executor.query.basic.impl;
 
-import com.doth.selector.coordinator.mapper.ResultSetMapper;
+import com.doth.selector.coordinator.ResultSetMapper;
 import com.doth.selector.supports.adapter.EntityAdapter;
 import com.doth.selector.executor.query.BasicKindQueryExecutor;
 
@@ -9,6 +9,7 @@ import java.util.List;
 
 // ----------------- 新增固定查询实现类 -----------------
 // public class DirectQueryExecutor implements DirectQueryable {
+@Deprecated
 public class DirectQueryExecutor<T> extends BasicKindQueryExecutor<T> {
 
 
@@ -19,7 +20,7 @@ public class DirectQueryExecutor<T> extends BasicKindQueryExecutor<T> {
     }
 
     public List<T> query2Lst(T t) {
-        LinkedHashMap<String, Object> condMap = EntityAdapter.extractNonNullFields(t);
+        LinkedHashMap<String, Object> condMap = EntityAdapter.extractType2FieldsMap(t);
         return coordinator.queryByMap(beanClass, condMap);
     }
 

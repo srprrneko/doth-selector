@@ -30,10 +30,8 @@ public abstract class BasicKindQueryExecutor<T> {
         this.beanClass = beanClass;
     }
 
+    @SuppressWarnings("unchecked")
     public void setDtoClass(Class<?> dtoClass) {
-        // if (this.dtoClass != null) {
-        //     throw new IllegalStateException("dtoClass 已被初始化，禁止重复设置");
-        // }
         this.dtoClass = dtoClass;
     }
 

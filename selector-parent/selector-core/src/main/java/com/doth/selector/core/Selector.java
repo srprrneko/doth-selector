@@ -20,6 +20,7 @@ import java.lang.reflect.WildcardType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 /**
@@ -40,10 +41,10 @@ public class Selector<T> {
         return beanClass;
     }
 
-    // 默认执行器工厂（可通过替换实现扩展）
+    // 默认执行器工厂 可通过替换实现扩展
     private static CreateExecutorFactory createExecutorFactory = new DefaultCreateExecutorFactory();
-    // 统一缓存：Class -> <执行器枚举,执行器实例>
-    private static final Map<Class<?>, Map<ExecutorType, BasicKindQueryExecutor<?>>> cache = new HashMap<>();
+
+    private static final Map<Class<?>, Map<ExecutorType, BasicKindQueryExecutor<?>>> cache = new ConcurrentHashMap<>();
 
 
     // 将动态获取子类泛型更改成了遍历继承链获取泛型, 避免抽象dao的子实现类不指定泛型则报错的现象
@@ -55,11 +56,11 @@ public class Selector<T> {
 
     @SuppressWarnings("unchecked")
     private Class<T> resolveBeanClass(Class<?> clazz) {
-        
+
         // 从子类开始, 递进查找继承体系, 直到本类
         while (clazz != null && !clazz.equals(Selector.class)) { // 区间: 子类 -> ... <- self
 
-            Type superType = clazz.getGenericSuperclass();// 返回参数化类型, 例: Selector<Employee>
+            Type superType = clazz.getGenericSuperclass();// 返回泛型参数化类, 例: Selector<Employee>, 用于获取具体类型
 
             if (superType instanceof ParameterizedType) {
                 ParameterizedType pt = (ParameterizedType) superType;
@@ -68,7 +69,7 @@ public class Selector<T> {
                 if (pt.getRawType() == Selector.class) {
                     // 获取实际泛型参数
                     Type typeArg = pt.getActualTypeArguments()[0];
-                    
+
                     // 判断用于确保类型转换安全
                     if (typeArg instanceof Class) {
                         return (Class<T>) typeArg;
@@ -80,18 +81,19 @@ public class Selector<T> {
                     }
                     return (Class<T>) typeArg;
                 }
-
             }
-
             clazz = clazz.getSuperclass(); // 递进继承链
         }
-
         throw new IllegalArgumentException("必须在继承链中指定泛型参数");
     }
 
 
-
     // region 静态方法API
+
+    /**
+     * <p>因为当前 pro$ 已支持单表映射, 所以暂时不推荐使用</p>
+     */
+    @Deprecated
     public static <T> BuilderQueryExecutor<T> bud(Class<T> beanClass) {
         return getExecutor(beanClass, ExecutorType.BUILDER, BuilderQueryExecutor.class);
     }
@@ -100,7 +102,10 @@ public class Selector<T> {
         return getExecutor(beanClass, ExecutorType.BUILDER_PRO, BuilderQueryExecutorPro.class);
     }
 
-
+    /**
+     * <p>因为当前 pro$ 已支持单表映射, 所以暂时不推荐使用</p>
+     */
+    @Deprecated
     public static <T> RawQueryExecutor<T> raw(Class<T> beanClass) {
         return getExecutor(beanClass, ExecutorType.RAW, RawQueryExecutor.class);
     }
@@ -109,7 +114,10 @@ public class Selector<T> {
         return getExecutor(beanClass, ExecutorType.RAW_PRO, RawQueryExecutorPro.class);
     }
 
-
+    /**
+     * <p>因为当前 pro$ 已支持单表映射, 所以暂时不推荐使用</p>
+     */
+    @Deprecated
     public static <T> DirectQueryExecutor<T> dct(Class<T> beanClass) {
         return getExecutor(beanClass, ExecutorType.DIRECT, DirectQueryExecutor.class);
     }
@@ -118,7 +126,6 @@ public class Selector<T> {
         return getExecutor(beanClass, ExecutorType.DIRECT_PRO, DirectQueryExecutorPro.class);
     }
     // endregion
-
 
 
     // region 实例方法API
@@ -134,10 +141,8 @@ public class Selector<T> {
     public <D> List<D> queryDtoList(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
         BuilderQueryExecutorPro<T> executor = bud$();
         executor.setDtoClass(dtoClass);
-        return (List<D>) executor.query2Lst(setup, true);
+        return (List<D>) executor.query(setup, true);
     }
-
-
 
 
     public RawQueryExecutor<T> raw() {
@@ -160,17 +165,16 @@ public class Selector<T> {
     // endregion
 
 
-
     /**
      * 工厂获取中介
-     *  1.通过目标实例获取对应的所有执行器map
-     *  2.在执行器map中 通过执行器枚举 获取或创建 对应的单个执行器
+     * 1.通过目标实例获取对应的所有执行器map
+     * 2.在执行器map中 通过执行器枚举 获取或创建 对应的单个执行器
      *
-     * @param beanClass 目标 Bean 类型 (DAO)
-     * @param type 执行器类型
+     * @param beanClass     目标 Bean 类型 (DAO)
+     * @param type          执行器类型
      * @param executorClass 执行器类型
+     * @param <E>           界限划定, 确保执行器类型正确
      * @return 执行器实例
-     * @param <E> 界限划定, 确保执行器类型正确
      */
     @SuppressWarnings("unchecked")
     private static <E extends BasicKindQueryExecutor<?>> E getExecutor(Class<?> beanClass, ExecutorType type, Class<E> executorClass) {
@@ -190,22 +194,26 @@ public class Selector<T> {
     }
 
 
-    public String field(SFunction<T, ?> lambda) {
+    /**
+     * <p>用于将 lambda 转换成解析好的字符串, 避免冗长命名</p>
+     *
+     * @param lambda 表达式
+     * @return 解析好的字符串
+     */
+    public String f(SFunction<T, ?> lambda) {
         return LambdaFieldPathResolver.resolve(lambda, beanClass);
     }
 
 
-
-
     /**
      * 替换工厂 todo: 暂无其他工厂可替换
+     *
      * @param factory 工厂
      */
     @Deprecated
     public static void setExecutorFactory(CreateExecutorFactory factory) {
         createExecutorFactory = factory;
     }
-
 
 
     /**

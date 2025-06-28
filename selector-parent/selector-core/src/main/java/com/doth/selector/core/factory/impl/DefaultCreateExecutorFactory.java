@@ -37,7 +37,8 @@ public class DefaultCreateExecutorFactory implements CreateExecutorFactory {
     }
 
     /**
-     * 泛型安全的空参构造+set模式
+     * 泛型安全的空参构造 + setter
+     * <p>说明: 原本是 通过构造方法的 方法共享泛型, 但是发现每个类都要有一个构造方法干同样的事之后, 就改成了setter</p>
      * @param beanClass 目标Bean类型
      * @param supplier 空参构造函数引用
      * @return 正确配置的执行器

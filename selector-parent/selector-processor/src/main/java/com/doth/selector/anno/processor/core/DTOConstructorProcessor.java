@@ -45,7 +45,7 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 .getPackageOf(entityClass)
                 .getQualifiedName().toString();
 
-        String dtoName = NamingConvertUtil.toUpperCaseFirstLetter(dtoId, false);
+        String dtoName = NamingConvertUtil.upperFstLetter(dtoId, false);
         ClassName entityType = ClassName.get(pkg, entityClass.getSimpleName().toString());
 
         TypeSpec.Builder cls = TypeSpec.classBuilder(dtoName)
@@ -207,7 +207,7 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         CodeBlock.Builder cb = CodeBlock.builder()
                 .addStatement("$T.register($T.class, $S, $T.class)",
                         DTOFactory.class, entityType, dtoId,
-                        ClassName.get(pkg, NamingConvertUtil.toUpperCaseFirstLetter(dtoId, false)))
+                        ClassName.get(pkg, NamingConvertUtil.upperFstLetter(dtoId, false)))
                 .addStatement("$T __select = new $T<>()", ParameterizedTypeName.get(List.class, String.class), ArrayList.class);
         for (String f : selectFields) cb.addStatement("__select.add($S)", f);
         cb.addStatement("$T.register($T.class, $S, __select)",

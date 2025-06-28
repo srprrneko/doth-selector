@@ -1,20 +1,20 @@
 package com.doth.selector.executor.query.enhanced.impl;
 
-import com.doth.selector.coordinator.mapper.ResultSetMapper;
+import com.doth.selector.executor.query.QueryExecutorTag;
 import com.doth.selector.executor.query.enhanced.JoinExecutor;
-
-import java.util.List;
-
-public class RawQueryExecutorPro<T> extends JoinExecutor<T> {
+import com.doth.selector.executor.supports.QueryList;
 
 
-    public List<T> query2Lst(String sql, Object... params) {
-        return coordinator.queryByRaw(beanClass, sql, params);
+public class RawQueryExecutorPro<T> extends JoinExecutor<T> implements QueryExecutorTag<T> {
+
+
+    public QueryList<T> query(String sql, Object... params) {
+        return new QueryList<>(coordinator.queryByRaw(beanClass, sql, params));
     }
 
 
-    public T query2T(String sql, boolean isAutoAlias, Object... params) {
-        List<T> list = query2Lst(sql, isAutoAlias, params);
-        return ResultSetMapper.getSingleResult(list);
-    }
+    // public T query2T(String sql, boolean isAutoAlias, Object... params) {
+    //     QueryList<T> QueryList = query2Lst(sql, isAutoAlias, params);
+    //     return ResultSetMapper.getSingleResult(QueryList);
+    // }
 }

@@ -1,8 +1,7 @@
 package com.doth.selector.coordinator.core;
 
 import com.doth.selector.common.poolsupports.PoolFactory;
-import com.doth.selector.common.util.DruidUtil;
-import com.doth.selector.coordinator.mapper.ResultSetMapper;
+import com.doth.selector.coordinator.ResultSetMapper;
 import com.doth.selector.convertor.ConvertorType;
 import lombok.extern.slf4j.Slf4j;
 

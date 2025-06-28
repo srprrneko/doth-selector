@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.function.Function;
 
 /**
+ * <p>供学习参考</p>
  * 本质上是通过 java 对 lambda 的特殊机制, 让 lambda 表达式变的透明化
  *  在 该接口中 自动 加入了 writeReplace 方法, 该方法返回的 是一个序列化后的 lambda表达式, 这是JVM为我们做的
  *      并且当这个类被序列化之后, JVM会自动调用这个方法, 然后返回一个 SerializedLambda 实例, 其中包含所有lambda 的信息

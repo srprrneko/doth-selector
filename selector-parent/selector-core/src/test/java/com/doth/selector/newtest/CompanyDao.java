@@ -27,7 +27,7 @@ public abstract class CompanyDao extends Selector<Company> {
     }
     @UseDTO(id = "simple")
     public List<Company> queryAllBasic() {
-        return bud$().query2Lst(bud ->
+        return bud$().query(bud ->
                 bud.eq(Company::getName, "公司A"));
     }
 }

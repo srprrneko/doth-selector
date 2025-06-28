@@ -1,10 +1,11 @@
 package com.doth.selector.executor.query.basic.impl;
 
-import com.doth.selector.coordinator.mapper.ResultSetMapper;
+import com.doth.selector.coordinator.ResultSetMapper;
 import com.doth.selector.executor.query.BasicKindQueryExecutor;
 
 import java.util.List;
 
+@Deprecated //
 public class RawQueryExecutor<T> extends BasicKindQueryExecutor<T> {
 
 

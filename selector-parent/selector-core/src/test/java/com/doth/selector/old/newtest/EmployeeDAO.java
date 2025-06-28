@@ -47,7 +47,7 @@ public class EmployeeDAO extends Selector<Employee> {
     }
 
     public List<Employee> queryAll() {
-        return dct$().query2Lst();
+        return dct$().query();
     }
 
     public List<Employee> queryByName() {
@@ -60,6 +60,6 @@ public class EmployeeDAO extends Selector<Employee> {
 
         department.setCompany(company);
         employee.setDepartment(department);
-        return dct$().query2Lst(employee);
+        return dct$().query(employee);
     }
 }

@@ -1,4 +1,4 @@
-package com.doth.selector.coordinator.mapper;
+package com.doth.selector.coordinator;
 
 import com.doth.selector.common.exception.NoColumnExistException;
 import com.doth.selector.common.exception.NonUniqueResultException;

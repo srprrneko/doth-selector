@@ -10,7 +10,6 @@ import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Set;
@@ -23,17 +22,19 @@ public class JoinBeanConvertor implements BeanConvertor {
 
     @Override
     public <T> T convert(ResultSet rs, Class<T> beanClass) throws Throwable {
-        // 1. 解析实际类型 @DependOn
+        // 1. 通过 @DependOn 解析原类型
         Class<?> actualClass = ConvertDtoContext.resolveActualClass(beanClass);
 
-        // 2. 提取列名
+        // 2. 提取结果集列名
         Set<String> columnSet = extractColumnLabels(rs.getMetaData());
 
-        // 3. 构建 fingerprint
-        String fingerprint = ConvertDtoContext.getFingerprint(columnSet);
 
-        // 4. 查询缓存
+        // 3. 查询缓存
         Map<String, JoinConvertContext.MetaMap> metaGroup = JOIN_CACHE.computeIfAbsent(actualClass, k -> new ConcurrentHashMap<>());
+
+        // 4.获取缓存中的 类信息元
+        // 4.1 准备查询列表指纹
+        String fingerprint = ConvertDtoContext.getFingerprint(columnSet);
         JoinConvertContext.MetaMap metaMap = metaGroup.computeIfAbsent(fingerprint, fp -> {
             try {
                 return analyzeClzStruct(actualClass, columnSet, "");
@@ -42,7 +43,7 @@ public class JoinBeanConvertor implements BeanConvertor {
             }
         });
 
-        // 5. 构造实体
+        // 5. 通过缓存中的 类信息元 构建实际实体
         Object entity;
         try {
             entity = buildJoinBean(rs, actualClass, metaMap);
@@ -68,17 +69,8 @@ public class JoinBeanConvertor implements BeanConvertor {
         JoinConvertContext.MetaMap metaMap = new JoinConvertContext.MetaMap();
 
         // 缓存并复用字段
-        Field[] fields = CLASS_FIELDS_CACHE.computeIfAbsent(clz, c -> {
-            Field[] fs = c.getDeclaredFields();
-            for (Field f : fs) f.setAccessible(true);
-            return fs;
-        });
+        Field[] fields = JoinConvertContext.getFields(clz);
 
-        FIELD_NAME_CACHE.computeIfAbsent(clz, c -> {
-            Map<String, Field> map = new ConcurrentHashMap<>();
-            for (Field f : fields) map.put(f.getName(), f);
-            return map;
-        });
 
         for (Field field : fields) {
             String snakeName = NamingConvertUtil.camel2SnakeCase(field.getName());
@@ -89,11 +81,8 @@ public class JoinBeanConvertor implements BeanConvertor {
                 String fkColumn = join.fk();
                 String refColumn = join.refFK();
 
-                Field[] subFields = CLASS_FIELDS_CACHE.computeIfAbsent(field.getType(), c -> {
-                    Field[] fs = c.getDeclaredFields();
-                    for (Field f : fs) f.setAccessible(true);
-                    return fs;
-                });
+                Field[] subFields = JoinConvertContext.getFields(clz);
+
 
                 String nestedPrefix = snakeName + "_";
                 boolean anyPresent = false;
@@ -131,22 +120,14 @@ public class JoinBeanConvertor implements BeanConvertor {
             String fkCol = metaMap.getFkColumn(field);
             String refCol = metaMap.getRefColumn(field);
 
-            Object fkValue = null;
-            try {
-                fkValue = rs.getObject(fkCol);
-            } catch (SQLException ignored) {}
-
+            Object fkValue = safeGetObject(rs, fkCol);
             Object refBean = buildJoinBean(rs, field.getType(), nestedMeta);
             if (isAllFieldsNull(refBean, nestedMeta)) continue;
 
             Field refField = getField(field.getType(), NamingConvertUtil.snake2CamelCase(refCol));
             String nestedCol = NamingConvertUtil.camel2SnakeCase(field.getName()) + "_" + NamingConvertUtil.camel2SnakeCase(refField.getName());
 
-            Object refVal = null;
-            try {
-                refVal = rs.getObject(nestedCol);
-            } catch (SQLException ignored) {}
-
+            Object refVal = safeGetObject(rs, nestedCol);
             if (fkValue != null || refVal != null) {
                 setFieldValue(refBean, refField, rs, nestedCol);
             }
@@ -156,4 +137,13 @@ public class JoinBeanConvertor implements BeanConvertor {
 
         return bean;
     }
+
+    private Object safeGetObject(ResultSet rs, String colName) {
+        try {
+            return rs.getObject(colName);
+        } catch (SQLException ignored) {
+            return null;
+        }
+    }
+
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 封装字段路径集合，便于后续使用
+ * <p>serve for class "LambdaFieldPathResolver" </p>
  */
 public class LambdaPathRecorder {
     private final List<String> path = new ArrayList<>();

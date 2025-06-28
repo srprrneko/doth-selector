@@ -49,7 +49,7 @@ public class NamingConvertUtil {
         return buffer.toString().replaceAll("_+", "_");
     }
 
-    public static String toUpperCaseFirstLetter(String input, boolean checkStrict) {
+    public static String upperFstLetter(String input, boolean checkStrict) {
         if (input == null || input.isEmpty()) return input;
 
         if (checkStrict) {

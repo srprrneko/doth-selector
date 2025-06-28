@@ -6,6 +6,7 @@ import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.core.Selector;
 // import com.doth.selector.supports.testbean.join.BaseEmpDep;
 // import com.doth.selector.supports.testbean.join.BaseEmpInfo;
+import com.doth.selector.executor.supports.QueryList;
 import com.doth.selector.supports.testbean.join.Employee;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -31,17 +32,15 @@ import java.util.List;
  *          不过我有个方法
  *              首先我调用的方法 不就可以拿到 字节码, 然后判断获取注解吗
  *                  接着我就可以 走分支了, 然后把我的sql生成类 用工厂或者策略模式 进行 逻辑切换, 不就行了?
- *
  *  ================================================================================================
- *
  *  总结自动dto遇到的问题
  *  1.同参数构造方法无法控制
  *      解决: 考虑同样支持方法
  *  2.
  *
  */
-@CreateDaoImpl
 @Slf4j
+@CreateDaoImpl(springSupport = true)
 public abstract class EmployeeDAO extends Selector<Employee> {
 
     public static void main(String[] args) {
@@ -113,15 +112,15 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     }
     @Test
     public void testNew() {
-        List<Employee> impl = this.impl();
-        System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
+        Employee impl = this.impl();
+        // System.out.println("impl.get(0).getClass() = " + impl.get(0).getClass());
         System.out.println("impl = " + impl);
     }
 
-    public List<Employee> impl() {
-        return bud$().query2Lst(builder ->
-                builder.eq(e -> e.getDepartment().getName(), "研发部")
-        );
+    public Employee impl() {
+        return bud$().query(builder ->
+                builder.eq(Employee::getId, 1)
+        ).toOne();
     }
 
     // public List<BaseEmpDep> dtoImpl() {
@@ -149,9 +148,10 @@ public abstract class EmployeeDAO extends Selector<Employee> {
 
     /**
      * 根据员工姓名, 查询员工列表
+     *
      * @return 员工列表
      */
-    public abstract List<Employee> queryById(Integer id);
+    public abstract Employee getById(Integer id);
 
 
     @Test
@@ -159,9 +159,9 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         //
 
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 50000; i++) {
-            this.queryById(1);
-        }
+        // for (int i = 0; i < 50000; i++) {
+            Employee employees = this.getById(1);
+        // }
         long cost = System.currentTimeMillis() - start;
         System.out.println("cost = " + cost);
         // System.out.println("queryByName 执行耗时: " + cost + "ms, 结果数量: " + (result != null ? result.size() : 0));

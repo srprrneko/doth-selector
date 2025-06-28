@@ -1,8 +1,11 @@
 package com.doth.selector.anno.supports;
 
+import com.doth.selector.anno.CreateDaoImpl;
 import com.doth.selector.anno.processor.ProcessingContext;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.squareup.javapoet.*;
+import org.springframework.stereotype.Repository;
+
 import javax.lang.model.element.*;
 import javax.tools.Diagnostic;
 import java.io.IOException;
@@ -33,10 +36,19 @@ public class DaoImplGenerator {
         // 1.类名 默认生成的 实现类类名: daoClzName + impl
         String implName = abstractClass.getSimpleName() + "Impl";
 
-        // 2.继承关系 
+        // 2.继承关系
+        CreateDaoImpl anno = abstractClass.getAnnotation(CreateDaoImpl.class);
+
         TypeSpec.Builder clsB = TypeSpec.classBuilder(implName)
                 .addModifiers(Modifier.PUBLIC)
                 .superclass(TypeName.get(abstractClass.asType()));
+
+        // 2.1是否集成进springIoc容器
+        boolean useSpring = anno != null && anno.springSupport();
+        if (useSpring) {
+            clsB.addAnnotation(Repository.class);
+        }
+
 
         // 3.添加无参构造
         clsB.addMethod(MethodSpec.constructorBuilder()
@@ -103,8 +115,8 @@ public class DaoImplGenerator {
                         String.format("参数数量不匹配 预期: %d 实际: %d", conds.size(), method.getParameters().size()), method);
                 code.addStatement("return null");
             } else {
-                boolean singleResult = "getBy".equals(matchedPrefix);
-                String queryMethod = singleResult ? "query2One" : "query2Lst";
+                boolean single = "getBy".equals(matchedPrefix); // todo
+                String queryMethod = "query";
                 code.add("return bud$$().$L(builder -> builder", queryMethod);
                 AtomicInteger idx = new AtomicInteger(0);
                 for (int i = 0; i < conds.size(); i++) {
@@ -114,7 +126,13 @@ public class DaoImplGenerator {
                     String val = helper.formatQueryParameter(method.getParameters().get(i), c.operator);
                     code.add(String.format(".%s(\"%s\", %s)", c.operator, key, val));
                 }
-                code.add(");\n");
+                // code.add(");\n");
+                // 结束构造，根据 single 决定是否加 .toOne()
+                if (single) {
+                    code.add(").toOne();\n");
+                } else {
+                    code.add(");\n");
+                }
             }
         } else {
             code.addStatement("return null");
