@@ -10,6 +10,7 @@ import com.doth.selector.executor.query.basic.impl.RawQueryExecutor;
 import com.doth.selector.executor.query.enhanced.impl.BuilderQueryExecutorPro;
 import com.doth.selector.executor.query.enhanced.impl.DirectQueryExecutorPro;
 import com.doth.selector.executor.query.enhanced.impl.RawQueryExecutorPro;
+import com.doth.selector.executor.supports.QueryList;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
 import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
 import com.doth.selector.executor.supports.lambda.SFunction;
@@ -138,11 +139,11 @@ public class Selector<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <D> List<D> queryDtoList(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
-        BuilderQueryExecutorPro<T> executor = bud$();
-        executor.setDtoClass(dtoClass);
-        return (List<D>) executor.query(setup, true);
-    }
+    // public <D> QueryList<D> queryDtoList(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
+    //     BuilderQueryExecutorPro<T> executor = bud$();
+    //     executor.setDtoClass(dtoClass);
+    //     return (QueryList<D>) executor.query(setup, true);
+    // }
 
 
     public RawQueryExecutor<T> raw() {

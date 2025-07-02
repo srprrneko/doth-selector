@@ -12,13 +12,13 @@ public class EmployeeDAOBuilderTest {
     }
 
     @Test
-    public void testQueryByNameAndDepartmentIds5() { // 没有
+    public void testQueryByNameAndDepartmentIds5() { // 无数据
         // List<Employee> result = dao.queryByNameAndDepartmentIds5();
         // System.out.println("queryByNameAndDepartmentIds5 result: " + result);
     }
 
     @Test
-    public void testQueryByNameAndDepartmentIds6() { // 这个也是没有
+    public void testQueryByNameAndDepartmentIds6() { // 同
         // List<Employee> result = dao.queryByNameAndDepartmentIds6();
         // System.out.println("queryByNameAndDepartmentIds6 result: " + result);
     }

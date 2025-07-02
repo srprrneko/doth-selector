@@ -4,6 +4,7 @@ import com.doth.selector.coordinator.supports.sqlgenerator.tool.AliasConvertUtil
 import com.doth.selector.coordinator.supports.sqlgenerator.tool.AutoQueryGenerator;
 import com.doth.selector.coordinator.supports.sqlgenerator.builder.SqlBuilder;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedHashMap;
 
@@ -12,14 +13,7 @@ import static com.doth.selector.coordinator.supports.sqlgenerator.builder.SqlBui
 import static com.doth.selector.common.util.NamingConvertUtil.camel2SnakeCase;
 import static com.doth.selector.coordinator.supports.sqlgenerator.builder.SqlBuilder.buildFieldList;
 
-/**
- * @project: classFollowing
- * @package: reflect.execrise7sqlgenerate
- * @author: doth
- * @creTime: 2025-03-18  11:11
- * @desc: 待优化
- * @v: 1.0
- */
+@Slf4j
 public class SelectGenerateFacade {
 
 
@@ -96,17 +90,15 @@ public class SelectGenerateFacade {
     }
 
     public static <T> String generateJoin4builder(Class<T> beanClass, ConditionBuilder<T> builder) {
-        // 生成联查sql
-        // long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         String baseSql = AutoQueryGenerator.generated(beanClass, builder);
-        // long end = System.currentTimeMillis();
-        // System.out.println("\"生成联查sql\" = " + (end - start));
+        long end = System.currentTimeMillis();
+        log.info("sql generated time cost: {}", end - start);
 
-        // long start1 = System.currentTimeMillis();
-        // 起别名耗时
+        long start1 = System.currentTimeMillis();
         String finalSql = AliasConvertUtil.generateAliases(baseSql);
-        // long end1 = System.currentTimeMillis();
-        // System.out.println("\"起别名耗时\" = " + (end1 - start1));
+        long end1 = System.currentTimeMillis();
+        log.info("sql alias replaced time cost: " + (end1 - start1));
 
         return finalSql + (builder.getWhereClause().isEmpty() ? "" : builder.getFullCause());
     }

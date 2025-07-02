@@ -132,12 +132,12 @@ public class AutoQueryGenerator {
         DTOJoinInfo joinInfo = (dtoMode && dtoName != null)
                 ? DTOJoinInfoFactory.getJoinInfo(originalEntity, dtoName)
                 : null;
-        log.info("dto join-info: {}", joinInfo);
 
 
         if (joinInfo != null) {
             // DTO 模式 & 已注册：直接用预定义的 JoinDef 列表
             for (JoinDef jd : joinInfo.getJoinDefs()) {
+                log.info("dto join-info: {}", joinInfo);
                 log.info("joinDef info: {}", jd);
 
                 // String correctAlias = "";
@@ -253,8 +253,11 @@ public class AutoQueryGenerator {
 
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        String generatedSql = generated(Employee.class);
-        System.out.println("generated = " + generatedSql);
+        for (int i = 0; i < 50000; i++) {
+
+            String generatedSql = generated(Employee.class);
+        }
+        // System.out.println("generated = " + generatedSql);
         long end = System.currentTimeMillis();
         System.out.println("(耗时 ms): " + (end - start));
     }

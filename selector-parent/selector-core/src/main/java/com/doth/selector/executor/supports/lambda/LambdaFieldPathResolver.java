@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
+import static com.doth.selector.common.util.NamingConvertUtil.camel2SnakeCase;
 import static com.doth.selector.common.util.NamingConvertUtil.upperFstLetter;
 
 
@@ -152,9 +153,9 @@ public class LambdaFieldPathResolver {
         enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
             String name = method.getName();
             if (name.startsWith("get")) {
-                recorder.append(upperFstLetter(name.substring(3), false));
+                recorder.append(camel2SnakeCase(name.substring(3), false));
             } else if (name.startsWith("is")) {
-                recorder.append(upperFstLetter(name.substring(2), false));
+                recorder.append(camel2SnakeCase(name.substring(2), false));
             } else
                 throw new LambdaPathBuildException("不支持的 Lambda 表达式：仅支持 getter 方法调用，例: getName()/isDel()");
 
@@ -173,9 +174,9 @@ public class LambdaFieldPathResolver {
 
     private static String convertMethodToField(String methodName) {
         if (methodName.startsWith("get")) {
-            return upperFstLetter(methodName.substring(3), false);
+            return camel2SnakeCase(methodName.substring(3), false);
         } else if (methodName.startsWith("is")) {
-            return upperFstLetter(methodName.substring(2), false);
+            return camel2SnakeCase(methodName.substring(2), false);
         }
         return methodName;
     }
@@ -194,7 +195,7 @@ public class LambdaFieldPathResolver {
             resolve(e -> e.getDepartment().getCompany().getName(), Employee.class);
         }
         long end = System.currentTimeMillis();
-        log.info("cost: {}", end - start);
+        System.out.println("end - start = " + (end - start));
         // System.out.println("自动识别: " + path2);
     }
 

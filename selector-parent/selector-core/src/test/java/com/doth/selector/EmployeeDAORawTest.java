@@ -16,4 +16,4 @@ public class EmployeeDAORawTest {
     //     List<Employee> result = dao.queryByNameAndDepartmentIds9();
     //     System.out.println("queryByNameAndDepartmentIds9 result: " + result);
     }
-}// 棒
+}

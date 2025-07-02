@@ -5,6 +5,9 @@ import com.doth.selector.common.util.NamingConvertUtil;
 import com.doth.selector.convertor.BeanConvertor;
 import com.doth.selector.convertor.supports.ConvertDtoContext;
 import com.doth.selector.convertor.supports.JoinConvertContext;
+import com.doth.selector.supports.exception.JoinConvertorException;
+import com.doth.selector.supports.testbean.join3.BookCard;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Constructor;
@@ -18,51 +21,60 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.doth.selector.convertor.supports.JoinConvertContext.*;
 import static com.doth.selector.convertor.supports.ResultSetUtils.extractColumnLabels;
 
+@Slf4j
 public class JoinBeanConvertor implements BeanConvertor {
 
     @Override
     public <T> T convert(ResultSet rs, Class<T> beanClass) throws Throwable {
-        // 1. 通过 @DependOn 解析原类型
-        Class<?> actualClass = ConvertDtoContext.resolveActualClass(beanClass);
-
-        // 2. 提取结果集列名
-        Set<String> columnSet = extractColumnLabels(rs.getMetaData());
-
-
-        // 3. 查询缓存
-        Map<String, JoinConvertContext.MetaMap> metaGroup = JOIN_CACHE.computeIfAbsent(actualClass, k -> new ConcurrentHashMap<>());
-
-        // 4.获取缓存中的 类信息元
-        // 4.1 准备查询列表指纹
-        String fingerprint = ConvertDtoContext.getFingerprint(columnSet);
-        JoinConvertContext.MetaMap metaMap = metaGroup.computeIfAbsent(fingerprint, fp -> {
-            try {
-                return analyzeClzStruct(actualClass, columnSet, "");
-            } catch (Exception e) {
-                throw new RuntimeException("解析联表结构失败: " + e.getMessage(), e);
-            }
-        });
-
-        // 5. 通过缓存中的 类信息元 构建实际实体
-        Object entity;
         try {
-            entity = buildJoinBean(rs, actualClass, metaMap);
-        } catch (Throwable e) {
-            throw new RuntimeException("构造实体对象失败: " + e.getMessage(), e);
-        }
+            // 1. 通过 @DependOn 解析原类型
+            Class<?> actualClass = ConvertDtoContext.resolveActualClass(beanClass);
 
-        // 6. DTO 构造
-        if (!actualClass.equals(beanClass)) {
+            // 2. 提取结果集列名
+            Set<String> columnSet = extractColumnLabels(rs.getMetaData());
+
+            // 3. 查询缓存
+            Map<String, JoinConvertContext.MetaMap> metaGroup = JOIN_CACHE.computeIfAbsent(actualClass, k -> new ConcurrentHashMap<>());
+
+            // 4.获取缓存中的 类信息元
+            // 4.1 准备查询列表指纹
+            String fingerprint = ConvertDtoContext.getFingerprint(columnSet);
+            JoinConvertContext.MetaMap metaMap = metaGroup.computeIfAbsent(fingerprint, fp -> {
+                try {
+                    return analyzeClzStruct(actualClass, columnSet, "");
+                } catch (Exception e) {
+                    throw new RuntimeException("解析联表结构失败: " + e.getMessage(), e);
+                }
+            });
+
+            // 5. 通过缓存中的 类信息元 构建实际实体
+            Object entity;
             try {
-                Constructor<T> ctor = ConvertDtoContext.getDtoConstructor(beanClass, actualClass);
-                MethodHandle mh = ConvertDtoContext.getConstructorHandle(ctor);
-                return (T) mh.invoke(entity);
+                entity = buildJoinBean(rs, actualClass, metaMap);
+                log.info("book info: {}", (BookCard) entity);
             } catch (Throwable e) {
-                throw new RuntimeException("DTO 构造失败: " + beanClass.getName(), e);
+                throw new RuntimeException("构造实体对象失败: " + e.getMessage(), e);
             }
-        }
 
-        return beanClass.cast(entity);
+            // 6. DTO 构造
+            if (!actualClass.equals(beanClass)) {
+                try {
+                    Constructor<T> ctor = ConvertDtoContext.getDtoConstructor(beanClass, actualClass);
+                    MethodHandle mh = ConvertDtoContext.getConstructorHandle(ctor);
+
+                    @SuppressWarnings("unchecked")
+                    T t = (T) mh.invoke(entity);
+                    return t;
+                } catch (Throwable e) {
+                    throw new RuntimeException("DTO 构造失败: " + beanClass.getName(), e);
+                }
+            }
+
+            return beanClass.cast(entity);
+        } catch (Exception e) {
+            // 总兜底，确保异常不会漏掉
+            throw (e instanceof JoinConvertorException) ? (JoinConvertorException) e : new JoinConvertorException("JoinBeanConvertor: 转换异常", e);
+        }
     }
 
     private JoinConvertContext.MetaMap analyzeClzStruct(Class<?> clz, Set<String> columnSet, String prefix) throws Exception {

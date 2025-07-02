@@ -39,11 +39,11 @@ public abstract class ExecuteCoordinator implements ExecuteCoordinatorService {
                 params == null ? "[]" : Arrays.toString(params)
         );
         try (ResultSet rs = PoolFactory.getPool().executeQuery(sql, params)) {
-            // long start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
 
             List<T> map = rsMapper.map(rs, beanClass);
-            // long end = System.currentTimeMillis();
-            // System.out.println("嵌套结构映射耗时 = " + (end - start));
+            long end = System.currentTimeMillis();
+            log.info("result mapping time cost: {}", (end - start));
             return map;
         } catch (SQLException e) {
             log.error("对 '{}' 转换时出现异常! 参数: {}", beanClass, params);

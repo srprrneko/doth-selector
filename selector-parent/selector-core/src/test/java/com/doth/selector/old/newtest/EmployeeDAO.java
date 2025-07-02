@@ -41,7 +41,6 @@ public class EmployeeDAO extends Selector<Employee> {
                 "JOIN company c on d.com_id = c.id " +
                 "where d.id = ?";
         // 2: two -> to; 4: four -> for
-        // queryToListForJoin
         return raw().query2Lst(sql,1);
         // return raw().query2Lst4Join(sqlgenerator,true, 1);
     }

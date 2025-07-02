@@ -1,10 +1,13 @@
 package com.doth.selector.executor.supports;
 
 import com.doth.selector.common.exception.NonUniqueResultException;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class QueryList<T> extends ArrayList<T> {
 
@@ -40,5 +43,28 @@ public class QueryList<T> extends ArrayList<T> {
             return q;
         }
         return new QueryList<>(list);
+    }
+
+    /**
+     * 方便将任何 QueryList<T> 转换为 QueryList<R>
+     * @param mapper lambda
+     */
+    public <R> QueryList<R> map(Function<? super T, ? extends R> mapper) {
+        List<R> mapped = this.stream()
+                              .map(mapper)
+                              .collect(Collectors.toList());
+        return QueryList.from(mapped);
+    }
+
+    /**
+     * 将实体列表转换为 DTO 列表，使用 Spring BeanUtils 复制属性
+     * @param dtoClass 目标 DTO 类型
+     */
+    public <D> QueryList<D> toDto(Class<D> dtoClass) {
+        return this.map(entity -> {
+            D dto = BeanUtils.instantiateClass(dtoClass);
+            BeanUtils.copyProperties(entity, dto);
+            return dto;
+        });
     }
 }
