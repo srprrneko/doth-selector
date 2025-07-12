@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>serve for class "LambdaFieldPathResolver" </p>
+ * <p>serve for class "Lambda2FieldNameResolver".. </p>
  */
 public class LambdaPathRecorder {
+    // 路径
     private final List<String> path = new ArrayList<>();
 
     public void append(String field) {

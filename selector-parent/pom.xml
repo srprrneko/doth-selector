@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -78,7 +78,7 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
-<!--                <scope>test</scope>-->
+                <!--                <scope>test</scope>-->
             </dependency>
 
             <dependency>
@@ -122,7 +122,7 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring-context-version}</version>
-<!--                <scope>test</scope>  &lt;!&ndash; 测试 classpath 中要有 Spring &ndash;&gt;-->
+                <!--                <scope>test</scope>  &lt;!&ndash; 测试 classpath 中要有 Spring &ndash;&gt;-->
             </dependency>
 
             <!-- json 等 -->
@@ -132,16 +132,16 @@
                 <version>${jackson.version}</version> <!-- 支持JDK 11的最新稳定版 -->
             </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--                <artifactId>jackson-core</artifactId>-->
-<!--                <version>${jackson.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--                <artifactId>jackson-annotations</artifactId>-->
-<!--                <version>${jackson.version}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.fasterxml.jackson.core</groupId>-->
+            <!--                <artifactId>jackson-core</artifactId>-->
+            <!--                <version>${jackson.version}</version>-->
+            <!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.fasterxml.jackson.core</groupId>-->
+            <!--                <artifactId>jackson-annotations</artifactId>-->
+            <!--                <version>${jackson.version}</version>-->
+            <!--            </dependency>-->
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -174,20 +174,20 @@
 
             </plugins>
         </pluginManagement>
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                <version>3.0.0-M5</version> &lt;!&ndash; 选择一个合适的版本 &ndash;&gt;-->
-<!--                <configuration>-->
-<!--                    <argLine>-->
-<!--                        &#45;&#45;add-opens java.base/java.lang=ALL-UNNAMED-->
-<!--                        &#45;&#45;add-opens java.base/java.lang.reflect=ALL-UNNAMED-->
-<!--                        &#45;&#45;add-opens java.base/java.lang.invoke=ALL-UNNAMED-->
-<!--                    </argLine>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
+        <!--        <plugins>-->
+        <!--            <plugin>-->
+        <!--                <groupId>org.apache.maven.plugins</groupId>-->
+        <!--                <artifactId>maven-surefire-plugin</artifactId>-->
+        <!--                <version>3.0.0-M5</version> &lt;!&ndash; 选择一个合适的版本 &ndash;&gt;-->
+        <!--                <configuration>-->
+        <!--                    <argLine>-->
+        <!--                        &#45;&#45;add-opens java.base/java.lang=ALL-UNNAMED-->
+        <!--                        &#45;&#45;add-opens java.base/java.lang.reflect=ALL-UNNAMED-->
+        <!--                        &#45;&#45;add-opens java.base/java.lang.invoke=ALL-UNNAMED-->
+        <!--                    </argLine>-->
+        <!--                </configuration>-->
+        <!--            </plugin>-->
+        <!--        </plugins>-->
 
     </build>
 </project>

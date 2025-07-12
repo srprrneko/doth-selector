@@ -51,7 +51,7 @@ public class JoinBeanConvertor implements BeanConvertor {
             Object entity;
             try {
                 entity = buildJoinBean(rs, actualClass, metaMap);
-                log.info("book info: {}", (BookCard) entity);
+                // log.info("book info: {}", (BookCard) entity);
             } catch (Throwable e) {
                 throw new RuntimeException("构造实体对象失败: " + e.getMessage(), e);
             }

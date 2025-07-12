@@ -48,7 +48,7 @@ public class BasicExecuteCoordinator extends ExecuteCoordinator {
 
     @Override
     public <T> List<T> queryByBuilderVzRaw(Class<T> beanClass, String sql, ConditionBuilder<T> builder) {
-        // sqlgenerator = sqlgenerator + builder.getFullSql();
+        // sql = sql + builder.getFullSql();
 
         return executeQuery(beanClass, sql, builder.getParams());
     }

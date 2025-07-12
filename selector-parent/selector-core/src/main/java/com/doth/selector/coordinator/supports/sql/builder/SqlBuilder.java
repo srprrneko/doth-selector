@@ -1,4 +1,4 @@
-package com.doth.selector.coordinator.supports.sqlgenerator.builder;
+package com.doth.selector.coordinator.supports.sql.builder;
 
 import com.doth.selector.common.util.AnnoNamingConvertUtil;
 

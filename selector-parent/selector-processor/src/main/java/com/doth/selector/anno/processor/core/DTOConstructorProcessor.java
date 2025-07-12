@@ -223,7 +223,7 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
             String table = NamingConvertUtil.camel2SnakeCase(((TypeElement) ((DeclaredType) field.asType()).asElement()).getSimpleName().toString());
             int idxDot = ji.getAttrPath().lastIndexOf('.');
             String parent = idxDot > 0 ? pathAlias.get(ji.getAttrPath().substring(0, idxDot)) : "t0";
-            defs.add(CodeBlock.of("new $T($S,$S,$S,$S,$S)", JoinDef.class,
+            defs.add(CodeBlock.of("new $T($S,$S,$S,$S,$S)", JoinDefInfo.class,
                     table, ann.fk(), ann.refFK(), ji.getAlias(), parent));
         }
         cb.addStatement("$T.register($T.class, $S, new $T($T.of($L)))",

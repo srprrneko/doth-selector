@@ -54,7 +54,7 @@ public class JoinExecuteCoordinator extends ExecuteCoordinator {
     @Deprecated // todo: 有可能后续移除
     public <T> List<T> queryByBuilderVzRaw(Class<T> beanClass, String sql, ConditionBuilder<T> builder) {
         sql = SelectGenerateFacade.cvn4joinBuilderVzRaw(sql, builder);
-        // sqlgenerator = sqlgenerator + builder.getFullSql();
+        // sql = sql + builder.getFullSql();
         return executeQuery(beanClass, sql, builder.getParams());
     }
 

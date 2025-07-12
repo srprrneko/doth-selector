@@ -3,7 +3,7 @@ package com.doth.selector.executor.supports.builder;
 
 
 import com.doth.selector.anno.Overload;
-import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
+import com.doth.selector.executor.supports.lambda.Lambda2FieldNameResolver;
 import com.doth.selector.executor.supports.lambda.SFunction;
 import lombok.Getter;
 import lombok.Setter;
@@ -232,73 +232,73 @@ public class ConditionBuilder<T> {
     // region !!============================== lambda条件式 的重载区域 ==============================!!
     @Overload
     public <R> ConditionBuilder<T> eq(SFunction<T, R> lambda, Object value) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return eq(field, value);
     }
 
     @Overload
     public <R> ConditionBuilder<T> gt(SFunction<T, R> lambda, Object value) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return gt(field, value);
     }
 
     @Overload
     public <R> ConditionBuilder<T> lt(SFunction<T, R> lambda, Object value) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return lt(field, value);
     }
 
     @Overload
     public <R> ConditionBuilder<T> ge(SFunction<T, R> lambda, Object value) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return ge(field, value);
     }
 
     @Overload
     public <R> ConditionBuilder<T> le(SFunction<T, R> lambda, Object value) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return le(field, value);
     }
 
     @Overload
     public <R> ConditionBuilder<T> ne(SFunction<T, R> lambda, Object value) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return ne(field, value);
     }
 
     @Overload
     public <R> ConditionBuilder<T> like(SFunction<T, R> lambda, String pattern) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return like(field, pattern);
     }
 
     @Overload
     public <R> ConditionBuilder<T> between(SFunction<T, R> lambda, Object start, Object end) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return between(field, start, end);
     }
 
     @Overload
     public <R> ConditionBuilder<T> in(SFunction<T, R> lambda, Object... values) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return in(field, values);
     }
 
     @Overload
     public <R> ConditionBuilder<T> nin(SFunction<T, R> lambda, Object... values) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return nin(field, values);
     }
 
     @Overload
     public <R> ConditionBuilder<T> isNull(SFunction<T, R> lambda) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return isNull(field);
     }
 
     @Overload
     public <R> ConditionBuilder<T> isNotNull(SFunction<T, R> lambda) {
-        String field = LambdaFieldPathResolver.resolve(lambda, entityClz);
+        String field = Lambda2FieldNameResolver.resolve(lambda, entityClz);
         return isNotNull(field);
     }
 

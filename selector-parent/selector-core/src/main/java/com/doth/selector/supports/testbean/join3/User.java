@@ -1,11 +1,11 @@
 package com.doth.selector.supports.testbean.join3;
 
-import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.Join;
 
 // 实体类定义
 public class User {
-    @Id
+    @Pk
     private Integer id;
 
     private String name;

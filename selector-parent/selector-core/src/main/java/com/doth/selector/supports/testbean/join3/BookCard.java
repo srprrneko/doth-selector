@@ -2,7 +2,7 @@ package com.doth.selector.supports.testbean.join3;
 
 import com.doth.selector.anno.DTOConstructor;
 import com.doth.selector.anno.Entity;
-import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.MainLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity // this anno will check all field make sure isn't primative
 public class BookCard {
-    @Id
+    @Pk
     private Integer cid;            // 借书卡编号
     private String name;            // 持卡人姓名
     private String sex;             // 持卡人性别（"M"、"F"）

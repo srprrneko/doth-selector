@@ -1,9 +1,8 @@
 package com.doth.selector.supports.testbean.join;
 
 import com.doth.selector.anno.Entity;
-import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Department {
-    @Id
+    @Pk
     private Integer id;
     private String name; // 框架还内置了检查, 强制要求实体类的字段都必须使用 包装类
 

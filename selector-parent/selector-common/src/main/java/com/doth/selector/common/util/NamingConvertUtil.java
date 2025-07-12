@@ -62,6 +62,10 @@ public class NamingConvertUtil {
         }
 
         char firstChar = input.charAt(0);
+        // 如果第一个字母已经是大写，直接返回原字符串
+        if (Character.isUpperCase(firstChar)) {
+            return input;
+        }
         if (Character.isLowerCase(firstChar)) {
             firstChar = Character.toUpperCase(firstChar);
         }

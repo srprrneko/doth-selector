@@ -2,7 +2,7 @@ package com.doth.selector.supports.testbean.join;
 
 import com.doth.selector.anno.DTOConstructor;
 import com.doth.selector.anno.Entity;
-import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Pk;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Company {
-    @Id
+    @Pk
     private Integer id;
     private String name;
 

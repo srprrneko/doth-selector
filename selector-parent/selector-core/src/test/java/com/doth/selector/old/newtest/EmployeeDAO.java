@@ -42,7 +42,7 @@ public class EmployeeDAO extends Selector<Employee> {
                 "where d.id = ?";
         // 2: two -> to; 4: four -> for
         return raw().query2Lst(sql,1);
-        // return raw().query2Lst4Join(sqlgenerator,true, 1);
+        // return raw().query2Lst4Join(sql,true, 1);
     }
 
     public List<Employee> queryAll() {

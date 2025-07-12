@@ -12,14 +12,13 @@ import com.doth.selector.executor.query.enhanced.impl.DirectQueryExecutorPro;
 import com.doth.selector.executor.query.enhanced.impl.RawQueryExecutorPro;
 import com.doth.selector.executor.supports.QueryList;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
-import com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver;
+import com.doth.selector.executor.supports.lambda.Lambda2FieldNameResolver;
 import com.doth.selector.executor.supports.lambda.SFunction;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -139,11 +138,11 @@ public class Selector<T> {
     }
 
     @SuppressWarnings("unchecked")
-    // public <D> QueryList<D> queryDtoList(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
-    //     BuilderQueryExecutorPro<T> executor = bud$();
-    //     executor.setDtoClass(dtoClass);
-    //     return (QueryList<D>) executor.query(setup, true);
-    // }
+    public <D> QueryList<D> queryDtoList(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
+        BuilderQueryExecutorPro<T> executor = bud$();
+        executor.setDtoClass(dtoClass);
+        return (QueryList<D>) executor.query(setup, true);
+    }
 
 
     public RawQueryExecutor<T> raw() {
@@ -202,7 +201,7 @@ public class Selector<T> {
      * @return 解析好的字符串
      */
     public String f(SFunction<T, ?> lambda) {
-        return LambdaFieldPathResolver.resolve(lambda, beanClass);
+        return Lambda2FieldNameResolver.resolve(lambda, beanClass);
     }
 
 

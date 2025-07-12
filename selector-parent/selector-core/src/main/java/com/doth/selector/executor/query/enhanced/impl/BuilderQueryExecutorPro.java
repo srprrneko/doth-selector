@@ -23,7 +23,7 @@ import java.util.function.Consumer;
  * <ul>
  *   <li>编译期类型提示，规避字段名拼写错误</li>
  *   <li>支持 IDE 自动补全字段路径</li>
- *   <li>结合 {@code LambdaFieldPathResolver}，生成精确字段路径</li>
+ *   <li>结合 {@code Lambda2FieldNameResolver}，生成精确字段路径</li>
  * </ul>
  * <br>
  * <strong>继承关系说明</strong>
@@ -72,14 +72,14 @@ public class BuilderQueryExecutorPro<T> extends JoinExecutor<T> implements Query
      * @param dtoModel 仅用作重载区分
      * @return DTO 映射结果列表
      */
-    // @Overload
-    // @SuppressWarnings(value = "unchecked")
-    // public QueryList<T> query(Consumer<ConditionBuilder<T>> setup, boolean dtoModel) {
-    //     ConditionBuilder<T> builder = new ConditionBuilder<>(beanClass); // beanClass = 实体类
-    //     setup.accept(builder);
-    //
-    //     return new QueryList<>(coordinator.queryByBuilder((Class<T>) dtoClass, builder)); // 查询映射使用 dto
-    // }
+    @Overload
+    @SuppressWarnings(value = "unchecked")
+    public QueryList<T> query(Consumer<ConditionBuilder<T>> setup, boolean dtoModel) {
+        ConditionBuilder<T> builder = new ConditionBuilder<>(beanClass); // beanClass = 实体类
+        setup.accept(builder);
+
+        return new QueryList<>(coordinator.queryByBuilder((Class<T>) dtoClass, builder)); // 查询映射使用 dto
+    }
 
 
     @Overload

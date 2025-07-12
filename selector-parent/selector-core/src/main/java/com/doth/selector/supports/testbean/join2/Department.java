@@ -1,13 +1,12 @@
 package com.doth.selector.supports.testbean.join2;
-import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneToOne;
 import lombok.Data;
 
 // 部门实体
 @Data
 public class Department {
-    @Id
+    @Pk
     private Integer deptId; // 数据库字段: d_id
 
     private String deptName; // 数据库字段: department_name

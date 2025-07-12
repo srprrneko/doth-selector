@@ -18,13 +18,13 @@ public abstract class BookCardDAO extends Selector<BookCard> {
 
         BookCardDAO dao = new BookCardDAOImpl();
         val start = System.currentTimeMillis();
-        // for (int i = 0; i < 50000; i++) {
+        for (int i = 0; i < 50000; i++) {
         val dto = dao.queryByNameAndSex("%zs%", "M");
-        // }
+        }
         val end = System.currentTimeMillis();
         // log.info("cost: {}",);
         System.out.println("( end - start) = " + (end - start));
-        System.out.println(dto);
+        // System.out.println(dto);
 
     }
 

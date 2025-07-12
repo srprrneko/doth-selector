@@ -1,4 +1,4 @@
-package com.doth.selector.coordinator.supports.sqlgenerator.tool;
+package com.doth.selector.coordinator.supports.sql.tool;
 
 import java.util.*;
 import java.util.regex.*;
@@ -54,7 +54,7 @@ public class AliasConvertUtil {
         // 大小写验证
         Pattern selectPattern = Pattern.compile("(?i)select\\s+(.*?)\\s+from");
         Matcher selectMatcher = selectPattern.matcher(originalSql);
-        if (!selectMatcher.find()) throw new IllegalArgumentException("无效的 sqlgenerator!");
+        if (!selectMatcher.find()) throw new IllegalArgumentException("无效的 sql!");
         // String selectColPart = originalSql.substring(originalSql.indexOf("select") + 6, originalSql.indexOf("from")).trim(); // 从select开始获取, 到from结束 (所有的查询字段)
         String selectColPart = selectMatcher.group(1).trim();
         List<String> processedFields = new ArrayList<>(); // 用于存储最终返回的字段: d.name -> department_name; 主表不处理: e.id -> e.id

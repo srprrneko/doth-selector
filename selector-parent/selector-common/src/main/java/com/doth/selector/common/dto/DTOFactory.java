@@ -2,6 +2,7 @@ package com.doth.selector.common.dto;
 
 import java.util.*;
 
+@Deprecated // 迭代遗留, 后续移除
 public class DTOFactory {
     private static final Map<Class<?>, Map<String, Class<?>>> REGISTRY = new HashMap<>();
 
@@ -23,11 +24,10 @@ public class DTOFactory {
             // 强制尝试加载 class 并触发 static 注册
             try {
                 String fullName = entityClass.getName() + "$" + id + "DTO";
-                ClassLoader cl = entityClass.getClassLoader(); // 确保使用实体类相同的加载器
+                ClassLoader cl = entityClass.getClassLoader(); // 使用从属类的加载器
                 Class.forName(fullName, true, cl);
                 // Class<?> generatedDTO = Class.forName(fullName, true, cl);
 
-                // // 如果加载后还是没注册，就说明生成类未触发静态块
                 // idMap = REGISTRY.get(entityClass);
                 // if (idMap == null || !idMap.containsKey(id)) {
                 //     throw new IllegalStateException("DTO类加载成功但未注册，请确认 static 注册代码是否写入: " + fullName);

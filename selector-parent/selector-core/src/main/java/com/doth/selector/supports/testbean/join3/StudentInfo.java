@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.Date;
 
@@ -19,15 +20,15 @@ import java.util.Date;
 @NoArgsConstructor
 public class StudentInfo {
 
-    @Id
+    @Pk
     private Integer studentId;
     private String studentName;
     private String gender;
     private String idCard;
-    private Date birthDate;
-    private Date admissionTime;
-    private Date lastLogin;
-    private Date dailyCheckIn;
+    private LocalDateTime birthDate;
+    private LocalDateTime admissionTime;
+    private LocalDateTime lastLogin;
+    private LocalDateTime dailyCheckIn;
     private String phone;
     private String email;
     private String homeAddress;

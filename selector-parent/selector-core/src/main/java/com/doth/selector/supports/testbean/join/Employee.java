@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Employee {
 
-    @Id
+    @Pk
     private Integer id;
 
     private String name;
@@ -188,7 +188,7 @@ public class Employee {
                 @Entity
                 public class Employee {
 
-                    @Id
+                    @Pk
                     private Integer id;
 
                     private String name;
@@ -202,7 +202,7 @@ public class Employee {
                 @Entity
                 public class Department {
 
-                    @Id
+                    @Pk
                     private Integer depId;
 
                     private String depName; // 框架还内置了检查, 强制要求实体类的字段都必须使用 包装类
@@ -214,7 +214,7 @@ public class Employee {
                 @Entity
                 public class Company {
 
-                    @Id
+                    @Pk
                     private Integer id;
 
                     private String name;

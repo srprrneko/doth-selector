@@ -1,11 +1,11 @@
 package com.doth.selector.supports.testbean.join3;
 
-import com.doth.selector.anno.Id;
+import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.Join;
 import com.doth.selector.anno.OneToOne;
 
 public class DepartmentInfo {
-    @Id
+    @Pk
     private Integer id;
 
     private String departmentInfoName;

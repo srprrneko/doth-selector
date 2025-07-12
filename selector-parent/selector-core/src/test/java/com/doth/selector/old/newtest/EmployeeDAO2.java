@@ -35,7 +35,7 @@ public class EmployeeDAO2 extends Selector<Employee> {
     }
 
     // public List<Employee> queryEmployees() {
-    //     // String sqlgenerator = "SELECT e.id, e.name, "
+    //     // String sql = "SELECT e.id, e.name, "
     //     //         + "e.d_id, " +
     //     //         "d.name, d.com_id," +
     //     //         "c.name "
@@ -43,7 +43,7 @@ public class EmployeeDAO2 extends Selector<Employee> {
     //     //         "JOIN department d ON e.d_id = d.id " +
     //     //         "JOIN company c on d.com_id = c.id " +
     //     //         "where d.id = ?";
-    //     String sqlgenerator = "SELECT e.id, e.name, "
+    //     String sql = "SELECT e.id, e.name, "
     //             + "e.d_id, " +
     //             "d.name, d.com_id," +
     //             "c.name " // c.name: company_name
@@ -53,8 +53,8 @@ public class EmployeeDAO2 extends Selector<Employee> {
     //             "where d.id = ?";
     //     // 2: two -> to; 4: four -> for
     //     // queryToListForJoin
-    //     return raw().query2Lst(sqlgenerator,1);
-    //     // return raw().query2Lst4Join(sqlgenerator,true, 1);
+    //     return raw().query2Lst(sql,1);
+    //     // return raw().query2Lst4Join(sql,true, 1);
     // }
 
     public List<Employee> queryAll() {

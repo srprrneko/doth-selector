@@ -1,4 +1,4 @@
-// src/main/java/com/doth/selector/supports/sqlgenerator/dto/DTOJoinInfoFactory.java
+// src/main/java/com/doth/selector/supports/sql/dto/DTOJoinInfoFactory.java
 package com.doth.selector.common.dto;
 
 import java.util.Collections;
