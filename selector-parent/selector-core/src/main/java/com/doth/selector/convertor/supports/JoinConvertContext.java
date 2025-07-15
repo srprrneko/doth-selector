@@ -74,13 +74,17 @@ public class JoinConvertContext {
      */
     public static Field[] getFields(Class<?> clz) {
         return FIELD_NAME_CACHE.computeIfAbsent(clz, c -> {
-            Map<String, Field> map = new ConcurrentHashMap<>();
-            for (Field f : c.getDeclaredFields()) {
-                f.setAccessible(true);
-                map.put(f.getName(), f);
-            }
-            return map;
-        }).values().toArray(new Field[0]);
+                    Map<String, Field> map = new ConcurrentHashMap<>();
+
+                    for (Field f : c.getDeclaredFields()) {
+                        f.setAccessible(true);
+
+                        map.put(f.getName(), f);
+                    }
+                    return map;
+                })
+                .values() // Map<String, 'Field'>
+                .toArray(new Field[0]); // 使用 T 构造返回 Field[]
     }
 
     /**

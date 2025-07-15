@@ -11,7 +11,7 @@ public class User {
     private String name;
 
     @Join(fk = "department_id", refFK = "id")
-    // @OneToOne
+    // @OneTo1Break
     private DepartmentInfo departmentInfo;
 
     // @Join(fk = "employee_id", refFK = "id")

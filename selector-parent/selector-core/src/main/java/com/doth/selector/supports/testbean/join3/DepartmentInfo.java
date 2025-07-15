@@ -2,7 +2,7 @@ package com.doth.selector.supports.testbean.join3;
 
 import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneToOne;
+import com.doth.selector.anno.OneTo1Break;
 
 public class DepartmentInfo {
     @Pk
@@ -11,7 +11,7 @@ public class DepartmentInfo {
     private String departmentInfoName;
 
     @Join(fk = "manager_id", refFK = "id")
-    @OneToOne
+    @OneTo1Break
     private User manager;
 
     public DepartmentInfo() {

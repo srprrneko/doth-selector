@@ -20,7 +20,7 @@ public final class ConvertDtoContext {
     private static final Map<Constructor<?>, MethodHandle> CONSTRUCTOR_HANDLE_CACHE = new ConcurrentHashMap<>();
 
     /** 注解实际类缓存：beanClass -> actualClass */
-    private static final Map<Class<?>, Class<?>> DEPENDON_ACTUAL_CACHE = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, Class<?>> BEAN_TO_ENTITY_CACHE = new ConcurrentHashMap<>();
 
     /** fingerprint 缓存：columnSet -> fingerprintKey (逗号连接排序后的列名) */
     private static final Map<Set<String>, String> FINGERPRINT_CACHE = new ConcurrentHashMap<>();
@@ -32,10 +32,10 @@ public final class ConvertDtoContext {
 
     /**
      * 解析 DTO 类上 @DependOn 注解指定的实体类，
-     * 若无注解则返回自身。
+     * 若无注解则返回自身
      */
     public static Class<?> resolveActualClass(Class<?> beanClass) {
-        return DEPENDON_ACTUAL_CACHE.computeIfAbsent(beanClass, bc -> {
+        return BEAN_TO_ENTITY_CACHE.computeIfAbsent(beanClass, bc -> {
             DependOn ann = bc.getAnnotation(DependOn.class);
             if (ann != null) {
                 try {

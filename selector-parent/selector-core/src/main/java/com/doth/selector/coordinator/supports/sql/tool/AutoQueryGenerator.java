@@ -2,7 +2,7 @@ package com.doth.selector.coordinator.supports.sql.tool;
 
 import com.doth.selector.anno.DependOn;
 import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneToOne;
+import com.doth.selector.anno.OneTo1Break;
 import com.doth.selector.anno.Pk;
 import com.doth.selector.common.dto.DTOJoinInfo;
 import com.doth.selector.common.dto.DTOJoinInfoFactory;
@@ -12,8 +12,6 @@ import com.doth.selector.common.exception.NonPrimaryKeyException;
 import com.doth.selector.common.util.AnnoNamingConvertUtil;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
-import com.doth.selector.supports.testbean.join.BaseEmpDep;
-import com.doth.selector.supports.testbean.join.BaseEmpInfo;
 import com.doth.selector.supports.testbean.join.Employee;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -30,13 +28,13 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * <strong>职责</strong>
  * <ol>
- *   <li>根据实体类和 ConditionBuilder 构建整套 sql 语句, 其中包含 'SELECT + FROM + JOIN'</li>
+ *   <li>根据实体类和 ConditionBuilder 构建整套 sql 语句, 例 'SELECT + FROM + JOIN'</li>
  *   <li>支持 普通模式 与 DTO懒加载 模式的 SQL 生成</li>
- *   <li>利用咖啡因缓存第三方库 优化字段访问</li>
+ *   <li>利用咖啡因第三方库缓存 优化字段访问性能</li>
  *   <li>痛过预注册的 DTOJoinInfo, 实现普通模式和 dto模式join子句生成的 逻辑隔离</li>
  * </ol>
  *
- * <p>后续演进拓展设计模式</p>
+ * <p>后续演进拓展设计模式, sql指纹</p>
  */
 @Slf4j
 public class AutoQueryGenerator {
@@ -57,8 +55,7 @@ public class AutoQueryGenerator {
     }
 
 
-    // !!======================== 实例字段 =========================!!
-
+    // !!======================== 实例字段上下文 - 开始 =========================!!
     /**
      * 原始实体类或 DTO 关联的源实体
      */
@@ -115,11 +112,11 @@ public class AutoQueryGenerator {
      * 主表别名
      */
     private static final String MAIN_ALIAS = "t0";
+    // !!======================== 实例字段上下文 - 结束 =========================!!
 
-
-    // !!======================== 简单工厂, 双模式入口 =========================!!
 
     /**
+     * API-简单工厂
      * <strong>1.无条件/或条件由外部控制</strong>
      *
      * @return 生成的 SQL
@@ -138,9 +135,9 @@ public class AutoQueryGenerator {
     }
 
 
-    // !!======================== 构造与模式初始化 =========================!!
 
     /**
+     * 初始化
      * <strong>构造函数, 两分支</strong>
      * <p>>> 带有 @DependOn 注解区分DTO 模式，</p>
      * <ol>
@@ -183,7 +180,7 @@ public class AutoQueryGenerator {
     }
 
 
-    //!!================  DTO模式辅助方法 ================!!
+    //!!================  DTO模式辅助方法 - 开始 ================!!
 
     /**
      * <strong>解析 DTO Select 字段列列表</strong>
@@ -222,9 +219,10 @@ public class AutoQueryGenerator {
         }
         return set;
     }
+    //!!================  DTO模式辅助方法 - 结束 ================!!
 
 
-    // !!======================== 核心sql生成方法=========================!!
+    // !!======================== 核心sql生成方法 - 开始=========================!!
 
     /**
      * <strong>核心：根据模式分支生成 SQL</strong>
@@ -274,6 +272,7 @@ public class AutoQueryGenerator {
         }
         return sb.append("\n").toString();
     }
+    // !!======================== 核心sql生成方法 - 结束 =========================!!
 
 
     // !!======================== 实体反射遍历方法 =========================!!
@@ -315,73 +314,69 @@ public class AutoQueryGenerator {
         Class<?> target = field.getType(); // 获取从属实体clz
 
         // 拦截一对一场景下的join子句生成
-        boolean isOneToOne = field.isAnnotationPresent(OneToOne.class);
+        boolean isOneToOne = field.isAnnotationPresent(OneTo1Break.class);
         if (alreadyPrecessed.contains(target) && isOneToOne) {
-            return; // OneToOne 安全跳过
+            return; // OneTo1Break 安全跳过
         }
 
         String nextAlias = "t" + joinLevel;
 
-        // boolean isInDtoOrCond = dtoPfx.contains(nextAlias)
-        //                     || condPfx.contains(nextAlias);
-        //
-        // if (!isDtoMod || isInDtoOrCond) {
-            Set<Field> newAncestors = new HashSet<>(ancestorJoins);
-            newAncestors.add(field);
+        Set<Field> newAncestors = new HashSet<>(ancestorJoins);
+        newAncestors.add(field);
 
-            if (!isDtoMod) {
-                selectList.add(curAlias + "."
-                        + NamingConvertUtil.camel2SnakeCase(
-                        field.getAnnotation(Join.class).fk()));
-            }
+        // 非dto模式自动加入外键列查询
+        if (!isDtoMod) {
+            selectList.add(curAlias + "."
+                    + NamingConvertUtil.camel2SnakeCase(
+                    field.getAnnotation(Join.class).fk()));
+        }
 
-            Field pk = findAndReturnPk(target);
-            joinClauses.add(String.format(
-                    "join %s %s ON %s.%s = %s.%s",
-                    getTableName(target),
-                    nextAlias,
-                    curAlias,
-                    field.getAnnotation(Join.class).fk(),
+        Field pk = getPk2Field(target);
+        joinClauses.add(String.format(
+                "join %s %s ON %s.%s = %s.%s",
+                getTableName(target),
+                nextAlias,
+                curAlias,
+                field.getAnnotation(Join.class).fk(),
 
-                    nextAlias,
-                    NamingConvertUtil.camel2SnakeCase(pk.getName())
-            ));
+                nextAlias,
+                NamingConvertUtil.camel2SnakeCase(pk.getName())
+        ));
 
-            joinLevel++;
-            parseEntity(target, nextAlias, newAncestors);
-        // }
+        joinLevel++;
+        parseEntity(target, nextAlias, newAncestors);
     }
 
     /**
      * 循环依赖检测：
      * - 尝试把 curClz 加入到 alreadyPrecessed；
-     * - 如果已存在且所有 ancestorJoins 上的字段都没标 @OneToOne，则视为非法循环，抛异常；
-     * - 如果遇到 @OneToOne，则安全中断当前分支。
+     * - 如果已存在且所有 ancestorJoins 上的字段都没标 @OneTo1Break，则视为非法循环，抛异常；
+     * - 如果遇到 @OneTo1Break，则安全中断当前分支。
      */
     private void checkRefCycle(Class<?> curClz, Set<Field> ancestorJoins) {
         if (!alreadyPrecessed.add(curClz)) {
             for (Field f : ancestorJoins) {
-                if (f.isAnnotationPresent(OneToOne.class)) {
-                    // OneToOne 情况下可安全终止
+                if (f.isAnnotationPresent(OneTo1Break.class)) {
+                    // OneTo1Break 情况下可安全终止
                     return;
                 }
             }
-            throw new RuntimeException("检测到未标注 @OneToOne 的循环引用: " + curClz.getSimpleName());
+            throw new RuntimeException("检测到未标注 @OneTo1Break 的循环引用: " + curClz.getSimpleName());
         }
     }
 
 
-    // !!======================== 主键与工具方法 =========================!!
+    // !!======================== 辅助工具方法 =========================!!
 
     /**
-     * <strong>查找主键字段</strong>
-     * <p>在给定类中寻找带 @Pk 注解的字段。</p>
+     * <strong>找并返回主键字段</strong>
+     * <p>找类中带 @Pk 注解的字段</p>
      *
      * @param clazz 实体类
      * @return 带 @Pk 注解的字段
      * @throws NonPrimaryKeyException 若未找到主键注解
      */
-    private Field findAndReturnPk(Class<?> clazz) {
+    private Field getPk2Field(Class<?> clazz) {
         for (Field field : getCachedFields(clazz)) {
             if (field.isAnnotationPresent(Pk.class)) return field;
         }

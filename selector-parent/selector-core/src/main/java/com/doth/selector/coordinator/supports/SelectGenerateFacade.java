@@ -1,6 +1,6 @@
 package com.doth.selector.coordinator.supports;
 
-import com.doth.selector.coordinator.supports.sql.tool.AliasConvertUtil;
+import com.doth.selector.coordinator.supports.sql.tool.AliasAppender;
 import com.doth.selector.coordinator.supports.sql.tool.AutoQueryGenerator;
 import com.doth.selector.coordinator.supports.sql.builder.SqlBuilder;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
@@ -48,18 +48,18 @@ public class SelectGenerateFacade {
 
     // ----------------- 生成原生的连接查询 -----------------
     public static String cvn4joinRaw(String sql) {
-        return AliasConvertUtil.generateAliases(sql); // 是否开启自动别名? 生成别名 : 原始sql
+        return AliasAppender.generateAliases(sql); // 是否开启自动别名? 生成别名 : 原始sql
     }
 
     @Deprecated(since = "3.0", forRemoval = true) // 强制要求开发者不能起别名, 因此删除, 如果非要起, 可能的考虑list<map>: dto的方式去实现
     public static String cvn4joinRaw(String sql, boolean isAutoAlias) {
-        return isAutoAlias ? AliasConvertUtil.generateAliases(sql) : sql; // 是否开启自动别名? 生成别名 : 原始sql
+        return isAutoAlias ? AliasAppender.generateAliases(sql) : sql; // 是否开启自动别名? 生成别名 : 原始sql
     }
 
     // ----------------- 生成原生的连接查询 -----------------
     @Deprecated
     public static String cvn4joinBuilderVzRaw(String sql, ConditionBuilder builder) {
-        String baseSql = AliasConvertUtil.generateAliases(sql);
+        String baseSql = AliasAppender.generateAliases(sql);
         return baseSql + builder.getFullCause(); // 是否开启自动别名? 生成别名 : 原始sql
     }
 
@@ -76,7 +76,7 @@ public class SelectGenerateFacade {
 
         long start1 = System.currentTimeMillis();
         // 起别名耗时
-        String finalSql = AliasConvertUtil.generateAliases(baseSql);
+        String finalSql = AliasAppender.generateAliases(baseSql);
         long end1 = System.currentTimeMillis();
         System.out.println("\"起别名耗时\" = " + (end1 - start1));
         return buildWhereClause(finalSql, conditions, "");
@@ -85,7 +85,7 @@ public class SelectGenerateFacade {
     @Deprecated
     public static <T> String generateJoin4mapVzClause(Class<T> beanClass, LinkedHashMap<String, Object> condBean, String strClause) {
         String baseSql = AutoQueryGenerator.generated(beanClass);
-        String finalSql = AliasConvertUtil.generateAliases(baseSql);
+        String finalSql = AliasAppender.generateAliases(baseSql);
         return buildWhereClause(finalSql, condBean, strClause);
     }
 
@@ -96,7 +96,7 @@ public class SelectGenerateFacade {
         log.info("sql generated time cost: {}", end - start);
 
         long start1 = System.currentTimeMillis();
-        String finalSql = AliasConvertUtil.generateAliases(baseSql);
+        String finalSql = AliasAppender.generateAliases(baseSql);
         long end1 = System.currentTimeMillis();
         log.info("sql alias replaced time cost: " + (end1 - start1));
 
