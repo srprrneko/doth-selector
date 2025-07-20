@@ -21,7 +21,7 @@ public abstract class ExecuteCoordinator implements ExecuteCoordinatorService {
 
     // 组合组件
     protected ResultSetMapper rsMapper;
-    // private final EntityAdapter condProcessor;
+    // private final QueryBeanAdapter condProcessor;
 
 
     public ExecuteCoordinator() {

@@ -13,7 +13,7 @@ public class Employee {
 
 
     @Join(fk = "d_id")
-    @OneTo1Break
+    @OneTo1Breaker
     private Department employeeDepartment;
 
     @Join(fk = "c_id")

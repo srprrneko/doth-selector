@@ -1,7 +1,7 @@
 package com.doth.selector.coordinator;
 
-import com.doth.selector.common.exception.NoColumnExistException;
-import com.doth.selector.common.exception.NonUniqueResultException;
+import com.doth.selector.common.exception.mapping.NoColumnExistException;
+import com.doth.selector.common.exception.mapping.NonUniqueResultException;
 import com.doth.selector.convertor.BeanConvertor;
 import com.doth.selector.convertor.BeanConvertorFactory;
 import com.doth.selector.convertor.ConvertorType;

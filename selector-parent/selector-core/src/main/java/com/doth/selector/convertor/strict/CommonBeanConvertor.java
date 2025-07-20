@@ -1,7 +1,7 @@
 package com.doth.selector.convertor.strict;
 
 
-import com.doth.selector.common.exception.NoColumnExistException;
+import com.doth.selector.common.exception.mapping.NoColumnExistException;
 import com.doth.selector.convertor.BeanConvertor;
 
 import java.lang.reflect.Field;

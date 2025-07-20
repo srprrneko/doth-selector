@@ -1,8 +1,6 @@
-package com.doth.selector.supports.exception;
+package com.doth.selector.common.exception.entityto;
 
-/**
- * 方法引用解析失败异常
- */
+
 public class MethodReferenceResolveException extends LambdaResolveException {
 
     public MethodReferenceResolveException(String message, Throwable cause) {

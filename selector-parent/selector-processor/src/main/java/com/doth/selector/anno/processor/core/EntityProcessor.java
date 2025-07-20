@@ -15,7 +15,7 @@ import javax.tools.Diagnostic;
 import java.util.Set;
 
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.doth.selector.anno.Entity")
+@SupportedAnnotationTypes("com.doth.selector.anno.QueryBean")
 public class EntityProcessor extends BaseAnnotationProcessor {
 
     @Override

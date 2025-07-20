@@ -4,7 +4,7 @@ import com.doth.selector.anno.Overload;
 import com.doth.selector.executor.query.QueryExecutorTag;
 import com.doth.selector.executor.query.enhanced.JoinExecutor;
 import com.doth.selector.executor.supports.QueryList;
-import com.doth.selector.supports.adapter.EntityAdapter;
+import com.doth.selector.supports.adapter.QueryBeanAdapter;
 
 import java.util.LinkedHashMap;
 
@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
  * <br>
  * <strong>建议优先使用</strong>
  * <ul>
- *   <li>lambda 表达式形式 {@code builder.eq(Entity::getField)}</li>
+ *   <li>lambda 表达式形式 {@code builder.eq(QueryBean::getField)}</li>
  * </ul>
  * <br>
  * <strong>后续规划</strong>
@@ -61,7 +61,7 @@ public class DirectQueryExecutorPro<T> extends JoinExecutor<T> implements QueryE
      */
     @Overload
     public QueryList<T> query(T t) {
-        LinkedHashMap<String, Object> condMap = EntityAdapter.extractNestedFields2Map(t);
+        LinkedHashMap<String, Object> condMap = QueryBeanAdapter.extractNestedFields2Map(t);
         return new QueryList<>(coordinator.queryByMap(super.beanClass, condMap));
     }
 

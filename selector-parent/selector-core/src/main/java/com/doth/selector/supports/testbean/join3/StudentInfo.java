@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.Date;
 
 /**
  * @author YourName
  * @creTime 2025-06-20
  * @desc 学生信息实体
  */
-@Entity
+@QueryBean
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,7 +41,7 @@ public class StudentInfo {
     private Double gpa;
     private String biography;
 
-    @Join(fk = "major_id", refFK = "major_id")
+    @Join(fk = "major_id", refPK = "major_id")
     private MajorInfo majorInfo;
 
     @DTOConstructor(id = "baseStudentInfo")

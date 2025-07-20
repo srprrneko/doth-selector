@@ -2,13 +2,13 @@ package com.doth.selector.coordinator.supports.sql.tool;
 
 import com.doth.selector.anno.DependOn;
 import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneTo1Break;
+import com.doth.selector.anno.OneTo1Breaker;
 import com.doth.selector.anno.Pk;
 import com.doth.selector.common.dto.DTOJoinInfo;
 import com.doth.selector.common.dto.DTOJoinInfoFactory;
 import com.doth.selector.common.dto.DTOSelectFieldsListFactory;
 import com.doth.selector.common.dto.JoinDefInfo;
-import com.doth.selector.common.exception.NonPrimaryKeyException;
+import com.doth.selector.common.exception.mapping.NonPrimaryKeyException;
 import com.doth.selector.common.util.AnnoNamingConvertUtil;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
@@ -314,9 +314,9 @@ public class AutoQueryGenerator {
         Class<?> target = field.getType(); // 获取从属实体clz
 
         // 拦截一对一场景下的join子句生成
-        boolean isOneToOne = field.isAnnotationPresent(OneTo1Break.class);
+        boolean isOneToOne = field.isAnnotationPresent(OneTo1Breaker.class);
         if (alreadyPrecessed.contains(target) && isOneToOne) {
-            return; // OneTo1Break 安全跳过
+            return; // OneTo1Breaker 安全跳过
         }
 
         String nextAlias = "t" + joinLevel;
@@ -350,18 +350,18 @@ public class AutoQueryGenerator {
     /**
      * 循环依赖检测：
      * - 尝试把 curClz 加入到 alreadyPrecessed；
-     * - 如果已存在且所有 ancestorJoins 上的字段都没标 @OneTo1Break，则视为非法循环，抛异常；
-     * - 如果遇到 @OneTo1Break，则安全中断当前分支。
+     * - 如果已存在且所有 ancestorJoins 上的字段都没标 @OneTo1Breaker，则视为非法循环，抛异常；
+     * - 如果遇到 @OneTo1Breaker，则安全中断当前分支。
      */
     private void checkRefCycle(Class<?> curClz, Set<Field> ancestorJoins) {
         if (!alreadyPrecessed.add(curClz)) {
             for (Field f : ancestorJoins) {
-                if (f.isAnnotationPresent(OneTo1Break.class)) {
-                    // OneTo1Break 情况下可安全终止
+                if (f.isAnnotationPresent(OneTo1Breaker.class)) {
+                    // OneTo1Breaker 情况下可安全终止
                     return;
                 }
             }
-            throw new RuntimeException("检测到未标注 @OneTo1Break 的循环引用: " + curClz.getSimpleName());
+            throw new RuntimeException("检测到未标注 @OneTo1Breaker 的循环引用: " + curClz.getSimpleName());
         }
     }
 

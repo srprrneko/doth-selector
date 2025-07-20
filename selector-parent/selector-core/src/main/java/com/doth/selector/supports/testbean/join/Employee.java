@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@QueryBean
 public class Employee {
 
     @Pk
@@ -30,7 +30,7 @@ public class Employee {
 
     private Integer age;
 
-    @Join(fk = "d_id", refFK = "id")
+    @Join(fk = "d_id", refPK = "id")
     private Department department;
 
 
@@ -185,7 +185,7 @@ public class Employee {
                 }
 
     实体信息:
-                @Entity
+                @QueryBean
                 public class Employee {
 
                     @Pk
@@ -199,7 +199,7 @@ public class Employee {
                     private Department department;
                     ...
                 }
-                @Entity
+                @QueryBean
                 public class Department {
 
                     @Pk
@@ -211,7 +211,7 @@ public class Employee {
                     private Company company;
                     ...
                 }
-                @Entity
+                @QueryBean
                 public class Company {
 
                     @Pk

@@ -1,6 +1,6 @@
 package com.doth.selector.executor.supports;
 
-import com.doth.selector.common.exception.NonUniqueResultException;
+import com.doth.selector.common.exception.mapping.NonUniqueResultException;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class QueryList<T> extends ArrayList<T> {
     }
 
     /**
-     * 将实体列表转换为 DTO 列表，使用 Spring BeanUtils 复制属性
+     * 将实体列表转换为 DTO 列表, 当前 仅支持方法引用的lambda条件, 如需要 也可以使用selector提供的api >> f(lambda)
      * @param dtoClass 目标 DTO 类型
      */
     public <D> QueryList<D> toDto(Class<D> dtoClass) {

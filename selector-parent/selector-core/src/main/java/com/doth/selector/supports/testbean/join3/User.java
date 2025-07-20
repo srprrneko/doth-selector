@@ -10,8 +10,8 @@ public class User {
 
     private String name;
 
-    @Join(fk = "department_id", refFK = "id")
-    // @OneTo1Break
+    @Join(fk = "department_id", refPK = "id")
+    // @OneTo1Breaker
     private DepartmentInfo departmentInfo;
 
     // @Join(fk = "employee_id", refFK = "id")

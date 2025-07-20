@@ -1,7 +1,7 @@
 package com.doth.selector.supports.testbean;
 
 
-import com.doth.selector.anno.Entity;
+import com.doth.selector.anno.QueryBean;
 
 /**
  * @project: classFollowing
@@ -11,7 +11,7 @@ import com.doth.selector.anno.Entity;
  * @desc: TODO
  * @v: 1.0
  */
-@Entity
+@QueryBean
 public class User {
     private Integer id;
     private String username;

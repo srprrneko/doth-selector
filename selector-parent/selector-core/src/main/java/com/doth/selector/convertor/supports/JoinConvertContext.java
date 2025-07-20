@@ -7,9 +7,11 @@ import lombok.Getter;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.sql.ResultSet;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,11 +29,12 @@ public class JoinConvertContext {
     public static final Map<Class<?>, Map<String, Field>> FIELD_NAME_CACHE = new ConcurrentHashMap<>();
 
     /**
-     * 判断一个 Bean 的所有简单字段是否全为 null
+     * 所有的字段是否都是空, 浅探测
      */
     public static boolean isAllFieldsNull(Object bean, MetaMap metaMap) {
         try {
-            for (Field f : metaMap.getFieldMeta().keySet()) {
+            Set<Field> fields = metaMap.getFieldMeta().keySet();
+            for (Field f : fields) {
                 if (f.get(bean) != null) {
                     return false;
                 }
@@ -43,18 +46,49 @@ public class JoinConvertContext {
 
     /**
      * 通过 MethodHandle 给字段赋值
+     * 使用标准查找 (findSetter / privateLookupIn) 替换 unreflectSetter，减少反射中间层开销。
      */
     public static void setFieldValue(Object target, Field field, Object value) throws Throwable {
         MethodHandle setter = SETTER_CACHE.computeIfAbsent(field, f -> {
             try {
-                return MethodHandles.lookup().unreflectSetter(f);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("赋值失败: " + e.getMessage(), e);
+                // 确保可访问 主要为了 getModifiers / privateLookupIn 前不抛异常
+                if (!f.canAccess(target)) {
+                    f.setAccessible(true);
+                }
+                // 准备所处类 满足非游离字段规则, 反射转换底层实际也做了对应的逻辑
+                Class<?> declaring = f.getDeclaringClass();
+                MethodHandles.Lookup lookup = MethodHandles.lookup();
+
+                // ---- 提升lookup视角: 当前类 >> 所属类
+                int mods = f.getModifiers();
+                // 如果类或字段不是 public, 则切换到"声明类本身的 Lookup"以获得私有/包级访问权限
+                boolean needPrivate =
+                        !Modifier.isPublic(declaring.getModifiers()) ||
+                                !Modifier.isPublic(mods);
+
+                if (needPrivate) {
+                    lookup = MethodHandles.privateLookupIn(declaring, lookup); // 获取访问锁
+                }
+                // ---- 结束
+
+                // 直接标准方式查找 setter (比 unreflectSetter 少一层 Field -> MH 的转换逻辑)
+                return lookup.findSetter(declaring, f.getName(), f.getType());
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                throw new RuntimeException("创建字段setter句柄失败: " + f, e);
             }
         });
+        // 使用通用 invoke, 自动适配装拆箱（避免 invokeExact 要求精确签名）
         setter.invoke(target, value);
     }
 
+    /**
+     * 带类型转换工厂逻辑 的字段赋值重载
+     *
+     * @param target      目标类
+     * @param field       目标字段
+     * @param rs          结果集
+     * @param columnLabel 当前处理的查询列列文本
+     */
     public static void setFieldValue(Object target, Field field, ResultSet rs, String columnLabel) throws Throwable {
         FieldConvertor convertor = FieldConvertorFactory.getConvertor(field.getType(), field);
         Object value = convertor.convert(rs, columnLabel);

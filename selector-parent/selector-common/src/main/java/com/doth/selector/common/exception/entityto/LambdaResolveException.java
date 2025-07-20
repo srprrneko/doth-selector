@@ -1,9 +1,9 @@
-package com.doth.selector.supports.exception;
+package com.doth.selector.common.exception.entityto;
 
-/**
- * Lambda 字段路径解析顶级异常
- */
-public class LambdaResolveException extends RuntimeException {
+import com.doth.selector.common.exception.SelectorException;
+
+
+public class LambdaResolveException extends SelectorException {
 
     public LambdaResolveException(String message) {
         super(message);

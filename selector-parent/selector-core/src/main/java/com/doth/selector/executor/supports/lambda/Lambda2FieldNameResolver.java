@@ -1,9 +1,9 @@
 package com.doth.selector.executor.supports.lambda;
 
 import com.doth.selector.common.util.TypeResolver;
-import com.doth.selector.supports.exception.LambdaPathBuildException;
-import com.doth.selector.supports.exception.LambdaResolveException;
-import com.doth.selector.supports.exception.MethodReferenceResolveException;
+import com.doth.selector.common.exception.entityto.LambdaPathBuildException;
+import com.doth.selector.common.exception.entityto.LambdaResolveException;
+import com.doth.selector.common.exception.entityto.MethodReferenceResolveException;
 import com.doth.selector.supports.testbean.join.Employee;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.Enhancer;

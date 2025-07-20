@@ -2,7 +2,7 @@ package com.doth.selector.coordinator.core.process;
 
 import com.doth.selector.coordinator.core.ExecuteCoordinator;
 import com.doth.selector.coordinator.ResultSetMapper;
-import com.doth.selector.supports.adapter.EntityAdapter;
+import com.doth.selector.supports.adapter.QueryBeanAdapter;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
 import com.doth.selector.convertor.ConvertorType;
 import com.doth.selector.coordinator.supports.SelectGenerateFacade;
@@ -28,7 +28,7 @@ public class BasicExecuteCoordinator extends ExecuteCoordinator {
     @Override
     public <T> List<T> queryByMap(Class<T> beanClass, LinkedHashMap<String, Object> cond) {
         String sql = SelectGenerateFacade.generate4map(beanClass, cond);
-        Object[] params = EntityAdapter.buildParams4CondMap(cond);
+        Object[] params = QueryBeanAdapter.buildParams4CondMap(cond);
         return executeQuery(beanClass, sql, params);
     }
 
@@ -42,7 +42,7 @@ public class BasicExecuteCoordinator extends ExecuteCoordinator {
     @Override
     public <T> List<T> queryByMapVzClause(Class<T> beanClass, LinkedHashMap<String, Object> cond, String strClause) {
         String sql = SelectGenerateFacade.generate4mapVzClause(beanClass, cond, strClause);
-        Object[] params =  EntityAdapter.buildParams4CondMap(cond);
+        Object[] params =  QueryBeanAdapter.buildParams4CondMap(cond);
         return executeQuery(beanClass, sql, params);
     }
 

@@ -60,10 +60,10 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         List<ParamInfo> params = parseParams(ctorElem);
         for (ParamInfo info : params) {
             cls.addField(FieldSpec.builder(
-                            TypeName.get(info.param.asType()),
-                            info.fieldName,
-                            Modifier.PRIVATE
-                    ).build());
+                    TypeName.get(info.param.asType()),
+                    info.fieldName,
+                    Modifier.PRIVATE
+            ).build());
         }
 
         cls.addMethod(buildConstructor(entityClass, params));
@@ -93,7 +93,6 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         }
         List<ParamInfo> result = new ArrayList<>();
         boolean inChain = false;
-        String chainAttr = null;
         for (VariableElement p : parameters) {
             String raw = p.getSimpleName().toString();
             ParamInfo info = new ParamInfo();
@@ -104,7 +103,6 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 info.isJoin = false;
                 info.fieldName = raw;
                 inChain = false;
-                chainAttr = null;
             } else {
                 info.isJoin = true;
                 String prefix = raw.substring(0, raw.indexOf('_'));
@@ -113,10 +111,8 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 info.base = base;
                 if (info.jl != null) {
                     inChain = true;
-                    chainAttr = getPropNameFromJoinLevel(info.jl);
                 } else if (info.nx != null) {
                     inChain = true;
-                    chainAttr = getPropNameFromNext(info.nx);
                 } else if (!inChain) {
                     info.isJoin = false;
                     info.fieldName = raw;
@@ -224,7 +220,7 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
             int idxDot = ji.getAttrPath().lastIndexOf('.');
             String parent = idxDot > 0 ? pathAlias.get(ji.getAttrPath().substring(0, idxDot)) : "t0";
             defs.add(CodeBlock.of("new $T($S,$S,$S,$S,$S)", JoinDefInfo.class,
-                    table, ann.fk(), ann.refFK(), ji.getAlias(), parent));
+                    table, ann.fk(), ann.refPK(), ji.getAlias(), parent));
         }
         cb.addStatement("$T.register($T.class, $S, new $T($T.of($L)))",
                 DTOJoinInfoFactory.class, entityType, dtoId,

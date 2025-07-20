@@ -1,6 +1,6 @@
 package com.doth.selector.supports.adapter;
 
-import com.doth.selector.supports.exception.ExtractFieldsFailedException;
+import com.doth.selector.common.exception.entityto.ExtractFieldsFailedException;
 import com.doth.selector.supports.testbean.join.Company;
 import com.doth.selector.supports.testbean.join.Department;
 import com.doth.selector.supports.testbean.join.Employee;
@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * <p>实体到sql的适配器 用于字段提取和参数处理</p>
  */
-public class EntityAdapter {
+public class QueryBeanAdapter {
 
     /**
      * 通过实体对应着数据库列名的特点, 让实体属性自动为键, 免去map频繁指定键的繁琐操作

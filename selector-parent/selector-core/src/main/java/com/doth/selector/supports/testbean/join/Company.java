@@ -1,7 +1,7 @@
 package com.doth.selector.supports.testbean.join;
 
 import com.doth.selector.anno.DTOConstructor;
-import com.doth.selector.anno.Entity;
+import com.doth.selector.anno.QueryBean;
 import com.doth.selector.anno.Pk;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
  * @desc: TODO
  * @v: 1.0
  */
-@Entity
+@QueryBean
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

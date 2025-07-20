@@ -1,7 +1,7 @@
 package com.doth.selector.executor.query.basic.impl;
 
 import com.doth.selector.coordinator.ResultSetMapper;
-import com.doth.selector.supports.adapter.EntityAdapter;
+import com.doth.selector.supports.adapter.QueryBeanAdapter;
 import com.doth.selector.executor.query.BasicKindQueryExecutor;
 
 import java.util.LinkedHashMap;
@@ -20,7 +20,7 @@ public class DirectQueryExecutor<T> extends BasicKindQueryExecutor<T> {
     }
 
     public List<T> query2Lst(T t) {
-        LinkedHashMap<String, Object> condMap = EntityAdapter.extractType2FieldsMap(t);
+        LinkedHashMap<String, Object> condMap = QueryBeanAdapter.extractType2FieldsMap(t);
         return coordinator.queryByMap(beanClass, condMap);
     }
 

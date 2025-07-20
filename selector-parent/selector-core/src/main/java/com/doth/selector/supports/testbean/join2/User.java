@@ -7,6 +7,6 @@ public class User {
     private Integer id;
     private String name;
 
-    @Join(fk = "profile_id", refFK = "id") // 关联 profile 表
+    @Join(fk = "profile_id", refPK = "id") // 关联 profile 表
     private Profile profile;
 }
