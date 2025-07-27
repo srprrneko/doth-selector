@@ -106,7 +106,7 @@ public class Employee {
                 @MainLevel
                     Integer id, String name,
                 @JoinLevel(clz = Department.class, attrName = "department")
-                    String dep_name
+                    String _name
     ) {}
 
     /*

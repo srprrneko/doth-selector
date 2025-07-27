@@ -5,12 +5,15 @@ import com.doth.selector.anno.Next;
 import com.doth.selector.common.util.NamingConvertUtil;
 
 import javax.lang.model.element.VariableElement;
-import java.util.Objects;
 
 /**
  * 表示参数的信息, 用于推测还原
  */
 class ParamInfo {
+
+
+    ParamInfo() {
+    }
 
     ParamInfo(VariableElement param) {
         this.param = param;
@@ -63,8 +66,14 @@ class ParamInfo {
 
     void init4JNormalMod(VariableElement p) {
         this.isJoin = false;
-        this.finalFName = param.getSimpleName().toString();
+        this.finalFName = rawArgName;
     }
+
+    void init(VariableElement param) {
+        this.jl = param.getAnnotation(JoinLevel.class);
+        this.nx = param.getAnnotation(Next.class);
+    }
+
 
     void init4JoinMod(VariableElement param) {
         this.jl = param.getAnnotation(JoinLevel.class);
@@ -73,10 +82,10 @@ class ParamInfo {
 
         this.prefix = rawArgName.substring(0, rawArgName.indexOf('_'));
 
-        if (prefix == "") {
-            // prefix = NamingConvertUtil.lowerFstLetter(entityClz.simpleName(), false);
-            prefix = NamingConvertUtil.lowerFstLetter("dep", false);
-        }
+        // if (this.prefix.equals("")) {
+        //     // prefix = NamingConvertUtil.lowerFstLetter(entityClz.simpleName(), false);
+        //     this.prefix = "dep";
+        // }
         System.out.println("prefix = " + prefix);
         this.originName = rawArgName.substring(rawArgName.indexOf('_') + 1);
 

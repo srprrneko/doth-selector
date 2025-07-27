@@ -5,30 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d964a61f-105a-4dbd-b68f-6670417f7989" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/JoinChainResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/JoinInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/ParamInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/DTOConstructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/DTOConstructor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/Join.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/Join.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/MainLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/MainLevel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/util/AnnoNamingConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/util/AnnoNamingConvertUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/util/NamingConvertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-common/src/main/java/com/doth/selector/common/util/NamingConvertUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/convertor/BeanConvertorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/convertor/BeanConvertorFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/convertor/strict/CommonBeanConvertor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/convertor/strict/CommonBeanConvertorLv.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/coordinator/supports/SelectGenerateFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/coordinator/supports/SelectGenerateFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/coordinator/supports/sql/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/coordinator/supports/sql/tool/AutoQueryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/executor/supports/builder/BuilderPage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/executor/supports/builder/ConditionBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/executor/supports/lambda/Lambda2FieldNameResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/executor/supports/lambda/Lambda2FieldNameResolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/adapter/QueryBeanAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/adapter/QueryBeanAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Department.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/DTOConstructorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/DTOConstructorProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/supports/DaoImplGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/supports/DaoImplGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/DTOConstructorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/DTOConstructorProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/ParamInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/ParamInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,7 +284,7 @@
       <workItem from="1751896642524" duration="4397000" />
       <workItem from="1751901095881" duration="28917000" />
       <workItem from="1752170604615" duration="134695000" />
-      <workItem from="1753597310901" duration="16072000" />
+      <workItem from="1753597310901" duration="19422000" />
     </task>
     <servers />
   </component>
