@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Employee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/DTOConstructorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/DTOConstructorProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/ParamInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/ParamInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,7 +283,7 @@
       <workItem from="1751896642524" duration="4397000" />
       <workItem from="1751901095881" duration="28917000" />
       <workItem from="1752170604615" duration="134695000" />
-      <workItem from="1753597310901" duration="19422000" />
+      <workItem from="1753597310901" duration="19869000" />
     </task>
     <servers />
   </component>

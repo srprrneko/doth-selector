@@ -156,238 +156,217 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         }
 
         List<ParamInfo> result = new ArrayList<>();
-        // boolean inChain = false;
         for (VariableElement p : parameters) {
-            // String raw = p.getSimpleName().toString();
             ParamInfo info = new ParamInfo(p);
-            // info.param = p;
-            // info.jl = p.getAnnotation(JoinLevel.class);
-            // info.nx = p.getAnnotation(Next.class);
-
             if (!info.rawArgName.contains("_")) {
-                // info.isJoin = false;
-                // info.finalFName = info.rawArgName;
-                // inChain = false;
-
                 info.init4JNormalMod(p);
             } else {
-                // info.isJoin = true;
-                // String prefix = info.rawArgName.substring(0, info.rawArgName.indexOf('_'));
-                // String base = raw.substring(raw.indexOf('_') + 1);
-                // info.prefix = prefix;
-                // info.originName = base;
                 info.init4JoinMod(p);
                 if (info.prefix.equals("")) { // 也可以isEmpty, 不能 == ""
                     info.prefix = "t" + sameName2Count.get(info.originName).toString();
                 }
 
-                    // if (info.jl != null || info.nx != null) {
-                    //     inChain = true;
-                    // } else if (!inChain) {
-                    //     info.isJoin = false;
-                    //     info.finalFName = info.rawArgName;
-                    // }
-
-                    // if (info.isJoin) {
-                    boolean conflict =
-                            processedName.contains(info.originName);
-                    // || sameName2Count.getOrDefault(info.originName, 0) > 1;
-                    info.finalFName = conflict
-                            ? info.prefix + NamingConvertUtil.upperFstLetter(info.originName, false)
-                            : info.originName;
-                    // }
-                }
-                result.add(info);
-            }
-            return result;
-        }
-
-        private MethodSpec buildConstructor (TypeElement entity, List < ParamInfo > params){
-            String var = NamingConvertUtil.lowerFstLetter(entity.getSimpleName().toString(), false);
-            MethodSpec.Builder mb = MethodSpec.constructorBuilder()
-                    .addModifiers(Modifier.PUBLIC)
-                    .addParameter(ClassName.get(entity), var);
-
-            Map<String, String> prefixPath = new HashMap<>();
-            boolean chain = false;
-            String currentPath = null;
-
-            for (ParamInfo info : params) {
-                String fn = info.finalFName, raw = info.param.getSimpleName().toString();
-                if (!info.isJoin) {
-                    mb.addStatement("this.$L = $L.get$L()",
-                            fn, var, NamingConvertUtil.upperFstLetter(raw, false));
-                } else {
-                    if (info.jl != null || !chain) {
-                        chain = true;
-                        prefixPath.clear();
-                        currentPath = var + ".get"
-                                + NamingConvertUtil.upperFstLetter(getPropName(info.jl), false) + "()";
-                        prefixPath.put(info.prefix, currentPath);
-                    } else if (info.nx != null) {
-                        String prev = currentPath;
-                        currentPath = prev + ".get"
-                                + NamingConvertUtil.upperFstLetter(getPropName(info.nx), false) + "()";
-                        prefixPath.put(info.prefix, currentPath);
-                    }
-                    String path = prefixPath.get(info.prefix);
-                    if (path != null) {
-                        mb.addStatement("this.$L = $L.get$L()",
-                                fn, path, NamingConvertUtil.upperFstLetter(info.originName, false));
-                    } else {
-                        mb.addComment("未定义关联前缀 '$L' 对应字段 $L",
-                                info.prefix, fn);
-                    }
+                boolean conflict =
+                        processedName.contains(info.originName);
+                info.finalFName = conflict
+                        ? info.prefix + NamingConvertUtil.upperFstLetter(info.originName, false)
+                        : info.originName;
+                if (!isAutoPrefix) {
+                    info.finalFName =
+                            info.prefix + NamingConvertUtil.upperFstLetter(info.originName, false);
                 }
             }
-            return mb.build();
+            result.add(info);
         }
-
-        private JoinChainResult processJoinChains (List < ParamInfo > params, TypeElement entityClass){
-            List<String> selects = new ArrayList<>();
-            List<JoinInfo> joins = new ArrayList<>();
-            Map<String, String> prefixAlias = new HashMap<>();
-            int idx = 1;
-            boolean chain = false;
-            String currentAttr = null;
-
-            for (ParamInfo info : params) {
-                if (!info.isJoin) {
-                    selects.add("t0." + info.param.getSimpleName());
-                } else {
-                    if (info.jl != null || !chain) {
-                        chain = true;
-                        prefixAlias.clear();
-                        String alias = "t" + idx++;
-                        prefixAlias.put(info.prefix, alias);
-                        currentAttr = info.jl != null
-                                ? getPropName(info.jl)
-                                : info.prefix;
-                        joins.add(new JoinInfo(currentAttr, alias));
-                        selects.add(alias + "." + info.originName);
-                    } else if (info.nx != null) {
-                        String alias = "t" + idx++;
-                        prefixAlias.put(info.prefix, alias);
-                        currentAttr = currentAttr + "." + getPropName(info.nx);
-                        joins.add(new JoinInfo(currentAttr, alias));
-                        selects.add(alias + "." + info.originName);
-                    } else if (prefixAlias.containsKey(info.prefix)) {
-                        selects.add(prefixAlias.get(info.prefix) + "." + info.originName);
-                    } else {
-                        selects.add("t?." + info.originName);
-                    }
-                }
-            }
-
-            // filter invalid join paths
-            List<JoinInfo> valid = joins.stream()
-                    .filter(j -> resolveJoinField(entityClass, j.getAttrPath()) != null)
-                    .collect(Collectors.toList());
-
-            return new JoinChainResult(selects, valid);
-        }
-
-        private CodeBlock buildStaticInitBlock (
-                ClassName entityType,
-                String pkg,
-                String dtoId,
-                List < String > selectFields,
-                List < JoinInfo > joinInfos,
-                TypeElement entityClass
-    ){
-            CodeBlock.Builder cb = CodeBlock.builder()
-                    .addStatement("$T.register($T.class, $S, $T.class)",
-                            DTOFactory.class, entityType, dtoId,
-                            ClassName.get(pkg,
-                                    NamingConvertUtil.upperFstLetter(dtoId, false)))
-                    .addStatement("$T __select = new $T<>()",
-                            ParameterizedTypeName.get(List.class, String.class),
-                            ArrayList.class);
-
-            for (String f : selectFields) {
-                cb.addStatement("__select.add($S)", f);
-            }
-            cb.addStatement("$T.register($T.class, $S, __select)",
-                    DTOSelectFieldsListFactory.class, entityType, dtoId);
-
-            // prepare join definitions
-            Map<String, String> pathAlias = new LinkedHashMap<>();
-            for (JoinInfo ji : joinInfos) {
-                pathAlias.put(ji.getAttrPath(), ji.getAlias());
-            }
-
-            List<CodeBlock> defs = new ArrayList<>();
-            for (JoinInfo ji : joinInfos) {
-                VariableElement field = resolveJoinField(entityClass, ji.getAttrPath());
-                Join ann = field.getAnnotation(Join.class);
-                String table = NamingConvertUtil.camel2Snake(
-                        ((TypeElement)
-                                ((DeclaredType) field.asType())
-                                        .asElement()
-                        ).getSimpleName().toString()
-                );
-                int idxDot = ji.getAttrPath().lastIndexOf('.');
-                String parent = idxDot > 0
-                        ? pathAlias.get(
-                        ji.getAttrPath().substring(0, idxDot))
-                        : "t0";
-                defs.add(CodeBlock.of("new $T($S,$S,$S,$S,$S)",
-                        JoinDefInfo.class,
-                        table, ann.fk(), ann.refPK(),
-                        ji.getAlias(), parent
-                ));
-            }
-            cb.addStatement("$T.register($T.class, $S, new $T($T.of($L)))",
-                    DTOJoinInfoFactory.class, entityType, dtoId,
-                    DTOJoinInfo.class, List.class,
-                    CodeBlock.join(defs, ", "));
-            return cb.build();
-        }
-
-        /**
-         * 统一解析注解属性：优先使用 explicit，否则通过捕获 MirroredTypeException 获取类名
-         */
-        private String resolvePropName (String explicit, Runnable clzCall){
-            if (!explicit.isEmpty()) {
-                return explicit;
-            }
-            try {
-                clzCall.run();
-            } catch (MirroredTypeException m) {
-                TypeElement te = (TypeElement) ((DeclaredType) m.getTypeMirror()).asElement();
-                return NamingConvertUtil.lowerFstLetter(te.getSimpleName().toString(), false);
-            }
-            return "";
-        }
-
-        private String getPropName (JoinLevel jl){
-            return resolvePropName(jl.attrName(), () -> jl.clz());
-        }
-
-        private String getPropName (Next nx){
-            return resolvePropName(nx.attrName(), () -> nx.clz());
-        }
-
-        private VariableElement resolveJoinField (TypeElement root, String path){
-            String[] segs = path.split("\\.");
-            TypeElement cur = root;
-            VariableElement found = null;
-            for (int i = 0; i < segs.length; i++) {
-                found = null;
-                for (Element e : cur.getEnclosedElements()) {
-                    if (e.getKind() == ElementKind.FIELD
-                            && e.getSimpleName().contentEquals(segs[i])) {
-                        found = (VariableElement) e;
-                        break;
-                    }
-                }
-                if (found == null) {
-                    return null;
-                }
-                if (i < segs.length - 1) {
-                    cur = (TypeElement) ((DeclaredType) found.asType()).asElement();
-                }
-            }
-            return found;
-        }
+        return result;
     }
+
+    private MethodSpec buildConstructor(TypeElement entity, List<ParamInfo> params) {
+        String var = NamingConvertUtil.lowerFstLetter(entity.getSimpleName().toString(), false);
+        MethodSpec.Builder mb = MethodSpec.constructorBuilder()
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(ClassName.get(entity), var);
+
+        Map<String, String> prefixPath = new HashMap<>();
+        boolean chain = false;
+        String currentPath = null;
+
+        for (ParamInfo info : params) {
+            String fn = info.finalFName, raw = info.param.getSimpleName().toString();
+            if (!info.isJoin) {
+                mb.addStatement("this.$L = $L.get$L()",
+                        fn, var, NamingConvertUtil.upperFstLetter(raw, false));
+            } else {
+                if (info.jl != null || !chain) {
+                    chain = true;
+                    prefixPath.clear();
+                    currentPath = var + ".get"
+                            + NamingConvertUtil.upperFstLetter(getPropName(info.jl), false) + "()";
+                    prefixPath.put(info.prefix, currentPath);
+                } else if (info.nx != null) {
+                    String prev = currentPath;
+                    currentPath = prev + ".get"
+                            + NamingConvertUtil.upperFstLetter(getPropName(info.nx), false) + "()";
+                    prefixPath.put(info.prefix, currentPath);
+                }
+                String path = prefixPath.get(info.prefix);
+                if (path != null) {
+                    mb.addStatement("this.$L = $L.get$L()",
+                            fn, path, NamingConvertUtil.upperFstLetter(info.originName, false));
+                } else {
+                    mb.addComment("未定义关联前缀 '$L' 对应字段 $L",
+                            info.prefix, fn);
+                }
+            }
+        }
+        return mb.build();
+    }
+
+    private JoinChainResult processJoinChains(List<ParamInfo> params, TypeElement entityClass) {
+        List<String> selects = new ArrayList<>();
+        List<JoinInfo> joins = new ArrayList<>();
+        Map<String, String> prefixAlias = new HashMap<>();
+        int idx = 1;
+        boolean chain = false;
+        String currentAttr = null;
+
+        for (ParamInfo info : params) {
+            if (!info.isJoin) {
+                selects.add("t0." + info.param.getSimpleName());
+            } else {
+                if (info.jl != null || !chain) {
+                    chain = true;
+                    prefixAlias.clear();
+                    String alias = "t" + idx++;
+                    prefixAlias.put(info.prefix, alias);
+                    currentAttr = info.jl != null
+                            ? getPropName(info.jl)
+                            : info.prefix;
+                    joins.add(new JoinInfo(currentAttr, alias));
+                    selects.add(alias + "." + info.originName);
+                } else if (info.nx != null) {
+                    String alias = "t" + idx++;
+                    prefixAlias.put(info.prefix, alias);
+                    currentAttr = currentAttr + "." + getPropName(info.nx);
+                    joins.add(new JoinInfo(currentAttr, alias));
+                    selects.add(alias + "." + info.originName);
+                } else if (prefixAlias.containsKey(info.prefix)) {
+                    selects.add(prefixAlias.get(info.prefix) + "." + info.originName);
+                } else {
+                    selects.add("t?." + info.originName);
+                }
+            }
+        }
+
+        // filter invalid join paths
+        List<JoinInfo> valid = joins.stream()
+                .filter(j -> resolveJoinField(entityClass, j.getAttrPath()) != null)
+                .collect(Collectors.toList());
+
+        return new JoinChainResult(selects, valid);
+    }
+
+    private CodeBlock buildStaticInitBlock(
+            ClassName entityType,
+            String pkg,
+            String dtoId,
+            List<String> selectFields,
+            List<JoinInfo> joinInfos,
+            TypeElement entityClass
+    ) {
+        CodeBlock.Builder cb = CodeBlock.builder()
+                .addStatement("$T.register($T.class, $S, $T.class)",
+                        DTOFactory.class, entityType, dtoId,
+                        ClassName.get(pkg,
+                                NamingConvertUtil.upperFstLetter(dtoId, false)))
+                .addStatement("$T __select = new $T<>()",
+                        ParameterizedTypeName.get(List.class, String.class),
+                        ArrayList.class);
+
+        for (String f : selectFields) {
+            cb.addStatement("__select.add($S)", f);
+        }
+        cb.addStatement("$T.register($T.class, $S, __select)",
+                DTOSelectFieldsListFactory.class, entityType, dtoId);
+
+        // prepare join definitions
+        Map<String, String> pathAlias = new LinkedHashMap<>();
+        for (JoinInfo ji : joinInfos) {
+            pathAlias.put(ji.getAttrPath(), ji.getAlias());
+        }
+
+        List<CodeBlock> defs = new ArrayList<>();
+        for (JoinInfo ji : joinInfos) {
+            VariableElement field = resolveJoinField(entityClass, ji.getAttrPath());
+            Join ann = field.getAnnotation(Join.class);
+            String table = NamingConvertUtil.camel2Snake(
+                    ((TypeElement)
+                            ((DeclaredType) field.asType())
+                                    .asElement()
+                    ).getSimpleName().toString()
+            );
+            int idxDot = ji.getAttrPath().lastIndexOf('.');
+            String parent = idxDot > 0
+                    ? pathAlias.get(
+                    ji.getAttrPath().substring(0, idxDot))
+                    : "t0";
+            defs.add(CodeBlock.of("new $T($S,$S,$S,$S,$S)",
+                    JoinDefInfo.class,
+                    table, ann.fk(), ann.refPK(),
+                    ji.getAlias(), parent
+            ));
+        }
+        cb.addStatement("$T.register($T.class, $S, new $T($T.of($L)))",
+                DTOJoinInfoFactory.class, entityType, dtoId,
+                DTOJoinInfo.class, List.class,
+                CodeBlock.join(defs, ", "));
+        return cb.build();
+    }
+
+    /**
+     * 统一解析注解属性：优先使用 explicit，否则通过捕获 MirroredTypeException 获取类名
+     */
+    private String resolvePropName(String explicit, Runnable clzCall) {
+        if (!explicit.isEmpty()) {
+            return explicit;
+        }
+        try {
+            clzCall.run();
+        } catch (MirroredTypeException m) {
+            TypeElement te = (TypeElement) ((DeclaredType) m.getTypeMirror()).asElement();
+            return NamingConvertUtil.lowerFstLetter(te.getSimpleName().toString(), false);
+        }
+        return "";
+    }
+
+    private String getPropName(JoinLevel jl) {
+        return resolvePropName(jl.attrName(), () -> jl.clz());
+    }
+
+    private String getPropName(Next nx) {
+        return resolvePropName(nx.attrName(), () -> nx.clz());
+    }
+
+    private VariableElement resolveJoinField(TypeElement root, String path) {
+        String[] segs = path.split("\\.");
+        TypeElement cur = root;
+        VariableElement found = null;
+        for (int i = 0; i < segs.length; i++) {
+            found = null;
+            for (Element e : cur.getEnclosedElements()) {
+                if (e.getKind() == ElementKind.FIELD
+                        && e.getSimpleName().contentEquals(segs[i])) {
+                    found = (VariableElement) e;
+                    break;
+                }
+            }
+            if (found == null) {
+                return null;
+            }
+            if (i < segs.length - 1) {
+                cur = (TypeElement) ((DeclaredType) found.asType()).asElement();
+            }
+        }
+        return found;
+    }
+}

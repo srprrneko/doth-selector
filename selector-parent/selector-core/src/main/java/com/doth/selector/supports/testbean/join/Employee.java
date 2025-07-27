@@ -83,7 +83,7 @@ public class Employee {
     @DTOConstructor(id = "empSimple")
     private Employee(Integer id, String name, Integer age) {}
 
-    @DTOConstructor(id = "baseEmpInfo")
+    @DTOConstructor(id = "baseEmpInfo", autoPrefix = false)
     private Employee(
                 @MainLevel
                     String name,
