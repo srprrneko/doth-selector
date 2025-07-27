@@ -12,12 +12,14 @@ import java.util.regex.Pattern;
  */
 public class NamingConvertUtil {
 
-    // 字段名缓存：最大 1000 项，10 分钟过期
+    /** 私有静态缓存区 */
+    // 字段名缓存: 最大 1000 项, 10 分钟过期
     private static final Cache<String, String> CAMEL_TO_SNAKE_CACHE =
             Caffeine.newBuilder()
                     .maximumSize(1000)
                     .expireAfterWrite(10, TimeUnit.MINUTES)
                     .build();
+
 
     private static final Cache<String, String> SNAKE_TO_CAMEL_CACHE =
             Caffeine.newBuilder()
@@ -25,18 +27,32 @@ public class NamingConvertUtil {
                     .expireAfterWrite(10, TimeUnit.MINUTES)
                     .build();
 
-    public static String camel2SnakeCase(String input) {
+
+    /**
+     * 驼峰转蛇形
+     * @param input 输入
+     * @return 输出转换好的字符串
+     */
+    public static String camel2Snake(String input) {
         if (input == null || input.isEmpty()) return "";
+        // 从缓存中拿, 避免重复计算,
         return CAMEL_TO_SNAKE_CACHE.get(input, NamingConvertUtil::doCamel2Snake);
     }
 
-    public static String snake2CamelCase(String input) {
+    /**
+     * 蛇形转驼峰
+     * @param input 输入
+     * @return 输出转换好的字符串
+     */
+    public static String snake2Camel(String input) {
         if (input == null || input.isEmpty()) return "";
+        // 从缓存中拿, 避免重复计算,
         return SNAKE_TO_CAMEL_CACHE.get(input, NamingConvertUtil::doSnake2Camel);
     }
 
-    public static String camel2SnakeCase(String sql, boolean isRaw) {
-        if (!isRaw) return camel2SnakeCase(sql);
+
+    public static String camel2Snake(String sql, boolean isRaw) {
+        if (!isRaw) return camel2Snake(sql);
         String regex = "(?<=[a-z0-9])[A-Z]";
         Matcher matcher = Pattern.compile(regex).matcher(sql);
         StringBuilder buffer = new StringBuilder();
@@ -50,6 +66,11 @@ public class NamingConvertUtil {
     }
 
     public static String upperFstLetter(String input, boolean checkStrict) {
+        return changeFirstLetterCase(input, checkStrict, true);
+
+    }
+
+    private static String changeFirstLetterCase(String input, boolean checkStrict, boolean toUpper) {
         if (input == null || input.isEmpty()) return input;
 
         if (checkStrict) {
@@ -62,16 +83,17 @@ public class NamingConvertUtil {
         }
 
         char firstChar = input.charAt(0);
-        // 如果第一个字母已经是大写，直接返回原字符串
-        if (Character.isUpperCase(firstChar)) {
-            return input;
-        }
-        if (Character.isLowerCase(firstChar)) {
-            firstChar = Character.toUpperCase(firstChar);
-        }
+        char changedChar = toUpper ? Character.toUpperCase(firstChar) : Character.toLowerCase(firstChar);
 
-        return firstChar + input.substring(1);
+        if (firstChar == changedChar) return input; // 已是目标大小写，无需修改
+
+        return changedChar + input.substring(1);
     }
+
+    public static String lowerFstLetter(String input, boolean checkStrict) {
+        return changeFirstLetterCase(input, checkStrict, false);
+    }
+
 
     public static void clearCache() {
         CAMEL_TO_SNAKE_CACHE.invalidateAll();
@@ -110,7 +132,7 @@ public class NamingConvertUtil {
     }
 
     public static void main(String[] args) {
-        String s = NamingConvertUtil.camel2SnakeCase("majorId");
+        String s = NamingConvertUtil.camel2Snake("majorId");
         System.out.println("s = " + s);
     }
 }

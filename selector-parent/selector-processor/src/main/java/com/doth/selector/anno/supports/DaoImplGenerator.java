@@ -122,7 +122,7 @@ public class DaoImplGenerator {
                 for (int i = 0; i < conds.size(); i++) {
                     DaoImplGeneratorHelper.ConditionStructure c = conds.get(i);
                     String key = helper.resolveFullColumnPath(entityType, c.fieldName, idx);
-                    key = NamingConvertUtil.camel2SnakeCase(key);
+                    key = NamingConvertUtil.camel2Snake(key);
                     String val = helper.formatQueryParameter(method.getParameters().get(i), c.operator);
                     code.add(String.format(".%s(\"%s\", %s)", c.operator, key, val));
                 }

@@ -122,7 +122,7 @@ public class JoinBeanConvertor implements BeanConvertor {
         Field[] fields = JoinConvertContext.getFields(clz);
 
         for (Field field : fields) {
-            String _fName = NamingConvertUtil.camel2SnakeCase(field.getName());
+            String _fName = NamingConvertUtil.camel2Snake(field.getName());
             String colName = prefix + _fName;
 
             // 实际上赋值的分支在else if里, if-join 分支是用于递归进入else-if里
@@ -192,7 +192,7 @@ public class JoinBeanConvertor implements BeanConvertor {
             // 统一主外键, 主/外键只要其一有值, 则赋值至从表主键
             if (fkValue != null || refValue != null) {
                 // 找从表主键字段
-                String joinKey = NamingConvertUtil.snake2CamelCase(refColumn);
+                String joinKey = NamingConvertUtil.snake2Camel(refColumn);
                 Field refField = JoinConvertContext.getField(
                         joinClz,
                         joinKey

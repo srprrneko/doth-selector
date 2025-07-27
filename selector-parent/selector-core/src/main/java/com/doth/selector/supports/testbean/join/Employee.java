@@ -33,6 +33,9 @@ public class Employee {
     @Join(fk = "d_id", refPK = "id")
     private Department department;
 
+    @Join(fk = "d_id", refPK = "id")
+    private Department mngDepartment;
+
 
 
     /*
@@ -78,26 +81,32 @@ public class Employee {
             !!方案取消!!
      */
     @DTOConstructor(id = "empSimple")
-    public Employee(Integer id, String name, Integer age) {}
+    private Employee(Integer id, String name, Integer age) {}
 
     @DTOConstructor(id = "baseEmpInfo")
-    public Employee(
+    private Employee(
                 @MainLevel
-                    Integer id,
                     String name,
+                    Integer id,
                 @JoinLevel(clz = Department.class, attrName = "department")
-                    Integer d_id,
-                    String d_name,
-                @Next(clz = Company.class, attrName = "company")
-                    String company_name
+                    Integer de_id,
+                    String de_name,
+                    String de_dAge,
+                    @Next(clz = Company.class, attrName = "company")
+                        String mngCompany_name,
+                @JoinLevel(clz = Department.class, attrName = "mngDepartment")
+                    Integer md_id,
+                    String md_name,
+                    @Next(clz = Company.class, attrName = "company")
+                        String company_name
     ) {}
 
     @DTOConstructor(id = "baseEmpDep")
-    public Employee(
+    private Employee(
                 @MainLevel
                     Integer id, String name,
-                @JoinLevel(clz = Department.class)
-                    String _name
+                @JoinLevel(clz = Department.class, attrName = "department")
+                    String dep_name
     ) {}
 
     /*

@@ -23,7 +23,7 @@ public class AnnoNamingConvertUtil {
             return nameExtractor.apply(annotation);
         }
         // 无注解时，将默认值转为蛇形命名
-        return NamingConvertUtil.camel2SnakeCase(defaultValue);
+        return NamingConvertUtil.camel2Snake(defaultValue);
     }
 
 

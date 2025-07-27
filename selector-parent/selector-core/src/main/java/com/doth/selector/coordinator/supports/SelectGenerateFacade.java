@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 
 import static com.doth.selector.supports.adapter.SqlNormalizer.replaceWildcard;
 import static com.doth.selector.coordinator.supports.sql.builder.SqlBuilder.buildWhereClause;
-import static com.doth.selector.common.util.NamingConvertUtil.camel2SnakeCase;
 import static com.doth.selector.coordinator.supports.sql.builder.SqlBuilder.buildFieldList;
 
 @Slf4j

@@ -297,7 +297,7 @@ public class AutoQueryGenerator {
             if (field.isAnnotationPresent(Join.class)) {
                 handleJoin(field, curAlias, ancestorJoins);
             } else if (!isDtoMod) {
-                String formatFName = NamingConvertUtil.camel2SnakeCase(field.getName());
+                String formatFName = NamingConvertUtil.camel2Snake(field.getName());
                 selectList.add(curAlias + "." + formatFName);
             }
         }
@@ -327,7 +327,7 @@ public class AutoQueryGenerator {
         // 非dto模式自动加入外键列查询
         if (!isDtoMod) {
             selectList.add(curAlias + "."
-                    + NamingConvertUtil.camel2SnakeCase(
+                    + NamingConvertUtil.camel2Snake(
                     field.getAnnotation(Join.class).fk()));
         }
 
@@ -340,7 +340,7 @@ public class AutoQueryGenerator {
                 field.getAnnotation(Join.class).fk(),
 
                 nextAlias,
-                NamingConvertUtil.camel2SnakeCase(pk.getName())
+                NamingConvertUtil.camel2Snake(pk.getName())
         ));
 
         joinLevel++;

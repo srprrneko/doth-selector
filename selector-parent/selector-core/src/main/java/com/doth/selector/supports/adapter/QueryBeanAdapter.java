@@ -102,11 +102,7 @@ public class QueryBeanAdapter {
         return condMap;
     }
 
-    @Test
-    public void testNormal() {
-        LinkedHashMap<String, Object> condMap = extractType2FieldsMap(new Employee(1, "John", 25, null));
-        condMap.forEach((k,v) -> System.out.println("Key: " + k + ", Value: " + v));
-    }
+
 
     @Test
     public void testRecursive() {

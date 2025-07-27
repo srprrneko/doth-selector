@@ -1,5 +1,6 @@
 package com.doth.selector.executor.supports.lambda;
 
+import com.doth.selector.common.util.NamingConvertUtil;
 import com.doth.selector.common.util.TypeResolver;
 import com.doth.selector.common.exception.entityto.LambdaPathBuildException;
 import com.doth.selector.common.exception.entityto.LambdaResolveException;
@@ -15,7 +16,6 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-import static com.doth.selector.common.util.NamingConvertUtil.camel2SnakeCase;
 
 
 /**
@@ -195,9 +195,9 @@ public class Lambda2FieldNameResolver {
     // cvn: convert; m: method, f: field
     private static String cvnMName2FName(String methodName) {
         if (methodName.startsWith("get")) {
-            return camel2SnakeCase(methodName.substring(3), false);
+            return NamingConvertUtil.camel2Snake(methodName.substring(3), false);
         } else if (methodName.startsWith("is")) {
-            return camel2SnakeCase(methodName.substring(2), false);
+            return NamingConvertUtil.camel2Snake(methodName.substring(2), false);
         }
         return methodName;
     }

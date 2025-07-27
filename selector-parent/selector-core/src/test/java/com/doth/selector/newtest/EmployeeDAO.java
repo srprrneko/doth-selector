@@ -38,11 +38,6 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     }
 
     // public static void main(String[] args) {
-    //     // System.out.println("实际运行时版本: " + System.getProperty("java.version"));
-    //     // System.out.println("JVM供应商: " + System.getProperty("java.vendor"));
-    //     // System.out.println("JIT编译器: " + System.getProperty("java.vm.name"));
-    //     // System.out.println("JIT版本: " + System.getProperty("java.vm.version"));
-    //     // System.out.println("泥嚎");
     //
     //     // EmployeeDAO dao = new EmployeeDAOImpl();
     //     // long start = System.currentTimeMillis();
@@ -118,7 +113,8 @@ public abstract class EmployeeDAO extends Selector<Employee> {
             builder.eq(e -> e.getDepartment().getCompany().getName(), "公司A");
         });
     }
-    public List<BaseEmpInfo> dtoImpl2(String depName) {
+
+    public List<BaseEmpInfo> getByName(String depName) {
         return bud$().query( builder ->
             builder.eq(e -> e.getDepartment().getName(), depName)
         ).toDto(BaseEmpInfo.class);
@@ -127,7 +123,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     @Test
     public void testDtoImpl2() {
         EmployeeDAO dao = new EmployeeDAOImpl();
-        List<BaseEmpInfo> list = dao.dtoImpl2("市场部");
+        List<BaseEmpInfo> list = dao.getByName("市场部");
         log.info("data: {}", list);
 
     }
@@ -165,6 +161,12 @@ public abstract class EmployeeDAO extends Selector<Employee> {
      */
     public abstract List<Employee> queryByDepartmentName(String name);
 
+    /*
+        @Select("select * from student where id = #{id}")
+        public List<Student> queryAll(Integer id);
+
+        public abstract List<Student> queryById(Integer id);
+     */
     @Test
     public void testQueryByDepartmentName() {
         EmployeeDAO dao = new EmployeeDAOImpl();
