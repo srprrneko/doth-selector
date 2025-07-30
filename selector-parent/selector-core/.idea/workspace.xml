@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0d7f46af-d589-4c55-9411-c03e0b9cd55b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/join/JoinBeanConvertor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/convertor/supports/JoinConvertContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/AutoQueryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/AutoQueryGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/DtoInitializationStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/GeneralInitializationStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryInitializationStrategy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/coordinator/supports/sqlgenerator/tool/temp/QueryStrategyFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/BuilderQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/BuilderQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/DirectQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/DirectQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/RawQueryExecutorPro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/query/enhanced/impl/RawQueryExecutorPro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/QueryList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/QueryList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/lambda/LambdaFieldPathResolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/doth/selector/executor/supports/lambda/LambdaFieldPathResolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAOBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAOBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAORawTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/EmployeeDAORawTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/EmployeeDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/doth/selector/old/newtest/EmployeeDAO.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="D:\self-study2frs\catch\apache-maven-3.6.1-bin\apache-maven-3.6.1" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+        <option name="userSettingsFile" value="D:\self-study2frs\catch\apache-maven-3.6.1-bin\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="11" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2ygFID8bgD4HmPNFTn5QqCEm0wK" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="compactDirectories" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showModules" value="false" />
+    <option name="showScratchesAndConsoles" value="false" />
+    <option name="sortKey" value="BY_TIME_ASCENDING" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.AliasConvertUtil.executor&quot;: &quot;Run&quot;,
+    &quot;Application.AutoQueryGenerator.executor&quot;: &quot;Run&quot;,
+    &quot;Application.EmployeeDAO.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LambdaFieldPathResolver.executor&quot;: &quot;Run&quot;,
+    &quot;Application.StudentInfoDAO.executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.doth.selector.coordinator.supports.sqlgenerator.tool.AutoQueryGenerator.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testDtoImpl2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testNew.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentIdVzName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByDepartmentName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EmployeeDAOImpl.testQueryByName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.StudentInfoDAOImpl.testListFull.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector-core [clean,compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector-core [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector-core [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.selector-core [install].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/贤/Desktop/temp/java-try/selector/selector-parent/selector-core&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.doth.selector.coordinator.supports" />
+      <recent name="com.doth.selector.coordinator.supports.sqlgenerator.facede" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.LambdaFieldPathResolver">
+    <configuration name="AutoQueryGenerator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.coordinator.supports.sqlgenerator.tool.AutoQueryGenerator" />
+      <module name="selector-core" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.coordinator.supports.sqlgenerator.tool.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeDAO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.EmployeeDAO" />
+      <module name="selector-core" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.newtest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LambdaFieldPathResolver" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.executor.supports.lambda.LambdaFieldPathResolver" />
+      <module name="selector-core" />
+      <option name="VM_PARAMETERS" value="--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.executor.supports.lambda.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeDAOImpl.testQueryByDepartmentName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="selector-core" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.newtest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.doth.selector.newtest" />
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.EmployeeDAOImpl" />
+      <option name="METHOD_NAME" value="testQueryByDepartmentName" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EmployeeDAOImpl.testQueryByName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="selector-core" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.doth.selector.newtest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.doth.selector.newtest" />
+      <option name="MAIN_CLASS_NAME" value="com.doth.selector.newtest.EmployeeDAOImpl" />
+      <option name="METHOD_NAME" value="testQueryByName" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.AutoQueryGenerator" />
+      <item itemvalue="Application.EmployeeDAO" />
+      <item itemvalue="Application.LambdaFieldPathResolver" />
+      <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByName" />
+      <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByDepartmentName" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.LambdaFieldPathResolver" />
+        <item itemvalue="Application.AutoQueryGenerator" />
+        <item itemvalue="Application.EmployeeDAO" />
+        <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByDepartmentName" />
+        <item itemvalue="JUnit.EmployeeDAOImpl.testQueryByName" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d7f46af-d589-4c55-9411-c03e0b9cd55b" name="Changes" comment="" />
+      <created>1750248228085</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750248228085</updated>
+      <workItem from="1750248230493" duration="297000" />
+      <workItem from="1750248616209" duration="8480000" />
+      <workItem from="1750292133709" duration="10241000" />
+      <workItem from="1750394712069" duration="25982000" />
+      <workItem from="1750691436400" duration="61000" />
+      <workItem from="1750691536719" duration="779000" />
+      <workItem from="1750754095717" duration="256000" />
+      <workItem from="1750755861601" duration="597000" />
+      <workItem from="1750756813261" duration="119000" />
+      <workItem from="1750756949904" duration="828000" />
+      <workItem from="1750761749059" duration="1070000" />
+      <workItem from="1750762841752" duration="76000" />
+      <workItem from="1750762938027" duration="87000" />
+      <workItem from="1750763046362" duration="318000" />
+      <workItem from="1750763384935" duration="151000" />
+      <workItem from="1750763556120" duration="8068000" />
+      <workItem from="1750827028082" duration="858000" />
+      <workItem from="1750862449445" duration="2431000" />
+      <workItem from="1750896408937" duration="13330000" />
+      <workItem from="1751099734733" duration="5115000" />
+      <workItem from="1751119240895" duration="5375000" />
+      <workItem from="1751127146871" duration="4469000" />
+      <workItem from="1751186001430" duration="681000" />
+      <workItem from="1751226382325" duration="863000" />
+      <workItem from="1751239483400" duration="310000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="b03c1882-14bb-49d7-a612-0b73d74303b6" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="b03c1882-14bb-49d7-a612-0b73d74303b6">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/dev" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:C:/Users/贤/Desktop/temp/java-try/selector/selector-parent/selector-core" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

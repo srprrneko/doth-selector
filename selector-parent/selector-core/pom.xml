@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.doth</groupId>
+        <artifactId>selector-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>selector-core</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.doth</groupId>-->
+<!--            <artifactId>selector-annotation</artifactId>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>com.doth</groupId>
+            <artifactId>selector-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <parameters>true</parameters> <!-- 添加此行 -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+
+                        <path>
+                            <groupId>com.doth</groupId>
+                            <artifactId>selector-processor</artifactId>
+                            <version>${project.version}</version> <!-- 关键修复 -->
+                        </path>
+                    </annotationProcessorPaths>
+                    <generatedSourcesDirectory>${project.build.directory}/selector-generated</generatedSourcesDirectory>
+
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
