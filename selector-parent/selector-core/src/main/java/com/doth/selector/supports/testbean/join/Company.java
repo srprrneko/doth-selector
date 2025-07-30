@@ -1,8 +1,10 @@
 package com.doth.selector.supports.testbean.join;
 
 import com.doth.selector.anno.DTOConstructor;
+import com.doth.selector.anno.Join;
 import com.doth.selector.anno.QueryBean;
 import com.doth.selector.anno.Pk;
+import com.doth.selector.supports.testbean.join3.DepartmentInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,10 +26,15 @@ public class Company {
     private Integer id;
     private String name;
 
+    // @Join(fk = "cd_id")
+    // private DepartmentInfo department;
 
     @DTOConstructor(id = "simple")
     public Company(String name) {
         this.name = name ;
     }
+
+
+
 
 }

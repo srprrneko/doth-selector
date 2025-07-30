@@ -2,30 +2,19 @@ package com.doth.selector.anno.processor.core.dtogenerate;
 
 import com.doth.selector.anno.JoinLevel;
 import com.doth.selector.anno.Next;
-import com.doth.selector.common.util.NamingConvertUtil;
 
 import javax.lang.model.element.VariableElement;
 
 /**
- * 表示参数的信息, 用于推测还原
+ * 从构造提取的参数的信息, 最终转换为dto类的字段信息
  */
 class ParamInfo {
 
-
-    ParamInfo() {
-    }
 
     ParamInfo(VariableElement param) {
         this.param = param;
         this.rawArgName = param.getSimpleName().toString();
     }
-
-    // ParamInfo(VariableElement param) {
-    //     this.param = param;
-    //     this.jl = param.getAnnotation(JoinLevel.class);
-    //     this.nx = param.getAnnotation(Next.class);
-    // }
-
 
     /**
      * 参数本身
@@ -54,6 +43,8 @@ class ParamInfo {
      */
     String finalFName;
 
+    String showName;
+
     /**
      * 用于标记该字段是否作为 join 链的起点
      */
@@ -69,24 +60,12 @@ class ParamInfo {
         this.finalFName = rawArgName;
     }
 
-    void init(VariableElement param) {
-        this.jl = param.getAnnotation(JoinLevel.class);
-        this.nx = param.getAnnotation(Next.class);
-    }
-
-
     void init4JoinMod(VariableElement param) {
         this.jl = param.getAnnotation(JoinLevel.class);
         this.nx = param.getAnnotation(Next.class);
         this.isJoin = true;
 
         this.prefix = rawArgName.substring(0, rawArgName.indexOf('_'));
-
-        // if (this.prefix.equals("")) {
-        //     // prefix = NamingConvertUtil.lowerFstLetter(entityClz.simpleName(), false);
-        //     this.prefix = "dep";
-        // }
-        System.out.println("prefix = " + prefix);
         this.originName = rawArgName.substring(rawArgName.indexOf('_') + 1);
 
     }

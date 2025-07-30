@@ -238,6 +238,7 @@ public class AutoQueryGenerator {
 
         DTOJoinInfo joinInfo = isDtoMod ? DTOJoinInfoFactory.getJoinInfo(prototype, dtoName) : null;
 
+        System.out.println("joinInfo = " + joinInfo);
         // 是否需要走普通模式
         boolean needReflect = condPfx.stream().anyMatch(pfx -> !dtoPfx.contains(pfx));
 
@@ -250,6 +251,7 @@ public class AutoQueryGenerator {
                         jdf.getAlias(), jdf.getPk()));
             }
         } else {
+            log.warn("条件字段不存在dto查询列工厂!");
             // 普通模式或 条件字段不存在dto查询列工厂则 走反射遍历
             parseEntity(prototype, MAIN_ALIAS, Collections.emptySet());
         }

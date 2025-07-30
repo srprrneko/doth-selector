@@ -109,21 +109,23 @@ public abstract class EmployeeDAO extends Selector<Employee> {
     }
 
     public List<BaseEmpDep> dtoImpl() {
-        return queryDtoList(BaseEmpDep.class, builder -> {
-            builder.eq(e -> e.getDepartment().getCompany().getName(), "公司A");
+        return queryD(BaseEmpDep.class, builder -> {
+            builder.eq(e -> e.getDepartment().getName(), "研发部");
         });
     }
 
     public List<BaseEmpInfo> getByName(String depName) {
-        return bud$().query( builder ->
-            builder.eq(e -> e.getDepartment().getName(), depName)
-        ).toDto(BaseEmpInfo.class);
+        return queryD(BaseEmpInfo.class, builder ->
+                builder.eq(e -> e.getDepartment().getName(), depName)
+        );
     }
 
     @Test
     public void testDtoImpl2() {
         EmployeeDAO dao = new EmployeeDAOImpl();
-        List<BaseEmpInfo> list = dao.getByName("市场部");
+        List<BaseEmpInfo> list =
+                // List<Employee> list =
+                dao.getByName("市场部");
         log.info("data: {}", list);
 
     }
@@ -172,7 +174,7 @@ public abstract class EmployeeDAO extends Selector<Employee> {
         EmployeeDAO dao = new EmployeeDAOImpl();
         long start = System.currentTimeMillis();
         // for (int i = 0; i < 50000; i++) {
-            var res = dao.queryByDepartmentName("研发部");
+        var res = dao.queryByDepartmentName("研发部");
         System.out.println("res = " + res);
         // }
         long cost = System.currentTimeMillis() - start;

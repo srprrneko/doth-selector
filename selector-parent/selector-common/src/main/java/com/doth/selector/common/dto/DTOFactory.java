@@ -2,7 +2,7 @@ package com.doth.selector.common.dto;
 
 import java.util.*;
 
-@Deprecated // 迭代遗留, 后续移除
+@Deprecated // 迭代遗留, 后续可能用于拓展
 public class DTOFactory {
     private static final Map<Class<?>, Map<String, Class<?>>> REGISTRY = new HashMap<>();
 

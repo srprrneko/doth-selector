@@ -60,6 +60,7 @@ public class QueryList<T> extends ArrayList<T> {
      * 将实体列表转换为 DTO 列表, 当前 仅支持方法引用的lambda条件, 如需要 也可以使用selector提供的api >> f(lambda)
      * @param dtoClass 目标 DTO 类型
      */
+    @Deprecated // 查询生命周期中 泛型确定过晚, 后续优化
     public <D> QueryList<D> toDto(Class<D> dtoClass) {
         return this.map(entity -> {
             D dto = BeanUtils.instantiateClass(dtoClass);

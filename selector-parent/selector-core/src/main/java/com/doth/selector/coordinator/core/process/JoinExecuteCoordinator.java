@@ -9,21 +9,12 @@ import com.doth.selector.coordinator.supports.SelectGenerateFacade;
 
 import java.util.*;
 
-/**
- * @author 贤
- * @version 1.0
- * @date 2025/4/5 21:11
- * @description 联查的执行协调者
- */
 public class JoinExecuteCoordinator extends ExecuteCoordinator {
 
-    
     // 更换策略, 表示该协调器统一采用多表映射策略
     public JoinExecuteCoordinator() {
         this.rsMapper = new ResultSetMapper(ConvertorType.JOIN_MAP);
     }
-
-
 
     @Override
     public <T> List<T> queryByMap(Class<T> beanClass, LinkedHashMap<String, Object> cond) {

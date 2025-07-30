@@ -5,12 +5,7 @@ import com.doth.selector.executor.supports.builder.ConditionBuilder;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * @author 贤
- * @version 1.0
- * @date 2025/4/5 20:57
- * @description 执行协调功能总管理
- */
+
 public interface ExecuteCoordinatorService {
 
 

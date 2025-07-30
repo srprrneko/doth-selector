@@ -1,6 +1,7 @@
 package com.doth.selector.convertor;
 
 import com.doth.selector.convertor.join.JoinBeanConvertor;
+import com.doth.selector.convertor.strict.CommonBeanConvertorLv;
 // import com.doth.selector.convertor.join.newJoin.JoinBeanConvertor;
 
 import java.util.EnumMap;
@@ -16,10 +17,8 @@ public class BeanConvertorFactory {
 
     static {
         // 绑定枚举与转换器
-        // instances.put(ConvertorType.MULTI_JOIN, new JoinBeanConvertorPro()); // 支持多表连接和单表的转换器
-        // instances.put(ConvertorType.LIGHT, new CommonBeanConvertorLv()); // 无join的转换器
+        instances.put(ConvertorType.LIGHT, new CommonBeanConvertorLv()); // 无join的转换器
         instances.put(ConvertorType.JOIN_MAP, new JoinBeanConvertor()); // 多表转换器
-        // instances.put(ConvertorType.STRICT, new CommonBeanConvertor());
 
     }
 

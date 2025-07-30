@@ -1,6 +1,8 @@
 package com.doth.selector.supports.testbean.join;
 
 import com.doth.selector.anno.*;
+import com.doth.selector.supports.testbean.join3.DepartmentInfo;
+import com.doth.selector.supports.testbean.join3.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,9 +34,6 @@ public class Employee {
 
     @Join(fk = "d_id", refPK = "id")
     private Department department;
-
-    @Join(fk = "d_id", refPK = "id")
-    private Department mngDepartment;
 
 
 
@@ -86,19 +85,22 @@ public class Employee {
     @DTOConstructor(id = "baseEmpInfo", autoPrefix = false)
     private Employee(
                 @MainLevel
-                    String name,
                     Integer id,
-                @JoinLevel(clz = Department.class, attrName = "department")
-                    Integer de_id,
+                    String name,
+                @JoinLevel(clz = Department.class)
                     String de_name,
-                    String de_dAge,
-                    @Next(clz = Company.class, attrName = "company")
-                        String mngCompany_name,
-                @JoinLevel(clz = Department.class, attrName = "mngDepartment")
-                    Integer md_id,
-                    String md_name,
-                    @Next(clz = Company.class, attrName = "company")
-                        String company_name
+                    Integer de_id,
+                    @Next(clz = Company.class)
+                        String mngCompany_name
+            // ,
+            //             @Next(clz = DepartmentInfo.class, attrName = "department")
+            //                 Integer di_id,
+            //                 String di_departmentInfoName,
+            //                 @Next(clz = User.class, attrName = "manager1")
+            //                     Integer du_id,
+            //                     String du_name
+
+
     ) {}
 
     @DTOConstructor(id = "baseEmpDep")
@@ -106,7 +108,8 @@ public class Employee {
                 @MainLevel
                     Integer id, String name,
                 @JoinLevel(clz = Department.class, attrName = "department")
-                    String _name
+                    @Name(value = "xhField")
+                    String dep_name
     ) {}
 
     /*

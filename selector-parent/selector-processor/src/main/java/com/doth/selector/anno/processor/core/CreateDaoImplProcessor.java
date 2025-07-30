@@ -17,7 +17,27 @@ import javax.tools.Diagnostic;
 import java.util.Set;
 
 /**
- * Processor 只负责扫描与校验，将生成逻辑委托给 DaoImplGenerator。
+ * <p>处理 @CreateDaoImpl 注解的 Annotation Processor</p>
+ * <p></p>
+ * <p>职责说明</p>
+ * <ol>
+ *     <li>扫描标注了 {@code @CreateDaoImpl} 的抽象类</li>
+ *     <li>校验类定义是否为抽象类</li>
+ *     <li>将具体的生成逻辑委托给 {@link DaoImplGenerator}</li>
+ * </ol>
+ * <hr/>
+ * <p>使用说明</p>
+ * <ol>
+ *     <li>在注解处理环境初始化时, 创建该 Processor 的实例</li>
+ *     <li>符合条件的类会自动触发 {@link #process(Set, RoundEnvironment)} 方法</li>
+ *     <li>对于非抽象类或错误用法, 打印编译错误提示</li>
+ * </ol>
+ * <hr/>
+ * <p>后续改进</p>
+ * <ol>
+ *     <li>支持更多注解选项, 比如指定 DAO 后缀名或其它配置</li>
+ *     <li>增强错误提示, 使其更具可读性和指导性</li>
+ * </ol>
  */
 @AutoService(Processor.class)
 @SupportedAnnotationTypes("com.doth.selector.anno.CreateDaoImpl")
@@ -43,6 +63,7 @@ public class CreateDaoImplProcessor extends BaseAnnotationProcessor {
                         "继承 Selector 请使用抽象类!!", element);
                 continue;
             }
+            // 委托给 DaoImplGenerator 生成实现
             generator.generate((TypeElement) element);
         }
         return true;

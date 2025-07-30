@@ -30,7 +30,7 @@ public class DTOSelectFieldsListFactory {
      */
     public static void register(Class<?> entityClass, String dtoId, List<String> selectList) {
         // System.out.println("selectList = " + selectList);
-        // System.out.println("触发了哦");
+        log.info("查询字段正在注册.. 字段信息: {}", selectList);
         if (entityClass == null || dtoId == null || selectList == null) return;
         List<String> put = FIELDS_CONTAINER
                 .computeIfAbsent(entityClass, k -> new ConcurrentHashMap<>())

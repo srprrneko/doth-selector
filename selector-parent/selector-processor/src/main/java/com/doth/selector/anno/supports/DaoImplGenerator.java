@@ -14,7 +14,25 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 生成 XxxImpl 类，职责集中于方法生成，辅助逻辑由 DaoImplGeneratorHelper 提供支持
+ * <p>生成 DAO 实现类的核心类</p>
+ * <p></p>
+ * <p>职责说明</p>
+ * <ol>
+ *     <li>根据抽象 DAO 类生成对应的实现类代码</li>
+ *     <li>遍历抽象方法并使用辅助类生成查询方法的具体实现</li>
+ * </ol>
+ * <hr/>
+ * <p>使用说明</p>
+ * <ol>
+ *     <li>在 Processor 中初始化时创建该类实例: <code>new DaoImplGenerator(context)</code></li>
+ *     <li>调用 {@link #generate(TypeElement)} 方法生成 DAO 的实现类</li>
+ * </ol>
+ * <hr/>
+ * <p>后续改进</p>
+ * <ol>
+ *     <li>支持更多方法名约定（如分页查询等前缀）</li>
+ *     <li>增强生成语句的灵活性, 比如引入事务注解等</li>
+ * </ol>
  */
 public class DaoImplGenerator {
     private final ProcessingContext ctx;
@@ -26,6 +44,21 @@ public class DaoImplGenerator {
         this.helper = new DaoImplGeneratorHelper(ctx);
     }
 
+    /**
+     * <p>生成 DAO 实现类</p>
+     * <p>说明: 根据指定的抽象 DAO 类信息, 生成对应的实现类文件</p>
+     * <p>生成流程: </p>
+     * <ol>
+     *     <li>确定包名和实现类名（在抽象类名后加 "Impl"）</li>
+     *     <li>如果有 {@link CreateDaoImpl#springSupport()} 注解, 则为类添加 {@code @Repository} 注解</li>
+     *     <li>添加一个无参构造函数并调用 {@code super()}</li>
+     *     <li>提取 DAO 泛型中的实体类型, 以用于构建查询条件</li>
+     *     <li>遍历 DAO 中所有抽象查询方法, 调用 {@link #buildMethod(ExecutableElement, TypeElement)} 生成实现方法</li>
+     *     <li>将生成的类写入文件系统</li>
+     * </ol>
+     *
+     * @param abstractClass 抽象 DAO 类的元素
+     */
     public void generate(TypeElement abstractClass) {
         String pkg = ctx.getElementUtils()
                 .getPackageOf(abstractClass)
@@ -78,7 +111,22 @@ public class DaoImplGenerator {
         }
     }
 
-    // 构建方法
+    /**
+     * <p>构建 DAO 方法的实现</p>
+     * <p>说明: 根据抽象方法名和参数, 生成具体的查询逻辑调用</p>
+     * <p>工作流程: </p>
+     * <ol>
+     *     <li>复制方法签名: 名称、修饰符、返回类型和参数列表</li>
+     *     <li>识别方法名前缀（如 queryBy, getBy, listBy）</li>
+     *     <li>解析前缀后的条件部分, 生成相应的查询语句链（使用辅助类 {@link DaoImplGeneratorHelper}）</li>
+     *     <li>如果方法前缀是 {@code getBy}, 则调用 {@code toOne()} 方法获取单个结果；否则返回列表</li>
+     *     <li>如果无法识别前缀或条件不匹配, 则返回 {@code null} 并打印错误</li>
+     * </ol>
+     *
+     * @param method     抽象方法元素
+     * @param entityType 实体类型元素
+     * @return 生成的方法实现 {@link MethodSpec.Builder} 对象
+     */
     private MethodSpec buildMethod(ExecutableElement method, TypeElement entityType) {
         // 构建方法签名
         // 1.方法名
@@ -126,8 +174,7 @@ public class DaoImplGenerator {
                     String val = helper.formatQueryParameter(method.getParameters().get(i), c.operator);
                     code.add(String.format(".%s(\"%s\", %s)", c.operator, key, val));
                 }
-                // code.add(");\n");
-                // 结束构造，根据 single 决定是否加 .toOne()
+                // 根据 single 判断是否加 .toOne()
                 if (single) {
                     code.add(").toOne();\n");
                 } else {

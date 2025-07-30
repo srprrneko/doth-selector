@@ -138,7 +138,7 @@ public class Selector<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <D> QueryList<D> queryDtoList(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
+    public <D> QueryList<D> queryD(Class<D> dtoClass, Consumer<ConditionBuilder<T>> setup) {
         BuilderQueryExecutorPro<T> executor = bud$();
         executor.setDtoClass(dtoClass);
         return (QueryList<D>) executor.query(setup, true);
