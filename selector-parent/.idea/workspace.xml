@@ -5,59 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="22b60c96-a872-4bb0-ae21-56f66cf9ed9f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/jitpack.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/CreateDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/AutoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/DTOConstructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/MorphCr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/OneTo1Breaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/CycRel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/Overload.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/Overload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/QueryBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/CheckE.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/UseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-annotation/src/main/java/com/doth/selector/anno/UseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/selector-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/coordinator/supports/sql/tool/AutoQueryGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/coordinator/supports/sql/tool/AutoQueryGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/Courses.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/Courses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/StatDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/StatDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/Students.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/Students.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Company.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Department.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Department.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/StudentCourseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join/StudentCourseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Office.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Office.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/Profile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join2/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/BookCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/BookCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/DepartmentInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/DepartmentInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/MajorInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/MajorInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/StudentInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/StudentInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-core/src/main/java/com/doth/selector/supports/testbean/join3/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/EmployeeDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/EmployeeDAOBuilderTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/EmployeeDAODctTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/EmployeeDAORawTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/MultiPathEmployeeDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/StudentsDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/newtest/BookCardDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/newtest/CompanyDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/newtest/EmployeeDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/newtest/StudentInfoDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/old/newtest/EmployeeDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/old/newtest/EmployeeDAO2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/old/newtest/EmployeeDAO3.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/old/newtest/JoinTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/old/newtest/StudentDAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-core/src/test/java/com/doth/selector/temp/EmpTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-processor/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/CreateDaoImplProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/CreateDaoImplProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/EntityProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/EntityProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/DTOConstructorProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/processor/core/dtogenerate/DTOConstructorProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/supports/DaoImplGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/selector-processor/src/main/java/com/doth/selector/anno/supports/DaoImplGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +82,7 @@
       <workItem from="1753973912888" duration="20000" />
       <workItem from="1753973981586" duration="152000" />
       <workItem from="1753974148762" duration="5688000" />
-      <workItem from="1754110082446" duration="7976000" />
+      <workItem from="1754110082446" duration="9104000" />
     </task>
     <servers />
   </component>
