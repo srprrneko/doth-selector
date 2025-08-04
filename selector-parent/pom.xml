@@ -5,7 +5,7 @@
 
     <groupId>com.github.srprrneko</groupId>
     <artifactId>doth-selector</artifactId>
-    <version>1.0.31</version>
+    <version>1.0.34</version>
     <packaging>pom</packaging>
 
     <!-- 添加分发仓库 -->
