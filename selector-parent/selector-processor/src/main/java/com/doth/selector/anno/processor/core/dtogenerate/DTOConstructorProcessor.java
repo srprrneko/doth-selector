@@ -46,7 +46,7 @@ import static com.doth.selector.anno.processor.core.dtogenerate.JNNameResolver.g
  * </ol>
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.doth.selector.anno.DTOConstructor")
+@SupportedAnnotationTypes("com.doth.selector.anno.MorphCr")
 @Slf4j
 public class DTOConstructorProcessor extends BaseAnnotationProcessor {
 
@@ -54,14 +54,14 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         // 遍历编译期间环境, 获取DTOConstructor标记的元素
-        for (Element elem : roundEnv.getElementsAnnotatedWith(DTOConstructor.class)) {
+        for (Element elem : roundEnv.getElementsAnnotatedWith(MorphCr.class)) {
             if (!(elem instanceof ExecutableElement)) continue; // 过滤
 
             // 获取构造元素, 以及所属类, dtoId
             ExecutableElement ctor = (ExecutableElement) elem;
             TypeElement entity = (TypeElement) ctor.getEnclosingElement(); // 解析AST获取构造所属类
-            String dtoId = ctor.getAnnotation(DTOConstructor.class).id();
-            boolean isAutoPrefix = ctor.getAnnotation(DTOConstructor.class).autoPrefix();
+            String dtoId = ctor.getAnnotation(MorphCr.class).id();
+            boolean isAutoPrefix = ctor.getAnnotation(MorphCr.class).autoPrefix();
 
             generateDto(entity, ctor, dtoId, isAutoPrefix);
         }

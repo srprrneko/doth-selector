@@ -2,7 +2,6 @@ package com.doth.selector.supports.testbean.join2;
 
 import com.doth.selector.anno.Join;
 
-// Profile.java
 public class Profile {
     private Integer id;
     private String email;

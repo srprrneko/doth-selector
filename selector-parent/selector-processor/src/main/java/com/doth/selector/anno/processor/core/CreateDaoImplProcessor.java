@@ -1,6 +1,6 @@
 package com.doth.selector.anno.processor.core;
 
-import com.doth.selector.anno.CreateDaoImpl;
+import com.doth.selector.anno.AutoImpl;
 import com.doth.selector.anno.processor.BaseAnnotationProcessor;
 import com.doth.selector.anno.supports.DaoImplGenerator;
 import com.google.auto.service.AutoService;
@@ -17,11 +17,11 @@ import javax.tools.Diagnostic;
 import java.util.Set;
 
 /**
- * <p>处理 @CreateDaoImpl 注解的 Annotation Processor</p>
+ * <p>处理 @AutoImpl 注解的 Annotation Processor</p>
  * <p></p>
  * <p>职责说明</p>
  * <ol>
- *     <li>扫描标注了 {@code @CreateDaoImpl} 的抽象类</li>
+ *     <li>扫描标注了 {@code @AutoImpl} 的抽象类</li>
  *     <li>校验类定义是否为抽象类</li>
  *     <li>将具体的生成逻辑委托给 {@link DaoImplGenerator}</li>
  * </ol>
@@ -40,7 +40,7 @@ import java.util.Set;
  * </ol>
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.doth.selector.anno.CreateDaoImpl")
+@SupportedAnnotationTypes("com.doth.selector.anno.AutoImpl")
 public class CreateDaoImplProcessor extends BaseAnnotationProcessor {
 
     private DaoImplGenerator generator;
@@ -54,7 +54,7 @@ public class CreateDaoImplProcessor extends BaseAnnotationProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (Element element : roundEnv.getElementsAnnotatedWith(CreateDaoImpl.class)) {
+        for (Element element : roundEnv.getElementsAnnotatedWith(AutoImpl.class)) {
             if (!(element instanceof TypeElement)
                     || element.getKind() != ElementKind.CLASS
                     || !element.getModifiers().contains(Modifier.ABSTRACT)) {

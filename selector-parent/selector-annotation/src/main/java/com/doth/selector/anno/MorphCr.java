@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 @Target(ElementType.CONSTRUCTOR)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DTOConstructor {
+public @interface MorphCr {
     String id();
 
     /**

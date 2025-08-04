@@ -13,14 +13,14 @@ public class Employee {
 
 
     @Join(fk = "d_id")
-    @OneTo1Breaker
+    @CycRel
     private Department employeeDepartment;
 
     @Join(fk = "c_id")
     private Company company;
 
 
-    @DTOConstructor(id = "baseEmpInfo")
+    @MorphCr(id = "baseEmpInfo")
     public Employee(
             @MainLevel
             Integer employeeId,

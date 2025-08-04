@@ -1,6 +1,6 @@
 package com.doth.selector.supports.testbean.join3;
 
-import com.doth.selector.anno.QueryBean;
+import com.doth.selector.anno.CheckE;
 import com.doth.selector.anno.Pk;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,12 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-/**
- * @author YourName
- * @creTime 2025-06-20
- * @desc 专业信息实体
- */
-@QueryBean
+@CheckE
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

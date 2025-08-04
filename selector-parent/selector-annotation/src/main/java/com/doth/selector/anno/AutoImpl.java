@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-public @interface CreateDaoImpl {
+public @interface AutoImpl {
     boolean springSupport() default false;
 }

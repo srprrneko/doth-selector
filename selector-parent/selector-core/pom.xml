@@ -4,22 +4,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.doth</groupId>
-        <artifactId>selector-parent</artifactId>
-        <version>1.0.0</version>
+        <groupId>com.github.srprrneko</groupId>
+        <artifactId>doth-selector</artifactId>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>selector-core</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>com.doth</groupId>-->
-<!--            <artifactId>selector-annotation</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.github.srprrneko</groupId>
+            <artifactId>selector-annotation</artifactId>
+        </dependency>
 
         <dependency>
-            <groupId>com.doth</groupId>
+            <groupId>com.github.srprrneko</groupId>
             <artifactId>selector-common</artifactId>
         </dependency>
 
@@ -57,9 +57,10 @@
                         </path>
 
                         <path>
-                            <groupId>com.doth</groupId>
+<!--                            <groupId>com.doth</groupId>-->
+                            <groupId>com.github.srprrneko</groupId>
                             <artifactId>selector-processor</artifactId>
-                            <version>${project.version}</version> <!-- 关键修复 -->
+                            <version>${selector.version}</version> <!-- 关键修复 -->
                         </path>
                     </annotationProcessorPaths>
                     <generatedSourcesDirectory>${project.build.directory}/selector-generated</generatedSourcesDirectory>

@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.doth</groupId>
-        <artifactId>selector-parent</artifactId>
-        <version>1.0.0</version>
+        <groupId>com.github.srprrneko</groupId>
+        <artifactId>doth-selector</artifactId>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>selector-common</artifactId>
@@ -15,7 +15,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.doth</groupId>
+            <groupId>com.github.srprrneko</groupId>
             <artifactId>selector-annotation</artifactId>
         </dependency>
 
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-<!--            <scope>provided</scope>-->
+            <!--            <scope>provided</scope>-->
         </dependency>
 
     </dependencies>

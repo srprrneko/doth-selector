@@ -1,6 +1,6 @@
 package com.doth.selector.supports.testbean.join;
 
-import com.doth.selector.anno.QueryBean;
+import com.doth.selector.anno.CheckE;
 import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.Join;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@QueryBean // 加上该注解, 编译期间进行检查
+@CheckE // 加上该注解, 编译期间进行检查
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
