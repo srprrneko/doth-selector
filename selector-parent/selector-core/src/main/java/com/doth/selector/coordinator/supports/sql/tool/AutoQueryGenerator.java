@@ -12,7 +12,6 @@ import com.doth.selector.common.exception.mapping.NonPrimaryKeyException;
 import com.doth.selector.common.util.AnnoNamingConvertUtil;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
-import com.doth.selector.supports.testbean.join.Employee;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
@@ -405,21 +404,4 @@ public class AutoQueryGenerator {
         return AnnoNamingConvertUtil.camel2Snake(entity, entity.getSimpleName());
     }
 
-
-    /**
-     * <p>简单演示 SQL生成</p>
-     */
-    public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        // ConditionBuilder<?> builder = new ConditionBuilder<>(Employee.class).eq("t2.name", "公司");
-
-        // for (int i = 0; i < 50000; i++) {
-        String result = generated(Employee.class, null);
-        System.out.println("result = " + result);
-        // }
-        // System.out.println("generatedSql = " + generatedSql);
-
-        long end = System.currentTimeMillis();
-        System.out.println("耗时 (ms): " + (end - start));
-    }
 }
