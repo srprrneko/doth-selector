@@ -1,6 +1,8 @@
 package com.doth.selector.supports.testbean.join;
 
 import com.doth.selector.anno.*;
+import com.doth.selector.supports.testbean.join3.DepartmentInfo;
+import com.doth.selector.supports.testbean.join3.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,14 +36,13 @@ public class Employee {
                     String de_name,
                     Integer de_id,
                     @Next(clz = Company.class)
-                        String mngCompany_name
-            // ,
-            //             @Next(clz = DepartmentInfo.class, attrName = "department")
-            //                 Integer di_id,
-            //                 String di_departmentInfoName,
-            //                 @Next(clz = User.class, attrName = "manager1")
-            //                     Integer du_id,
-            //                     String du_name
+                        String mngCompany_name,
+                        @Next(clz = DepartmentInfo.class)
+                            Integer di_id,
+                            String di_departmentInfoName,
+                            @Next(clz = User.class, attrName = "manager")
+                                Integer du_id,
+                                String du_name
     ) {}
 
     @MorphCr(id = "baseEmpDep")

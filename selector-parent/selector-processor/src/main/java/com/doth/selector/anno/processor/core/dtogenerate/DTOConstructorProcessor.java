@@ -1,6 +1,8 @@
 package com.doth.selector.anno.processor.core.dtogenerate;
 
-import com.doth.selector.anno.*;
+import com.doth.selector.anno.DependOn;
+import com.doth.selector.anno.Join;
+import com.doth.selector.anno.MorphCr;
 import com.doth.selector.anno.Name;
 import com.doth.selector.anno.processor.BaseAnnotationProcessor;
 import com.doth.selector.common.dto.*;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.doth.selector.anno.processor.core.dtogenerate.ChainProcessContext.chain2ParentAlias;
 import static com.doth.selector.anno.processor.core.dtogenerate.JNNameResolver.getOrD4JNLevelAttrName;
 
 
@@ -285,7 +288,10 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 } else if (info.nx != null) { // next 层级, 延续上一个路径
                     context.extendCurrentChain(info);
                 } else if (context.prefix2Alias.containsKey(info.prefix)) { // 处理非起点字段分支
-                    context.selectColList.add(context.prefix2Alias.get(info.prefix) + "." + info.originName);
+                    context.selectColList.add(
+                            context.prefix2Alias.get(info.prefix)
+                                    + "." + info.originName
+                    );
                 } else { // 错误分支
                     context.selectColList.add("t?." + info.originName);
                 }
@@ -355,8 +361,8 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
             JoinInfo ji = chainInfo.joinInfos.get(i);
 
             Join join = field.getAnnotation(Join.class);
-            // 直接获取已分配好的别名, 如果没有则 t0
-            String bindAlias = ji.getAlias() == null ? "t0" : ji.getAlias();
+            // 计算父级绑定别名: 根级 -> t0; 多级 -> 上一级别名
+            String bindAlias = chain2ParentAlias(chainInfo, ji);
 
             // 获取表名
             String tName = resolveTableName(field);
@@ -367,6 +373,8 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                     )
             );
         }
+
+        // 格式调整
         CodeBlock listOfBlock = CodeBlock.builder()
                 .add("List.of(\n")
                 .indent()
@@ -397,6 +405,8 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         );
         return cb.build();
     }
+
+
 
     /**
      * 根据字段获取对应实体类的表名, 优先读取 @TableName 注解的 value 值

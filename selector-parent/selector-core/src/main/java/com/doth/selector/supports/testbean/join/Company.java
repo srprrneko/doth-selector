@@ -1,8 +1,10 @@
 package com.doth.selector.supports.testbean.join;
 
 import com.doth.selector.anno.CheckE;
+import com.doth.selector.anno.Join;
 import com.doth.selector.anno.MorphCr;
 import com.doth.selector.anno.Pk;
+import com.doth.selector.supports.testbean.join3.DepartmentInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +26,8 @@ public class Company {
     private Integer id;
     private String name;
 
-    // @Join(fk = "cd_id")
-    // private DepartmentInfo department;
+    @Join(fk = "cd_id")
+    private DepartmentInfo departmentInfo;
 
     @MorphCr(id = "simple")
     public Company(String name) {
