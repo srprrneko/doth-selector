@@ -1,6 +1,8 @@
 package com.doth.selector.anno.processor.core.dtogenerate;
 
-import com.doth.selector.anno.*;
+import com.doth.selector.anno.DependOn;
+import com.doth.selector.anno.Join;
+import com.doth.selector.anno.MorphCr;
 import com.doth.selector.anno.Name;
 import com.doth.selector.anno.processor.BaseAnnotationProcessor;
 import com.doth.selector.common.dto.*;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.doth.selector.anno.processor.core.dtogenerate.ChainProcessContext.chain2ParentAlias;
 import static com.doth.selector.anno.processor.core.dtogenerate.JNNameResolver.getOrD4JNLevelAttrName;
 
 
@@ -46,7 +49,7 @@ import static com.doth.selector.anno.processor.core.dtogenerate.JNNameResolver.g
  * </ol>
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("com.doth.selector.anno.DTOConstructor")
+@SupportedAnnotationTypes("com.doth.selector.anno.MorphCr")
 @Slf4j
 public class DTOConstructorProcessor extends BaseAnnotationProcessor {
 
@@ -54,14 +57,14 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         // 遍历编译期间环境, 获取DTOConstructor标记的元素
-        for (Element elem : roundEnv.getElementsAnnotatedWith(DTOConstructor.class)) {
+        for (Element elem : roundEnv.getElementsAnnotatedWith(MorphCr.class)) {
             if (!(elem instanceof ExecutableElement)) continue; // 过滤
 
             // 获取构造元素, 以及所属类, dtoId
             ExecutableElement ctor = (ExecutableElement) elem;
             TypeElement entity = (TypeElement) ctor.getEnclosingElement(); // 解析AST获取构造所属类
-            String dtoId = ctor.getAnnotation(DTOConstructor.class).id();
-            boolean isAutoPrefix = ctor.getAnnotation(DTOConstructor.class).autoPrefix();
+            String dtoId = ctor.getAnnotation(MorphCr.class).id();
+            boolean isAutoPrefix = ctor.getAnnotation(MorphCr.class).autoPrefix();
 
             generateDto(entity, ctor, dtoId, isAutoPrefix);
         }
@@ -285,7 +288,10 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                 } else if (info.nx != null) { // next 层级, 延续上一个路径
                     context.extendCurrentChain(info);
                 } else if (context.prefix2Alias.containsKey(info.prefix)) { // 处理非起点字段分支
-                    context.selectColList.add(context.prefix2Alias.get(info.prefix) + "." + info.originName);
+                    context.selectColList.add(
+                            context.prefix2Alias.get(info.prefix)
+                                    + "." + info.originName
+                    );
                 } else { // 错误分支
                     context.selectColList.add("t?." + info.originName);
                 }
@@ -355,8 +361,8 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
             JoinInfo ji = chainInfo.joinInfos.get(i);
 
             Join join = field.getAnnotation(Join.class);
-            // 直接获取已分配好的别名, 如果没有则 t0
-            String bindAlias = ji.getAlias() == null ? "t0" : ji.getAlias();
+            // 计算父级绑定别名: 根级 -> t0; 多级 -> 上一级别名
+            String bindAlias = chain2ParentAlias(chainInfo, ji);
 
             // 获取表名
             String tName = resolveTableName(field);
@@ -367,6 +373,8 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
                     )
             );
         }
+
+        // 格式调整
         CodeBlock listOfBlock = CodeBlock.builder()
                 .add("List.of(\n")
                 .indent()
@@ -397,6 +405,8 @@ public class DTOConstructorProcessor extends BaseAnnotationProcessor {
         );
         return cb.build();
     }
+
+
 
     /**
      * 根据字段获取对应实体类的表名, 优先读取 @TableName 注解的 value 值

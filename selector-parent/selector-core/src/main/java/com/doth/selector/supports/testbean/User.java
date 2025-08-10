@@ -1,17 +1,10 @@
 package com.doth.selector.supports.testbean;
 
 
-import com.doth.selector.anno.QueryBean;
+import com.doth.selector.anno.CheckE;
 
-/**
- * @project: classFollowing
- * @package: reflect.trysomething
- * @author: doth
- * @creTime: 2025-03-21  08:54
- * @desc: TODO
- * @v: 1.0
- */
-@QueryBean
+
+@CheckE
 public class User {
     private Integer id;
     private String username;

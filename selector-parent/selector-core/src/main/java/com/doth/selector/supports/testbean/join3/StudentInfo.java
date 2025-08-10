@@ -8,12 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.time.Year;
 
-/**
- * @author YourName
- * @creTime 2025-06-20
- * @desc 学生信息实体
- */
-@QueryBean
+@CheckE
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,7 +39,7 @@ public class StudentInfo {
     @Join(fk = "major_id", refPK = "major_id")
     private MajorInfo majorInfo;
 
-    @DTOConstructor(id = "baseStudentInfo")
+    @MorphCr(id = "baseStudentInfo")
     public StudentInfo(
             @MainLevel
             Integer studentId,

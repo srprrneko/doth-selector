@@ -3,7 +3,6 @@ package com.doth.selector.supports.testbean.join3;
 import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.Join;
 
-// 实体类定义
 public class User {
     @Pk
     private Integer id;
@@ -11,7 +10,7 @@ public class User {
     private String name;
 
     @Join(fk = "department_id", refPK = "id")
-    // @OneTo1Breaker
+    // @CycRel
     private DepartmentInfo departmentInfo;
 
     // @Join(fk = "employee_id", refFK = "id")

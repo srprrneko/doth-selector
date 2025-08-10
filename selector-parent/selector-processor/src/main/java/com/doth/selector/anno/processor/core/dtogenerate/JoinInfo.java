@@ -8,7 +8,7 @@ import java.util.List;
 class JoinInfo {
 
     /**
-     * 对应 @JoinLevel 和 @Next 的 属性 attrName
+     * 对应 @JoinLevel 和 @Next 的 属性 attrName, 例: department.company.departmentInfo.user
      */
     String attrName;
 

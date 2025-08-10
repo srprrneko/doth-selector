@@ -3,10 +3,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.doth</groupId>
-    <artifactId>selector-parent</artifactId>
-    <version>1.0.0</version>
+    <groupId>com.github.srprrneko</groupId>
+    <artifactId>doth-selector</artifactId>
+    <version>1.0.36</version>
     <packaging>pom</packaging>
+
+    <!-- 添加分发仓库 -->
+    <distributionManagement>
+        <repository>
+            <id>github</id> <!-- 与 settings.xml 中的 server.id 一致 -->
+            <url>https://maven.pkg.github.com/srprrneko/doth-selector</url>
+        </repository>
+    </distributionManagement>
 
     <modules>
         <module>selector-annotation</module>
@@ -16,6 +24,8 @@
     </modules>
 
     <properties>
+        <selector.version>${project.version}</selector.version>
+
         <!-- Java 配置 -->
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -44,27 +54,27 @@
         <dependencies>
             <!-- 内部模块 -->
             <dependency>
-                <groupId>com.doth</groupId>
+                <groupId>com.github.srprrneko</groupId>
                 <artifactId>selector-core</artifactId>
-                <version>${project.version}</version>
+                <version>${selector.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.doth</groupId>
+                <groupId>com.github.srprrneko</groupId>
                 <artifactId>selector-common</artifactId>
-                <version>${project.version}</version>
+                <version>${selector.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.doth</groupId>
+                <groupId>com.github.srprrneko</groupId>
                 <artifactId>selector-annotation</artifactId>
-                <version>${project.version}</version>
+                <version>${selector.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.doth</groupId>
+                <groupId>com.github.srprrneko</groupId>
                 <artifactId>selector-processor</artifactId>
-                <version>${project.version}</version>
+                <version>${selector.version}</version>
             </dependency>
 
             <!-- 第三方依赖 -->

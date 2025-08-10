@@ -1,11 +1,12 @@
 package com.doth.selector.supports.testbean.join;
 
-import com.doth.selector.anno.QueryBean;
+
+import com.doth.selector.anno.CheckE;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@QueryBean
+@CheckE
 public class StudentCourseDTO {
     private String studentName;
     private Integer studentAge;

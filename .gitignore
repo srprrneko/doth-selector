@@ -3,15 +3,15 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/workspace.xml
-.idea/libraries/
-*.iws
-*.iml
-*.ipr
+# IntelliJ: 忽略所有 .idea 下的本地文件
+**/.idea/**
+# 但保留需要跟踪的文件（反忽略）
+!**/.idea/compiler.xml
+!**/.idea/jarRepositories.xml
+
+# 无论如何都忽略 workspace 和 shelf
+**/.idea/workspace.xml
+**/.idea/shelf/**
 
 ### Eclipse ###
 .apt_generated

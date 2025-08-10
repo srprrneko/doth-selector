@@ -1,8 +1,8 @@
 package com.doth.selector.supports.testbean.join3;
 
+import com.doth.selector.anno.CycRel;
 import com.doth.selector.anno.Pk;
 import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneTo1Breaker;
 
 public class DepartmentInfo {
     @Pk
@@ -11,7 +11,7 @@ public class DepartmentInfo {
     private String departmentInfoName;
 
     @Join(fk = "manager_id", refPK = "id")
-    @OneTo1Breaker
+    @CycRel
     private User manager;
 
     public DepartmentInfo() {

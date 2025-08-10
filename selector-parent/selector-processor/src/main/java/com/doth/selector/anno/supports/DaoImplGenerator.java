@@ -1,6 +1,6 @@
 package com.doth.selector.anno.supports;
 
-import com.doth.selector.anno.CreateDaoImpl;
+import com.doth.selector.anno.AutoImpl;
 import com.doth.selector.anno.processor.ProcessingContext;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.squareup.javapoet.*;
@@ -50,7 +50,7 @@ public class DaoImplGenerator {
      * <p>生成流程: </p>
      * <ol>
      *     <li>确定包名和实现类名（在抽象类名后加 "Impl"）</li>
-     *     <li>如果有 {@link CreateDaoImpl#springSupport()} 注解, 则为类添加 {@code @Repository} 注解</li>
+     *     <li>如果有 {@link AutoImpl#springSupport()} 注解, 则为类添加 {@code @Repository} 注解</li>
      *     <li>添加一个无参构造函数并调用 {@code super()}</li>
      *     <li>提取 DAO 泛型中的实体类型, 以用于构建查询条件</li>
      *     <li>遍历 DAO 中所有抽象查询方法, 调用 {@link #buildMethod(ExecutableElement, TypeElement)} 生成实现方法</li>
@@ -70,7 +70,7 @@ public class DaoImplGenerator {
         String implName = abstractClass.getSimpleName() + "Impl";
 
         // 2.继承关系
-        CreateDaoImpl anno = abstractClass.getAnnotation(CreateDaoImpl.class);
+        AutoImpl anno = abstractClass.getAnnotation(AutoImpl.class);
 
         TypeSpec.Builder clsB = TypeSpec.classBuilder(implName)
                 .addModifiers(Modifier.PUBLIC)

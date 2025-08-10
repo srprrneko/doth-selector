@@ -13,5 +13,4 @@ public class Office {
     @Join(fk = "loc_id") // 关联到位置表的外键
     private Location officeLocation; // 深度嵌套对象
 
-    // 其他字段...
 }

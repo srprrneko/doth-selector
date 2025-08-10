@@ -1,8 +1,8 @@
 package com.doth.selector.coordinator.supports.sql.tool;
 
+import com.doth.selector.anno.CycRel;
 import com.doth.selector.anno.DependOn;
 import com.doth.selector.anno.Join;
-import com.doth.selector.anno.OneTo1Breaker;
 import com.doth.selector.anno.Pk;
 import com.doth.selector.common.dto.DTOJoinInfo;
 import com.doth.selector.common.dto.DTOJoinInfoFactory;
@@ -316,7 +316,7 @@ public class AutoQueryGenerator {
         Class<?> target = field.getType(); // 获取从属实体clz
 
         // 拦截一对一场景下的join子句生成
-        boolean isOneToOne = field.isAnnotationPresent(OneTo1Breaker.class);
+        boolean isOneToOne = field.isAnnotationPresent(CycRel.class);
         if (alreadyPrecessed.contains(target) && isOneToOne) {
             return; // OneTo1Breaker 安全跳过
         }
@@ -358,7 +358,7 @@ public class AutoQueryGenerator {
     private void checkRefCycle(Class<?> curClz, Set<Field> ancestorJoins) {
         if (!alreadyPrecessed.add(curClz)) {
             for (Field f : ancestorJoins) {
-                if (f.isAnnotationPresent(OneTo1Breaker.class)) {
+                if (f.isAnnotationPresent(CycRel.class)) {
                     // OneTo1Breaker 情况下可安全终止
                     return;
                 }
