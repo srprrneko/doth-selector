@@ -1,0 +1,11 @@
+package com.doth.selector.example.testbean.join2;
+
+import com.doth.selector.anno.Join;
+
+public class User {
+    private Integer id;
+    private String name;
+
+    @Join(fk = "profile_id", refPK = "id") // 关联 profile 表
+    private Profile profile;
+}

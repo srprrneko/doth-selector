@@ -10,8 +10,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="selector-common" />
-        <module name="selector-processor" />
         <module name="selector-annotation" />
+        <module name="selector-processor" />
       </profile>
       <profile name="Annotation profile for doth-selector" enabled="true">
         <sourceOutputDir name="target/selector-generated" />
@@ -82,7 +82,7 @@
           <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar" />
           <entry name="D:/self-study2frs/catch/apache-maven-3.6.1-bin/apache-maven-3.6.1/mvn_repo/com/squareup/javapoet/1.13.0/javapoet-1.13.0.jar" />
         </processorPath>
-        <module name="selector-core" />
+        <module name="selector-example" />
       </profile>
     </annotationProcessing>
   </component>
@@ -91,6 +91,7 @@
       <module name="selector-annotation" options="-parameters" />
       <module name="selector-common" options="-parameters" />
       <module name="selector-core" options="-parameters" />
+      <module name="selector-example" options="-parameters" />
       <module name="selector-processor" options="-parameters" />
     </option>
   </component>

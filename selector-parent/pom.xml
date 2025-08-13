@@ -5,7 +5,7 @@
 
     <groupId>com.github.srprrneko</groupId>
     <artifactId>doth-selector</artifactId>
-    <version>1.0.37</version>
+    <version>1.0.38</version>
     <packaging>pom</packaging>
 
     <!-- 添加分发仓库 -->
@@ -21,6 +21,7 @@
         <module>selector-common</module>
         <module>selector-processor</module>
         <module>selector-core</module>
+        <!--        <module>selector-example</module> -->
     </modules>
 
     <properties>
@@ -47,6 +48,8 @@
 
         <!-- 插件版本 -->
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.deploy.plugin.version>3.1.2</maven.deploy.plugin.version>
+
     </properties>
 
     <!-- 依赖版本管理 -->
@@ -168,6 +171,17 @@
         </dependencies>
     </dependencyManagement>
 
+
+    <!-- 只有 dev 时才加入的模块 -->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <modules>
+                <module>selector-example</module>
+            </modules>
+        </profile>
+    </profiles>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -182,6 +196,11 @@
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven.deploy.plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <!--        <plugins>-->
