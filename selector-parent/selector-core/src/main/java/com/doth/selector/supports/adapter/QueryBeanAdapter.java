@@ -1,9 +1,9 @@
 package com.doth.selector.supports.adapter;
 
 import com.doth.selector.common.exception.entityto.ExtractFieldsFailedException;
-import com.doth.selector.supports.testbean.join.Company;
-import com.doth.selector.supports.testbean.join.Department;
-import com.doth.selector.supports.testbean.join.Employee;
+// import com.doth.selector.supports.testbean.join.Company;
+// import com.doth.selector.supports.testbean.join.Department;
+// import com.doth.selector.supports.testbean.join.Employee;
 import com.doth.selector.anno.Join;
 import org.junit.Test;
 
@@ -102,27 +102,27 @@ public class QueryBeanAdapter {
         return condMap;
     }
 
-
-
-    @Test
-    public void testRecursive() {
-        Employee employee = new Employee();
-        employee.setId(1);
-        employee.setName("John");
-
-        Department department = new Department();
-        department.setId(2);
-        department.setName("HR");
-        Company company = new Company();
-        company.setId(3);
-        company.setName("ABC");
-
-
-        department.setCompany(company);
-        employee.setDepartment(department);
-
-        LinkedHashMap<String, Object> map = extractNestedFields2Map(employee);
-        map.forEach((key, value) -> System.out.println("Key: " + key + ", Value: " + value));
-    }
+    //
+    //
+    // @Test
+    // public void testRecursive() {
+    //     Employee employee = new Employee();
+    //     employee.setId(1);
+    //     employee.setName("John");
+    //
+    //     Department department = new Department();
+    //     department.setId(2);
+    //     department.setName("HR");
+    //     Company company = new Company();
+    //     company.setId(3);
+    //     company.setName("ABC");
+    //
+    //
+    //     department.setCompany(company);
+    //     employee.setDepartment(department);
+    //
+    //     LinkedHashMap<String, Object> map = extractNestedFields2Map(employee);
+    //     map.forEach((key, value) -> System.out.println("Key: " + key + ", Value: " + value));
+    // }
 
 }

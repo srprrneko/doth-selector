@@ -12,7 +12,6 @@ import com.doth.selector.common.exception.mapping.NonPrimaryKeyException;
 import com.doth.selector.common.util.AnnoNamingConvertUtil;
 import com.doth.selector.common.util.NamingConvertUtil;
 import com.doth.selector.executor.supports.builder.ConditionBuilder;
-import com.doth.selector.supports.testbean.join.Employee;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +40,7 @@ public class AutoQueryGenerator {
 
 
     /**
-     * 最大关联层级，防止无限递归
+     * 最大关联层级, 防止无限递归, 实际推荐关联层级最多不超过3层
      */
     public static final int MAX_JOIN_LENGTH = 10;
 
@@ -86,6 +85,8 @@ public class AutoQueryGenerator {
      */
     private final Set<String> condPfx;
 
+    private final Set<String> neededPfx;
+
 
     /**
      * 最终的查询列列表
@@ -106,7 +107,7 @@ public class AutoQueryGenerator {
     /**
      * 当前递归层级, 作用生成 t'N'.name
      */
-    private int joinLevel = 1;
+    // private int joinLevel = 1;
 
     /**
      * 主表别名
@@ -133,7 +134,6 @@ public class AutoQueryGenerator {
     public static String generated(Class<?> targetClz, ConditionBuilder<?> cond) {
         return new AutoQueryGenerator(targetClz, cond).generate();
     }
-
 
 
     /**
@@ -176,7 +176,15 @@ public class AutoQueryGenerator {
             dtoSelectList = Collections.emptyList();
             dtoPfx = Collections.emptySet();
         }
+
         condPfx = (cond != null) ? cond.extractJoinTablePrefixes() : Collections.emptySet();
+
+        // 组装需要的前缀白名单, 含祖先
+        Set<String> needed = new LinkedHashSet<>();
+        needed.add(MAIN_ALIAS); // 永远包含 t0
+        needed.addAll(withAncestors(dtoPfx));
+        needed.addAll(withAncestors(condPfx));
+        this.neededPfx = Collections.unmodifiableSet(needed);
     }
 
 
@@ -225,8 +233,8 @@ public class AutoQueryGenerator {
     // !!======================== 核心sql生成方法 - 开始=========================!!
 
     /**
-     * <strong>核心：根据模式分支生成 SQL</strong>
-     * <p>普通模式与 DTO 模式共用接口，内部根据条件前缀与预注册信息决定使用反射遍历还是预定义 JoinDefInfo。</p>
+     * <strong>核心: 根据模式分支生成 SQL</strong>
+     * <p>普通模式与 DTO 模式共用接口, 内部根据条件前缀与预注册信息决定使用反射遍历还是预定义 JoinDefInfo</p>
      *
      * @return 完整的 SELECT + FROM + JOIN 语句
      */
@@ -246,12 +254,13 @@ public class AutoQueryGenerator {
             // DTO 模式 & 已注册走预定义 JoinInfo
             for (JoinDefInfo jdf : joinInfo.getJoinDefInfos()) {
                 log.info("使用 DTO 预注册关联: {}", jdf);
-                joinClauses.add(String.format("join %s %s ON %s.%s = " + "%s.%s", jdf.getWhereTable(), jdf.getAlias(), jdf.getMainTId(), jdf.getFk(),
-
-                        jdf.getAlias(), jdf.getPk()));
+                joinClauses.add(
+                        String.format("join %s %s ON %s.%s = "
+                                        + "%s.%s",
+                                jdf.getWhereTable(), jdf.getAlias(), jdf.getMainTId(), jdf.getFk(),
+                                jdf.getAlias(), jdf.getPk()));
             }
         } else {
-            log.warn("条件字段不存在dto查询列工厂!");
             // 普通模式或 条件字段不存在dto查询列工厂则 走反射遍历
             parseEntity(prototype, MAIN_ALIAS, Collections.emptySet());
         }
@@ -288,8 +297,8 @@ public class AutoQueryGenerator {
      * @param ancestorJoins 上层已遍历的关联字段集合，用于循环检测
      */
     private void parseEntity(Class<?> curClz, String curAlias, Set<Field> ancestorJoins) {
-        // 1. 嵌套层级防御
-        if (joinLevel > MAX_JOIN_LENGTH) throw new RuntimeException("关联层级过深: " + curClz.getSimpleName());
+        // // 1. 嵌套层级防御
+        // if (depth(curAlias) > MAX_JOIN_LENGTH) throw new RuntimeException("关联层级过深: " + curClz.getSimpleName());
         // 2. 循环检测依赖
         checkRefCycle(curClz, ancestorJoins);
 
@@ -315,13 +324,16 @@ public class AutoQueryGenerator {
 
         Class<?> target = field.getType(); // 获取从属实体clz
 
-        // 拦截一对一场景下的join子句生成
-        boolean isOneToOne = field.isAnnotationPresent(CycRel.class);
-        if (alreadyPrecessed.contains(target) && isOneToOne) {
-            return; // OneTo1Breaker 安全跳过
+        // 当前位置深度 + 1 决定 nextAlias（不再用全局 joinLevel）
+        int nextDepth = depth(curAlias) + 1;
+        if (nextDepth > MAX_JOIN_LENGTH) {
+            throw new RuntimeException("关联层级过深: " + target.getSimpleName());
         }
-
-        String nextAlias = "t" + joinLevel;
+        String nextAlias = "t" + nextDepth;
+        // ★ 关键：DTO 回退时用白名单拦截多余层
+        if (isDtoMod && !neededPfx.contains(nextAlias)) {
+            return; // 既不生成 join，也不下钻
+        }
 
         Set<Field> newAncestors = new HashSet<>(ancestorJoins);
         newAncestors.add(field);
@@ -345,7 +357,6 @@ public class AutoQueryGenerator {
                 NamingConvertUtil.camel2Snake(pk.getName())
         ));
 
-        joinLevel++;
         parseEntity(target, nextAlias, newAncestors);
     }
 
@@ -406,20 +417,43 @@ public class AutoQueryGenerator {
     }
 
 
-    /**
-     * <p>简单演示 SQL生成</p>
-     */
-    public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        // ConditionBuilder<?> builder = new ConditionBuilder<>(Employee.class).eq("t2.name", "公司");
-
-        // for (int i = 0; i < 50000; i++) {
-        String result = generated(Employee.class, null);
-        System.out.println("result = " + result);
-        // }
-        // System.out.println("generatedSql = " + generatedSql);
-
-        long end = System.currentTimeMillis();
-        System.out.println("耗时 (ms): " + (end - start));
+    private static int depth(String alias) {
+        if (alias != null && alias.length() > 1 && alias.charAt(0) == 't') {
+            try {
+                return Integer.parseInt(alias.substring(1));
+            } catch (NumberFormatException ignore) {
+            }
+        }
+        return 0;
     }
+
+    /**
+     * 把 t2 闭包成 {t0,t1,t2}，确保桥接不丢
+     */
+    private static Set<String> withAncestors(Set<String> pfx) {
+        Set<String> out = new LinkedHashSet<>();
+        for (String p : pfx) {
+            int k = depth(p);
+            for (int i = 0; i <= k; i++) out.add("t" + i);
+        }
+        return out;
+    }
+
+
+    // /**
+    //  * <p>简单演示 SQL生成</p>
+    //  */
+    // public static void main(String[] args) {
+    //     long start = System.currentTimeMillis();
+    //     // ConditionBuilder<?> builder = new ConditionBuilder<>(Employee.class).eq("t2.name", "公司");
+    //
+    //     // for (int i = 0; i < 50000; i++) {
+    //     String result = generated(Employee.class, null);
+    //     System.out.println("result = " + result);
+    //     // }
+    //     // System.out.println("generatedSql = " + generatedSql);
+    //
+    //     long end = System.currentTimeMillis();
+    //     System.out.println("耗时 (ms): " + (end - start));
+    // }
 }

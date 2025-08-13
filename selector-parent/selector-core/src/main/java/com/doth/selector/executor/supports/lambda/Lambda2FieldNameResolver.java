@@ -5,7 +5,6 @@ import com.doth.selector.common.util.TypeResolver;
 import com.doth.selector.common.exception.entityto.LambdaPathBuildException;
 import com.doth.selector.common.exception.entityto.LambdaResolveException;
 import com.doth.selector.common.exception.entityto.MethodReferenceResolveException;
-import com.doth.selector.supports.testbean.join.Employee;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -202,24 +201,24 @@ public class Lambda2FieldNameResolver {
         return methodName;
     }
 
-    /**
-     * 性能测试
-     */
-    public static void main(String[] args) {
-        // 方法引用
-        String path1 = resolve(Employee::getName, Employee.class);
-        System.out.println("自动识别: " + path1);
-
-        // 链式 lambda（Function）
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < 50000; i++) {
-            resolve(e -> e.getDepartment().getCompany().getName(), Employee.class);
-            // System.out.println("resolve = " + resolve);
-        }
-        long end = System.currentTimeMillis();
-        System.out.println("end - start = " + (end - start));
-        // System.out.println("自动识别: " + path2);
-    }
+    // /**
+    //  * 性能测试
+    //  */
+    // public static void main(String[] args) {
+    //     // 方法引用
+    //     String path1 = resolve(Employee::getName, Employee.class);
+    //     System.out.println("自动识别: " + path1);
+    //
+    //     // 链式 lambda（Function）
+    //     long start = System.currentTimeMillis();
+    //     for (int i = 0; i < 50000; i++) {
+    //         resolve(e -> e.getDepartment().getCompany().getName(), Employee.class);
+    //         // System.out.println("resolve = " + resolve);
+    //     }
+    //     long end = System.currentTimeMillis();
+    //     System.out.println("end - start = " + (end - start));
+    //     // System.out.println("自动识别: " + path2);
+    // }
 
 
 }
